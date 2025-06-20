@@ -1,0 +1,62 @@
+<!-- <header class="header">
+  <div class="header_IconMain">
+       <div class="aiims-heading">
+           <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर </span>
+           <span>All India Institute of Medical Sciences, Raipur</span>
+       </div>
+    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+  </div>
+  <div class="header_Value">
+    <nav class="header__nav">
+      <span>Aiims Raipur Dcservices</span>
+      <div class="header_links" *ngIf="!isMenuOpen">
+        <a routerLink="/">ABOUT</a>
+        <a routerLink="/jobs">FEATURES</a>
+        <a routerLink="/career-guidance">LINK</a>
+        <a routerLink="/interview-prep">GALLERY</a>
+        <a href="/dashboard">CONTACT</a>
+      </div>
+    </nav>
+  </div>
+  <div class="dropdown-menu" *ngIf="isMenuOpen">
+   <a routerLink="/">ABOUT</a>
+        <a routerLink="/jobs">FEATURES</a>
+        <a routerLink="/career-guidance">LINK</a>
+        <a routerLink="/interview-prep">GALLERY</a>
+        <a href="/dashboard">CONTACT</a>
+  </div>
+</header>
+
+ -->
+
+<!-- NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN -->
+<div class="login-container">
+    <div class="container">
+        <h2>{{ isLoginMode ? 'Login' : 'Signup' }}</h2>
+
+        <!-- SIGNUP MODE -->
+        <div *ngIf="!isLoginMode">
+            <input type="text" placeholder="Name" (input)="onInput($event, 'name')" />
+            <input type="email" placeholder="Email" (input)="onInput($event, 'email')" />
+            <input type="tel" placeholder="Mobile Number" (input)="onInput($event, 'mobile')" />
+            <input type="text" placeholder="Designation" (input)="onInput($event, 'designation')" />
+            <input type="password" placeholder="Password" (input)="onInput($event, 'password')" />
+        </div>
+
+        <!-- LOGIN MODE -->
+        <div *ngIf="isLoginMode">
+            <input type="email" placeholder="Email" (input)="onInput($event, 'email')" />
+            <input type="password" placeholder="Password" (input)="onInput($event, 'password')" />
+        </div>
+
+        <button (click)="onSubmit()">
+            {{ isLoginMode ? 'Login' : 'Signup' }}
+        </button>
+
+        <p class="toggle" (click)="toggleMode()">
+            {{ isLoginMode ? "Don't have an account? Signup" : "Already have an account? Login" }}
+        </p>
+
+        <p class="message">{{ message }}</p>
+    </div>
+</div>

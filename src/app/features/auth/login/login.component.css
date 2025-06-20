@@ -1,0 +1,235 @@
+/* .header_IconMain,
+.header__nav,
+.header_Value,
+.header__logo,
+.header__search,
+.header_links {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  z-index: 99999;
+  width: 100%;
+}
+
+.header_IconMain {
+  background: #cfa359;
+  position: relative;
+  width: unset;
+  height: 130px;
+  box-shadow: 0 -1px 8px;
+  top: -9px;
+  left: 0;
+  padding: 0 20px;
+  border-radius: 0px 0px 100px 100px;
+}
+
+.header__nav {
+  background: #ffffff;
+;
+  position: relative;
+  height: 78px;
+  width: 80%;
+  box-shadow: 0 -1px 8px;
+  left: 0;
+  padding: 0 20px;
+  border-radius: 57px;
+  justify-content: space-between;
+  top: -50px;
+
+}
+
+.header_Value {
+  justify-content: center;
+}
+
+.header__logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 0.5rem;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .header__nav {
+    display: none;
+  }
+
+  .header {
+    padding: unset;
+    justify-content: space-around;
+  }
+
+  .header__logo {
+    width: unset;
+  }
+
+  .menu-toggle {
+    display: inline-block;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #fff;
+  }
+
+  .header__search {
+    width: 36%;
+    justify-content: center;
+  }
+
+  .header__search input {
+    width: 71px;
+  }
+
+  .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #ffffff;
+    padding: 1rem;
+    box-shadow: 0;
+    box-shadow: 0 -1px 8px;
+    border-radius: 100px 100px 20px 20px;
+    align-items: center;
+    position: relative;
+    top: -5px;
+  }
+
+  .dropdown-menu a {
+    color: #2f3033;;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0;
+  }
+
+  .header_IconMain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.header__search {
+  justify-content: center;
+  border: 2px solid transparent;
+  border-radius: 30px;
+  padding: 5px;
+  max-width: 200px;
+  transition: all 0.4s ease;
+  overflow: hidden;
+  width: 200px;
+}
+
+.header__search:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  ;
+}
+
+.header__search input[type="text"] {
+  width: 0;
+  padding: 8PX 0;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background: none;
+  transition: width 0.5s ease;
+  letter-spacing: 0.5px;
+  font-family: Arial, sans-serif;
+}
+
+.header__search:hover input[type="text"] {
+  width: 100px;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.header__search button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: transform 0.3s ease;
+}
+
+.header__search:hover button {
+  transform: scale(1.1);
+}
+
+.header_links {
+  justify-content: space-around;
+  width: 50%;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+.aiims-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: "Arial", sans-serif;
+    justify-content: center;
+    width: 100%;
+    gap: 0.2rem;
+    padding-bottom: 37px;
+}
+
+.aiims-heading span {
+  font-size: 16px;
+} */
+
+
+/* ?????????????????????????????????????????????????? login form ??????????????????????????????????????????????// */
+.container {
+    width: 300px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #aaa;
+    text-align: center;
+}
+
+input {
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.toggle {
+    cursor: pointer;
+    color: #007bff;
+    margin-top: 10px;
+}
+
+.message {
+    margin-top: 15px;
+    color: green;
+    font-weight: bold;
+}
+
+.login-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

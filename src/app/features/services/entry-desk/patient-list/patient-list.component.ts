@@ -1,0 +1,57 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { PatientService } from '../../../../api/patient.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from '../../../header/header.component';
+
+@Component({
+  selector: 'app-patient-list',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    HttpClientModule,
+    HeaderComponent
+  ],
+  templateUrl: './patient-list.component.html',
+  styleUrls: ['./patient-list.component.css']
+})
+export class PatientListComponent implements OnInit {
+  displayedColumns: string[] = [
+    'queNo',
+    'patientName',
+    'crNumber',
+    'gender',
+    'age',
+    'category',
+    'department',
+    'room',
+    'visitDateTime'
+  ];
+  patients: any = [];
+  isMenuOpen = false;
+
+
+
+  constructor(public patientService: PatientService, public router: Router) { }
+
+  ngOnInit() {
+    this.patientService.getPatients().subscribe((data: any) => {
+      this.patients = data;
+      console.log('Patients fetched:', this.patients);
+    }, (error: any) => {
+      console.error('Error fetching patients:', error);
+      // Handle error appropriately, e.g., show a notification or alert
+    });
+  }
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+  viewDetails(patient: any) {
+    this.router.navigate(['/patient-details', patient.id]);
+  }
+}

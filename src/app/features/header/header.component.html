@@ -1,0 +1,31 @@
+<header class="header">
+  <div class="header-top">
+    <div class="aiims-heading">
+      <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर</span>
+      <span>All India Institute of Medical Sciences, Raipur</span>
+    </div>
+    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+  </div>
+
+  <div class="nav-bar" *ngIf="!isMenuOpen">
+    <span class="site-title">AIIMS Raipur DC Services</span>
+    <div class="nav-links">
+      <nav class="nav-links">
+        <button (click)="navigateTo('/patient-added')">Patient Registration</button>
+        <button (click)="navigateTo('/patient-list')">Patient List</button>
+        <button (click)="navigateTo('/service')">Triage & Emergency Info</button>
+      </nav>
+
+    </div>
+
+  </div>
+
+  <div class="dropdown-menu" *ngIf="isMenuOpen">
+    <nav class="nav-links">
+      <button (click)="navigateTo('/patient-added')">Patient Registration</button>
+      <button (click)="navigateTo('/patient-list')">Patient List</button>
+      <button (click)="navigateTo('/service')">Triage & Emergency Info</button>
+    </nav>
+
+  </div>
+</header>
