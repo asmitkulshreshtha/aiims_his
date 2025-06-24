@@ -97,14 +97,14 @@ export class PatientService {
     }
 
     getPatients(): Observable<any> {
-        return this.http.get(`${this.baseUrl}/getPatientList`);
+        return this.http.get(`${this.baseUrl}/PatientList`);
     }
     getPatientById(id: number): any {
-        return this.http.get(`${this.baseUrl}/getPatientDetails/${id}`);
+        return this.http.get(`${this.baseUrl}/patientDetails/${id}`);
     }
 
     updatePatient(updatedPatient: any) {
-        return this.http.put(`${this.baseUrl}/updatePatient/${updatedPatient.id}`, updatedPatient);
+        return this.http.post(`${this.baseUrl}/addTriage/${updatedPatient.id}`, updatedPatient);
     }
 
     getPatientsWithTriage(): Observable<any> {

@@ -4,25 +4,25 @@
             <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर</span>
             <span>All India Institute of Medical Sciences, Raipur</span>
         </div>
-        <!-- <button class="menu-toggle" (click)="toggleMenu()">☰</button> -->
     </div>
 
     <nav class="nav-bar" *ngIf="!isMenuOpen">
         <span class="site-title">AIIMS Raipur DC Services</span>
         <div class="nav-links">
-            <a routerLink="/">Emergency</a>
-            <a routerLink="/jobs">OPD</a>
-            <a routerLink="/career-guidance">EMR</a>
-
+       <nav class="nav-links">
+      <button (click)="navigateTo('/service')">Emergency</button>
+      <button (click)="navigateTo('/service')">OPD</button>
+      <button (click)="navigateTo('/service')">E M R</button>
+    </nav>
         </div>
     </nav>
 
     <div class="dropdown-menu" *ngIf="isMenuOpen">
-        <a routerLink="/">ABOUT</a>
-        <a routerLink="/jobs">FEATURES</a>
-        <a routerLink="/career-guidance">LINK</a>
-        <a routerLink="/interview-prep">GALLERY</a>
-        <a href="/dashboard">CONTACT</a>
+        <nav class="nav-links">
+      <button (click)="navigateTo('/service')">Emergency</button>
+      <button (click)="navigateTo('/service')">OPD</button>
+      <button (click)="navigateTo('/service')">E M R</button>
+    </nav>
     </div>
 </header>
 
@@ -41,7 +41,7 @@
             <div class="icon-placeholder">📋</div>
             <h3>E D Desk</h3>
             <p>Emergency registrations and support.</p>
-            <a [routerLink]="['/ed-desk']"><button>View</button></a>
+            <a [routerLink]="['/patient-details']"><button>View</button></a>
         </div>
 
         <div class="service-card">

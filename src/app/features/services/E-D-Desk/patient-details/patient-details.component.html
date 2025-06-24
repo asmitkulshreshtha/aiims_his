@@ -1,0 +1,47 @@
+<div class="container">
+  <h2>🩺 Patient List</h2>
+
+  <div class="summary">
+    <p><strong>Total Records:</strong> {{ totalRecords }}</p>
+    <p><strong>Current Page:</strong> {{ currentPage }} of {{ totalPages }}</p>
+  </div>
+
+  <table class="patient-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>CR Number</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Category</th>
+        <th>Department</th>
+        <th>Room</th>
+        <th>Visit Date</th>
+        <th>Visit Time</th>
+        <th>Latest Triage</th>
+      </tr>
+    </thead>
+ <tbody>
+  <tr *ngFor="let patient of patients; let i = index">
+    <td>{{ i + 1 }}</td> <!-- Serial number -->
+    <td>{{ patient.name }}</td>
+    <td>{{ patient.cr_number }}</td>
+    <td>{{ patient.gender }}</td>
+    <td>{{ patient.age }}</td>
+    <td>{{ patient.category }}</td>
+    <td>{{ patient.department }}</td>
+    <td>{{ patient.room }}</td>
+    <td>{{ patient.visitDate }}</td>
+    <td>{{ patient.visitTime }}</td>
+    <td>
+  <span [ngClass]="getTriageColorClass(getLatestTriage(patient.patientTriage))">
+    {{ getLatestTriage(patient.patientTriage) || 'N/A' }}
+  </span>
+</td>
+
+  </tr>
+</tbody>
+
+  </table>
+</div>

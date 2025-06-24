@@ -21,6 +21,10 @@ export const routes: Routes = [
         path: 'patient-added',
         loadComponent: () => import('./features/services/entry-desk/patient-added/patient-added.component').then(m => m.PatientAddedComponent)
     },
+      {
+        path: 'patient-details',
+        loadComponent: () => import('./features/services/E-D-Desk/patient-details/patient-details.component').then(m => m.PatientDetailsComponent)
+    },
     {
         path: 'patient-details/:id',
         loadComponent: () => import('./features/services/entry-desk/triage-entry-desk/triage-entry-desk.component').then(m => m.TriageEntryDeskComponent)

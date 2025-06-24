@@ -1,62 +1,90 @@
-<!-- <header class="header">
-  <div class="header_IconMain">
-       <div class="aiims-heading">
-           <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर </span>
-           <span>All India Institute of Medical Sciences, Raipur</span>
-       </div>
+
+<header class="header">
+  <div class="header-top">
+    <div class="aiims-heading">
+      <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर</span>
+      <span>All India Institute of Medical Sciences, Raipur</span>
+    </div>
     <button class="menu-toggle" (click)="toggleMenu()">☰</button>
   </div>
-  <div class="header_Value">
-    <nav class="header__nav">
-      <span>Aiims Raipur Dcservices</span>
-      <div class="header_links" *ngIf="!isMenuOpen">
-        <a routerLink="/">ABOUT</a>
-        <a routerLink="/jobs">FEATURES</a>
-        <a routerLink="/career-guidance">LINK</a>
-        <a routerLink="/interview-prep">GALLERY</a>
-        <a href="/dashboard">CONTACT</a>
-      </div>
-    </nav>
+
+ <!-- Desktop Navigation -->
+<div class="nav-bar" *ngIf="!isMenuOpen">
+  <span class="site-title">AIIMS Raipur DC Services</span>
+  <div class="nav-links">
+    <a routerLink="/patient-added">Patient Registration</a>
+    <a routerLink="/patient-list">Patient List</a>
+    <a routerLink="/service">Services</a>
   </div>
-  <div class="dropdown-menu" *ngIf="isMenuOpen">
-   <a routerLink="/">ABOUT</a>
-        <a routerLink="/jobs">FEATURES</a>
-        <a routerLink="/career-guidance">LINK</a>
-        <a routerLink="/interview-prep">GALLERY</a>
-        <a href="/dashboard">CONTACT</a>
-  </div>
+</div>
+
+<!-- Mobile Dropdown Menu -->
+<div class="dropdown-menu" *ngIf="isMenuOpen">
+  <a routerLink="/patient-added">Patient Registration</a>
+  <a routerLink="/patient-list">Patient List</a>
+  <a routerLink="/service">Services</a>
+</div>
+
 </header>
 
- -->
 
-<!-- NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN -->
 <div class="login-container">
-    <div class="container">
-        <h2>{{ isLoginMode ? 'Login' : 'Signup' }}</h2>
+  <mat-card class="login-card">
+    <h2 class="login-title">{{ isLoginMode ? 'Login' : 'Signup' }}</h2>
 
-        <!-- SIGNUP MODE -->
-        <div *ngIf="!isLoginMode">
-            <input type="text" placeholder="Name" (input)="onInput($event, 'name')" />
-            <input type="email" placeholder="Email" (input)="onInput($event, 'email')" />
-            <input type="tel" placeholder="Mobile Number" (input)="onInput($event, 'mobile')" />
-            <input type="text" placeholder="Designation" (input)="onInput($event, 'designation')" />
-            <input type="password" placeholder="Password" (input)="onInput($event, 'password')" />
-        </div>
+    <!-- Signup Mode -->
+    <ng-container *ngIf="!isLoginMode">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" (input)="onInput($event, 'name')" />
+      </mat-form-field>
 
-        <!-- LOGIN MODE -->
-        <div *ngIf="isLoginMode">
-            <input type="email" placeholder="Email" (input)="onInput($event, 'email')" />
-            <input type="password" placeholder="Password" (input)="onInput($event, 'password')" />
-        </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" (input)="onInput($event, 'email')" />
+      </mat-form-field>
 
-        <button (click)="onSubmit()">
-            {{ isLoginMode ? 'Login' : 'Signup' }}
-        </button>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput type="tel" (input)="onInput($event, 'mobile')" />
+      </mat-form-field>
 
-        <p class="toggle" (click)="toggleMode()">
-            {{ isLoginMode ? "Don't have an account? Signup" : "Already have an account? Login" }}
-        </p>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Designation</mat-label>
+        <mat-select (selectionChange)="onInput($event, 'designation')">
+          <mat-option value="Doctor">Doctor</mat-option>
+          <mat-option value="Nursing Staff">Nursing Staff</mat-option>
+          <mat-option value="Other">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-        <p class="message">{{ message }}</p>
-    </div>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" (input)="onInput($event, 'password')" />
+      </mat-form-field>
+    </ng-container>
+
+    <!-- Login Mode -->
+    <ng-container *ngIf="isLoginMode">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" (input)="onInput($event, 'email')" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" (input)="onInput($event, 'password')" />
+      </mat-form-field>
+    </ng-container>
+
+    <button mat-raised-button color="primary" class="full-width" (click)="onSubmit()">
+      {{ isLoginMode ? 'Login' : 'Signup' }}
+    </button>
+
+    <p class="toggle" (click)="toggleMode()">
+      {{ isLoginMode ? "Don't have an account? Signup" : "Already have an account? Login" }}
+    </p>
+
+    <p class="message">{{ message }}</p>
+  </mat-card>
 </div>

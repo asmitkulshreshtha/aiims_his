@@ -1,0 +1,62 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.patient-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.patient-table th, .patient-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.patient-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.patient-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.json-box {
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 5px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.triage-green {
+  color: green;
+  font-weight: bold;
+}
+
+.triage-yellow {
+  color: goldenrod;
+  font-weight: bold;
+}
+
+.triage-red {
+  color: red;
+  font-weight: bold;
+}
+
+.triage-default {
+  color: gray;
+  font-style: italic;
+}

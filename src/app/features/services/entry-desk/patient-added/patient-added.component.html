@@ -1,65 +1,96 @@
 <app-header></app-header>
 <form [formGroup]="patientForm" (ngSubmit)="onSubmit()" class="patient-form">
-    <h2>Patient Registration</h2>
-    <div class="form-grid">
-        <mat-form-field appearance="outline">
-            <mat-label>Patient Name</mat-label>
-            <input matInput formControlName="patientName" />
-            <mat-error *ngIf="patientForm.get('patientName')?.hasError('required')">Patient Name is required</mat-error>
-        </mat-form-field>
+  <h2>Patient Registration</h2>
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Patient Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="patientForm.get('name')?.hasError('required')">Patient Name is required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>CR Number</mat-label>
-            <input matInput formControlName="crNumber" />
-            <mat-error *ngIf="patientForm.get('crNumber')?.hasError('required')">CR Number is required</mat-error>
-        </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>CR Number</mat-label>
+      <input matInput formControlName="crNumber" />
+      <mat-error *ngIf="patientForm.get('crNumber')?.hasError('required')">CR Number is required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Gender</mat-label>
-            <mat-select formControlName="gender">
-                <mat-option value="Male">Male</mat-option>
-                <mat-option value="Female">Female</mat-option>
-                <mat-option value="Other">Other</mat-option>
-            </mat-select>
-            <mat-error *ngIf="patientForm.get('gender')?.hasError('required')">Gender is required</mat-error>
-        </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Gender</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+        <mat-option value="Other">Other</mat-option>
+      </mat-select>
+      <mat-error *ngIf="patientForm.get('gender')?.hasError('required')">Gender is required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Age</mat-label>
-            <input matInput formControlName="age" type="number" />
-            <mat-error *ngIf="patientForm.get('age')?.hasError('required')">Age is required</mat-error>
-        </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Age</mat-label>
+      <input matInput type="number" formControlName="age" />
+      <mat-error *ngIf="patientForm.get('age')?.hasError('required')">Age is required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Category</mat-label>
-            <input matInput formControlName="category" />
-            <mat-error *ngIf="patientForm.get('category')?.hasError('required')">Category is required</mat-error>
-        </mat-form-field>
+    <!-- <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <input matInput formControlName="category" />
+      <mat-error *ngIf="patientForm.get('category')?.hasError('required')">Category is required</mat-error>
+    </mat-form-field> -->
 
-        <mat-form-field appearance="outline">
-            <mat-label>Department</mat-label>
-            <input matInput formControlName="department" />
-            <mat-error *ngIf="patientForm.get('department')?.hasError('required')">Department is required</mat-error>
-        </mat-form-field>
+    <mat-form-field appearance="outline">
+  <mat-label>Category</mat-label>
+  <mat-select formControlName="category">
+    <mat-option value="" disabled>Select Category</mat-option>
+    <mat-option value="General">General</mat-option>
+    <mat-option value="OBC">OBC</mat-option>
+    <mat-option value="SC">SC</mat-option>
+    <mat-option value="ST">ST</mat-option>
+  </mat-select>
+  <mat-error *ngIf="patientForm.get('category')?.hasError('required')">
+    Category is required
+  </mat-error>
+</mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Room</mat-label>
-            <input matInput formControlName="room" />
-            <mat-error *ngIf="patientForm.get('room')?.hasError('required')">Room is required</mat-error>
-        </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Visit Date</mat-label>
-            <input matInput formControlName="visitDate" type="date" />
-            <mat-error *ngIf="patientForm.get('visitDate')?.hasError('required')">Date is required</mat-error>
-        </mat-form-field>
+    <!-- <mat-form-field appearance="outline">
+      <mat-label>Department</mat-label>
+      <input matInput formControlName="department" />
+      <mat-error *ngIf="patientForm.get('department')?.hasError('required')">Department is required</mat-error>
+    </mat-form-field> -->
 
-        <mat-form-field appearance="outline">
-            <mat-label>Visit Time</mat-label>
-            <input matInput formControlName="visitTime" type="time" />
-            <mat-error *ngIf="patientForm.get('visitTime')?.hasError('required')">Time is required</mat-error>
-        </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline">
+  <mat-label>Department</mat-label>
+  <mat-select formControlName="department">
+    <mat-option value="Trauma & Emergency">Trauma & Emergency</mat-option>
+  </mat-select>
+  <mat-error *ngIf="patientForm.get('department')?.hasError('required')">
+    Department is required
+  </mat-error>
+</mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Submit</button>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Room</mat-label>
+      <input matInput formControlName="room" />
+      <mat-error *ngIf="patientForm.get('room')?.hasError('required')">Room is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Visit Date</mat-label>
+      <input matInput type="date" formControlName="visitDate" />
+      <mat-error *ngIf="patientForm.get('visitDate')?.hasError('required')">Date is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Visit Time</mat-label>
+      <input matInput type="time" formControlName="visitTime" />
+      <mat-error *ngIf="patientForm.get('visitTime')?.hasError('required')">Time is required</mat-error>
+    </mat-form-field>
+  </div>
+ <!-- ✅ Success or Error message -->
+  <div *ngIf="successMessage" class="message-box">
+    <span class="success-message">{{ successMessage }}</span>
+  </div>
+  <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+    {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+  </button>
 </form>

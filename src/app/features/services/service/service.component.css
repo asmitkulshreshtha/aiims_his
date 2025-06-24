@@ -12,7 +12,7 @@
 
 .header-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -48,19 +48,11 @@
     display: flex;
     gap: 1rem;
 }
-
-.nav-links a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-}
-
 .site-title {
     font-weight: bold;
     color: #3f51b5;
 }
 
-/* Mobile dropdown menu */
 .dropdown-menu {
     display: flex;
     flex-direction: column;
@@ -155,4 +147,28 @@
     .service-card {
         width: 90%;
     }
+}
+
+.nav-links button {
+    background-color: #cfa359;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-links button:hover {
+  background-color: #c57021;
+  transform: scale(1.02);
+}
+
+.nav-links button:active {
+  background-color: #d57526;
+  transform: scale(0.98);
 }

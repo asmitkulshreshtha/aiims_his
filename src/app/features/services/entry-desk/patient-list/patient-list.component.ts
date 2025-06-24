@@ -22,35 +22,36 @@ import { HeaderComponent } from '../../../header/header.component';
 })
 export class PatientListComponent implements OnInit {
   displayedColumns: string[] = [
-    'queNo',
-    'patientName',
+    'name',
     'crNumber',
     'gender',
     'age',
     'category',
     'department',
     'room',
-    'visitDateTime'
+    'visitDate',
+    'visitTime'
   ];
-  patients: any = [];
+
+  patients: any[] = [];
   isMenuOpen = false;
-
-
 
   constructor(public patientService: PatientService, public router: Router) { }
 
   ngOnInit() {
-    this.patientService.getPatients().subscribe((data: any) => {
-      this.patients = data;
+    this.patientService.getPatients().subscribe((response: any) => {
+      this.patients = response.data; // ✅ Use only the 'data' array from response
       console.log('Patients fetched:', this.patients);
     }, (error: any) => {
       console.error('Error fetching patients:', error);
-      // Handle error appropriately, e.g., show a notification or alert
+      alert('Failed to fetch patient list.');
     });
   }
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+
   viewDetails(patient: any) {
     this.router.navigate(['/patient-details', patient.id]);
   }

@@ -8,19 +8,20 @@ import { HeaderComponent } from '../../../header/header.component';
 @Component({
   selector: 'app-patient-added',
   standalone: true,
-  imports: [CommonModule, MaterialModule, ReactiveFormsModule , HeaderComponent],
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule, HeaderComponent],
   templateUrl: './patient-added.component.html',
   styleUrl: './patient-added.component.css'
 })
 export class PatientAddedComponent implements OnInit {
   patientForm: any;
+  successMessage: string = '';
+  isSubmitting: boolean = false;
 
   constructor(public fb: FormBuilder, public patientService: PatientService) {}
 
   ngOnInit() {
     this.patientForm = this.fb.group({
-      queNo: ['', Validators.required],
-      patientName: ['', Validators.required],
+      name: ['', Validators.required],
       crNumber: ['', Validators.required],
       gender: ['', Validators.required],
       age: ['', Validators.required],
@@ -33,24 +34,36 @@ export class PatientAddedComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Form submitted:');
-    if (this.patientForm) {
-      const formValue = this.patientForm.value;
-      const visitDateTime = new Date(`${formValue.visitDate}T${formValue.visitTime}`);
+    if (this.patientForm.valid) {
+      this.isSubmitting = true;
 
+      const formValue = this.patientForm.value;
       const patientData = {
         ...formValue,
-        visitDateTime: visitDateTime.toISOString()
+        visitDateTime: new Date(`${formValue.visitDate}T${formValue.visitTime}`).toISOString()
       };
 
-      delete patientData.visitDate;
-      delete patientData.visitTime;
-
       this.patientService.addPatient(patientData).subscribe(
-        response => console.log('Patient added successfully', response),
-        error => console.error('Error adding patient', error)
+        response => {
+          console.log('✅ Patient added successfully', response);
+          this.successMessage = '✅ Patient added successfully!';
+          
+          setTimeout(() => {
+            this.successMessage = '';
+            this.patientForm.reset();
+            this.isSubmitting = false;
+          }, 3000);
+        },
+        error => {
+          console.error('❌ Error adding patient', error);
+          this.successMessage = '❌ Error while adding patient!';
+          
+          setTimeout(() => {
+            this.successMessage = '';
+            this.isSubmitting = false;
+          }, 3000);
+        }
       );
     }
   }
 }
-

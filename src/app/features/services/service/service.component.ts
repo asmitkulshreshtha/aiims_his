@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../shared/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-service',
   imports: [RouterModule, MaterialModule, HttpClientModule
@@ -11,7 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class ServiceComponent {
   isMenuOpen = false;
+     constructor(public router: Router) {}
+  
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+    navigateTo(path: string) {
+    this.router.navigate([path]);
   }
 }
