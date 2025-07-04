@@ -48,6 +48,7 @@
     display: flex;
     gap: 1rem;
 }
+
 .site-title {
     font-weight: bold;
     color: #3f51b5;
@@ -164,11 +165,11 @@
 }
 
 .nav-links button:hover {
-  background-color: #c57021;
-  transform: scale(1.02);
+    background-color: #c57021;
+    transform: scale(1.02);
 }
 
 .nav-links button:active {
-  background-color: #d57526;
-  transform: scale(0.98);
+    background-color: #d57526;
+    transform: scale(0.98);
 }

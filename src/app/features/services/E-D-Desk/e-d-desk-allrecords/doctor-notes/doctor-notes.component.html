@@ -10,21 +10,21 @@
   </div>
 </section>
 <section class="section selectedTemplate">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Select Template</mat-label>
-      <mat-select [(ngModel)]="selectedTemplate">
-        <mat-option [value]="''">Select</mat-option>
-        <mat-option value="emergency">Emergency Case Template</mat-option>
-        <mat-option value="progress">Progress Note</mat-option>
-        <mat-option value="trauma">Trauma Template</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Select Template</mat-label>
+    <mat-select [(ngModel)]="selectedTemplate">
+      <mat-option [value]="''">Select</mat-option>
+      <mat-option value="emergency">Emergency Case Template</mat-option>
+      <mat-option value="progress">Progress Note</mat-option>
+      <mat-option value="trauma">Trauma Template</mat-option>
+    </mat-select>
+  </mat-form-field>
 </section>
 
 <section class="section" *ngIf="selectedTemplate === 'emergency'">
- <div class="grid-3 toggle-header">
-  <h3 class="sub-heading">Emergency Case Template</h3>
-</div>
+  <div class="grid-3 toggle-header">
+    <h3 class="sub-heading">Emergency Case Template</h3>
+  </div>
 
   <!-- Conditional Display -->
   <div class="grid-2">
@@ -312,34 +312,34 @@
 
 <!-- multipal button -->
 <section class="section" *ngIf="selectedTemplate">
-     <div class="button-groupallbtn">
-     <button mat-raised-button color="primary" (click)="onSave()">Save</button>
-     <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
-     <button mat-raised-button color="accent" (click)="onReset() ">Clear</button>
-   </div>
+  <div class="button-groupallbtn">
+    <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="accent" (click)="onReset() ">Clear</button>
+  </div>
 </section>
 
-  <!-- <div class="grid-3">
+<!-- <div class="grid-3">
     <div><strong>Doctor Name:</strong> {{ doctorName }}</div>
     <div><strong>Designation:</strong> {{ designation }}</div>
     <div><strong>Date:</strong> {{ currentDate }}</div>
     <div><strong>Time:</strong> {{ currentTime }}</div>
   </div> -->
-  <!-- Action Buttons -->
-   <!-- <div class="button-groupallbtn">
+<!-- Action Buttons -->
+<!-- <div class="button-groupallbtn">
      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
      <button mat-raised-button color="accent" (click)="onReset() ">Clear</button>
    </div> -->
 
-    <!-- Smaller Slide Toggle -->
-  <!-- <mat-slide-toggle
+<!-- Smaller Slide Toggle -->
+<!-- <mat-slide-toggle
     [(ngModel)]="showEmergencyFields"
     color="primary"
     class="custom-slide-toggle">
   </mat-slide-toggle> -->
 
-    <!-- <mat-slide-toggle
+<!-- <mat-slide-toggle
       [(ngModel)]="showProgressNote"
       color="primary"
       class="custom-slide-toggle"

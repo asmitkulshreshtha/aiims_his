@@ -1,4 +1,3 @@
-
 <app-header></app-header>
 <div class="container">
   <h2>🩺 Patient List</h2>
@@ -24,26 +23,26 @@
         <th>Latest Triage</th>
       </tr>
     </thead>
- <tbody>
-  <tr  *ngFor="let patient of patients; let i = index" (click)="viewDetails(patient)" style="cursor: pointer;">
-    <td>{{ i + 1 }}</td> <!-- Serial number -->
-    <td>{{ patient.name }}</td>
-    <td>{{ patient.cr_number }}</td>
-    <td>{{ patient.gender }}</td>
-    <td>{{ patient.age }}</td>
-    <td>{{ patient.category }}</td>
-    <td>{{ patient.department }}</td>
-    <td>{{ patient.room }}</td>
-    <td>{{ patient.visitDate }}</td>
-    <td>{{ patient.visitTime }}</td>
-    <td>
-  <span [ngClass]="getTriageColorClass(getLatestTriage(patient.patientTriage))">
-    {{ getLatestTriage(patient.patientTriage) || 'N/A' }}
-  </span>
-</td>
+    <tbody>
+      <tr *ngFor="let patient of patients; let i = index" (click)="viewDetails(patient)" style="cursor: pointer;">
+        <td>{{ i + 1 }}</td> <!-- Serial number -->
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.cr_number }}</td>
+        <td>{{ patient.gender }}</td>
+        <td>{{ patient.age }}</td>
+        <td>{{ patient.category }}</td>
+        <td>{{ patient.department }}</td>
+        <td>{{ patient.room }}</td>
+        <td>{{ patient.visitDate }}</td>
+        <td>{{ patient.visitTime }}</td>
+        <td>
+          <span [ngClass]="getTriageColorClass(getLatestTriage(patient.patientTriage))">
+            {{ getLatestTriage(patient.patientTriage) || 'N/A' }}
+          </span>
+        </td>
 
-  </tr>
-</tbody>
+      </tr>
+    </tbody>
 
   </table>
 </div>

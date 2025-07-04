@@ -1,14 +1,14 @@
-.side-header{
-    width: 240px;
-    height: 100vh;
-    background: linear-gradient(to bottom, #ffffff, #ffffff);
-    border-right: 1px solid #ddd;
-    padding: 1.2rem;
-    overflow-y: auto;
-    position: sticky;
-    top: 0;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+.side-header {
+  width: 240px;
+  height: 100vh;
+  background: linear-gradient(to bottom, #ffffff, #ffffff);
+  border-right: 1px solid #ddd;
+  padding: 1.2rem;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .side-header::-webkit-scrollbar {
@@ -16,12 +16,12 @@
 }
 
 .side-header h3 {
-    font-size: 1.2rem;
-    color: #c57021;
-    margin: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: 1.2rem;
+  color: #c57021;
+  margin: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .nav-section {

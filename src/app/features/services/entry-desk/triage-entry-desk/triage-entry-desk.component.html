@@ -130,15 +130,15 @@
       </form>
     </div>
   </mat-card-content>
- <!-- ✅ Success or Error message -->
+  <!-- ✅ Success or Error message -->
   <div *ngIf="successMessage" class="message-box">
     <span class="success-message">{{ successMessage }}</span>
   </div>
-  
+
   <mat-card-actions class="button-row">
     <button mat-raised-button color="primary" (click)="saveTriageInfo()" [disabled]="isSubmitting">
-    {{ isSubmitting ? 'Saving...' : 'Save' }}
-  </button>
+      {{ isSubmitting ? 'Saving...' : 'Save' }}
+    </button>
     <button mat-raised-button color="warn" (click)="clearForm()">Clear</button>
     <button mat-raised-button (click)="cancel()">Cancel</button>
   </mat-card-actions>

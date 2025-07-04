@@ -15,7 +15,8 @@
   margin-bottom: 30px;
 }
 
-.patient-table th, .patient-table td {
+.patient-table th,
+.patient-table td {
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;

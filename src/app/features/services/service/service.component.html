@@ -9,20 +9,20 @@
     <nav class="nav-bar" *ngIf="!isMenuOpen">
         <span class="site-title">AIIMS Raipur DC Services</span>
         <div class="nav-links">
-       <nav class="nav-links">
-      <button (click)="navigateTo('/service')">Emergency</button>
-      <button (click)="navigateTo('/service')">OPD</button>
-      <button (click)="navigateTo('/service')">E M R</button>
-    </nav>
+            <nav class="nav-links">
+                <button (click)="navigateTo('/service')">Emergency</button>
+                <button (click)="navigateTo('/service')">OPD</button>
+                <button (click)="navigateTo('/service')">E M R</button>
+            </nav>
         </div>
     </nav>
 
     <div class="dropdown-menu" *ngIf="isMenuOpen">
         <nav class="nav-links">
-      <button (click)="navigateTo('/service')">Emergency</button>
-      <button (click)="navigateTo('/service')">OPD</button>
-      <button (click)="navigateTo('/service')">E M R</button>
-    </nav>
+            <button (click)="navigateTo('/service')">Emergency</button>
+            <button (click)="navigateTo('/service')">OPD</button>
+            <button (click)="navigateTo('/service')">E M R</button>
+        </nav>
     </div>
 </header>
 

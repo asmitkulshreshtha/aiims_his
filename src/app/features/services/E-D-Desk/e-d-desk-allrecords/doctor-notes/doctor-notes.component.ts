@@ -78,10 +78,18 @@ treatmentPlan = '';
 
 
   constructor(private router: Router, private route: ActivatedRoute) {}
-  ngOnInit(){
-    const id = Number(this.route.parent?.snapshot.paramMap.get('id'));
-      console.log('Fetching patient with ID:', id);
-  }
+  ngOnInit() {
+  const paramMapSource = this.route.parent ? this.route.parent.paramMap : this.route.paramMap;
+  paramMapSource.subscribe(params => {
+    const id = params.get('id');
+    if (id !== null) {
+      this.patientId = id;
+      // ...your logic...
+    } else {
+      console.error('❌ ID not available');
+    }
+  });
+}
 
  onSave() {
   const dataToSave = {

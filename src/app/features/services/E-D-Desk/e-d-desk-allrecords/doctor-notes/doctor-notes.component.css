@@ -14,25 +14,29 @@
   display: flex;
   gap: 12px;
 }
+
 .button-groupallbtn {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
-.sub-heading{
-    color: #2a3f54;
-    font-size: 20px;
-    margin-bottom: 16px;
+
+.sub-heading {
+  color: #2a3f54;
+  font-size: 20px;
+  margin-bottom: 16px;
 }
-.section{
-    margin-top: 32px;
-    padding: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
+
+.section {
+  margin-top: 32px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
 }
+
 .doctor-info-section {
   background-color: #f5f8fa;
   border: 1px solid #ddd;
@@ -41,32 +45,32 @@
   margin-bottom: 16px;
 }
 
-.showEmergencyFields{
-      display: flex
-;
-    align-items: center;
+.showEmergencyFields {
+  display: flex;
+  align-items: center;
 }
 
 .toggle-header {
- display: flex
-;
-align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 ::ng-deep .custom-slide-toggle {
-  transform: scale(0.7); 
+  transform: scale(0.7);
 }
 
- ::ng-deep .custom-slide-toggle .mdc-switch__track::after {
-    background: #cfa359 !important;
+::ng-deep .custom-slide-toggle .mdc-switch__track::after {
+  background: #cfa359 !important;
 }
- ::ng-deep .mdc-switch--selected .mdc-switch__icon {
-    fill: #cfa359 !important;
+
+::ng-deep .mdc-switch--selected .mdc-switch__icon {
+  fill: #cfa359 !important;
 }
 
 ::ng-deep .selectedTemplate .form-field {
   width: 30% !important;
 }
+
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -87,6 +91,7 @@ align-items: center;
 .full-width {
   grid-column: span 2;
 }
+
 .yes-no-field {
   display: flex;
   flex-direction: column;

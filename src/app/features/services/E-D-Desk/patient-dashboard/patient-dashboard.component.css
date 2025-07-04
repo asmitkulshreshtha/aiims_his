@@ -16,15 +16,18 @@
 .dashboard-content::-webkit-scrollbar {
   width: 8px;
 }
+
 .dashboard-content::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .dashboard-content::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
-.patient-card, .triage-card {
+.patient-card,
+.triage-card {
   margin-bottom: 24px;
   border-radius: 12px;
 }
@@ -57,7 +60,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   padding: 10px 14px;
   text-align: left;
   font-size: 14px;
