@@ -20,6 +20,10 @@ export class PatientAddedComponent implements OnInit {
   constructor(public fb: FormBuilder, public patientService: PatientService) {}
 
   ngOnInit() {
+      // Get current date and time
+        const now = new Date();
+        const currentDate = now.toISOString().substring(0, 10);
+        const currentTime = now.toTimeString().substring(0, 5);
     this.patientForm = this.fb.group({
       name: ['', Validators.required],
       crNumber: ['', Validators.required],

@@ -1,3 +1,5 @@
+
+<app-header></app-header>
 <div class="container">
   <h2>🩺 Patient List</h2>
 
@@ -23,7 +25,7 @@
       </tr>
     </thead>
  <tbody>
-  <tr *ngFor="let patient of patients; let i = index">
+  <tr  *ngFor="let patient of patients; let i = index" (click)="viewDetails(patient)" style="cursor: pointer;">
     <td>{{ i + 1 }}</td> <!-- Serial number -->
     <td>{{ patient.name }}</td>
     <td>{{ patient.cr_number }}</td>

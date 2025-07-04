@@ -1,0 +1,39 @@
+.section {
+  padding: 1rem;
+}
+.sub-heading {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.grid-1, .grid-3 {
+  display: grid;
+  gap: 16px;
+}
+.grid-1 {
+  grid-template-columns: 1fr;
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.form-field {
+  width: 100%;
+}
+.grid-1, .grid-2, .grid-3 {
+  display: grid;
+  gap: 16px;
+}
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.upload-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+.image-preview img {
+  margin-top: 10px;
+  max-width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

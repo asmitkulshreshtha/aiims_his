@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { JsonPipe } from '@angular/common'; 
 import { PatientService } from '../../../../api/patient.service';
+import { Router } from '@angular/router';
+import { HeaderComponent } from '../../../header/header.component';
 
 @Component({
   selector: 'app-patient-details',
   standalone: true,
-  imports: [CommonModule, JsonPipe], 
+  imports: [CommonModule, HeaderComponent], 
   templateUrl: './patient-details.component.html',
   styleUrls: ['./patient-details.component.css']
 })
@@ -18,7 +19,7 @@ export class PatientDetailsComponent implements OnInit {
   totalPages = 0;
   fullResponse: any;
 
-  constructor(public patientService: PatientService) {}
+  constructor(public patientService: PatientService , public router: Router) {}
 
   ngOnInit() {
     this.getPatients();
@@ -62,4 +63,8 @@ export class PatientDetailsComponent implements OnInit {
   }
 }
 
+ viewDetails(patient: any) {
+  console.log('Navigating to patient details:', patient.id);
+    this.router.navigate(['/patient-dashboard', patient.id]);
+  }
 }

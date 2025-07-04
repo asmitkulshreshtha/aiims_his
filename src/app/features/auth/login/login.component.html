@@ -10,22 +10,27 @@
 
  <!-- Desktop Navigation -->
 <div class="nav-bar" *ngIf="!isMenuOpen">
-  <span class="site-title">AIIMS Raipur DC Services</span>
-  <div class="nav-links">
-    <a routerLink="/patient-added">Patient Registration</a>
-    <a routerLink="/patient-list">Patient List</a>
-    <a routerLink="/service">Services</a>
-  </div>
+    <span class="site-title">AIIMS Raipur DC Services</span>
+    <div class="nav-links">
+        <a routerLink="/patient-added">Home</a>
+        <a routerLink="/patient-list">FEATURES</a>
+        <a routerLink="/patient-list">GALLERY</a>
+        <a routerLink="/patient-list">ABOUT US</a>
+        <a routerLink="/service">CONTACT</a>
+    </div>
 </div>
 
 <!-- Mobile Dropdown Menu -->
 <div class="dropdown-menu" *ngIf="isMenuOpen">
-  <a routerLink="/patient-added">Patient Registration</a>
-  <a routerLink="/patient-list">Patient List</a>
-  <a routerLink="/service">Services</a>
+        <a routerLink="/Home">Home</a>
+        <a routerLink="/FEATURES">FEATURES</a>
+        <a routerLink="/GALLERY">GALLERY</a>
+        <a routerLink="/ABOUT">ABOUT</a>
+        <a routerLink="/service">CONTACT</a>
 </div>
 
 </header>
+
 
 
 <div class="login-container">

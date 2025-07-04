@@ -1,0 +1,346 @@
+<section class="section">
+  <h3 class="sub-heading">Patient Details</h3>
+  <div class="grid-3">
+    <div><strong>Name:</strong> {{ patientData.name }}</div>
+    <div><strong>Age:</strong> {{ patientData.age }}</div>
+    <div><strong>Gender:</strong> {{ patientData.gender }}</div>
+    <div><strong>CR Number:</strong> {{ patientData.cr_number }}</div>
+    <div><strong>Category:</strong> {{ patientData.category }}</div>
+    <div><strong>Department:</strong> {{ patientData.department }}</div>
+  </div>
+</section>
+<section class="section selectedTemplate">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Select Template</mat-label>
+      <mat-select [(ngModel)]="selectedTemplate">
+        <mat-option [value]="''">Select</mat-option>
+        <mat-option value="emergency">Emergency Case Template</mat-option>
+        <mat-option value="progress">Progress Note</mat-option>
+        <mat-option value="trauma">Trauma Template</mat-option>
+      </mat-select>
+    </mat-form-field>
+</section>
+
+<section class="section" *ngIf="selectedTemplate === 'emergency'">
+ <div class="grid-3 toggle-header">
+  <h3 class="sub-heading">Emergency Case Template</h3>
+</div>
+
+  <!-- Conditional Display -->
+  <div class="grid-2">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Chief Complains</mat-label>
+      <input matInput type="text" [(ngModel)]="chiefComplains">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>History of Present Illness</mat-label>
+      <input matInput type="text" [(ngModel)]="presentIllnessHistory">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Review of Symptom</mat-label>
+      <input matInput type="text" [(ngModel)]="reviewOfSymptom">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Progression of Symptoms</mat-label>
+      <input matInput type="text" [(ngModel)]="progressionOfSymptoms">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Why Today</mat-label>
+      <input matInput type="text" [(ngModel)]="whyToday">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>General Physical Examination</mat-label>
+      <input matInput type="text" [(ngModel)]="generalExamination">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Systemic Examination</mat-label>
+      <input matInput type="text" [(ngModel)]="systemicExamination">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Relevant Investigation Findings</mat-label>
+      <input matInput type="text" [(ngModel)]="investigationFindings">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Provisional Dx Differentials</mat-label>
+      <input matInput type="text" [(ngModel)]="provisionalDx">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Further Management Plan</mat-label>
+      <input matInput type="text" [(ngModel)]="managementPlan">
+    </mat-form-field>
+  </div>
+
+</section>
+<!-- Progress Note -->
+<section class="section" *ngIf="selectedTemplate === 'progress'">
+  <div class="toggle-header">
+    <h3 class="sub-heading">Progress Note</h3>
+  </div>
+
+  <!-- General Info -->
+  <div class="grid-2">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Provisional Diagnosis</mat-label>
+      <input matInput type="text" [(ngModel)]="progressDiagnosis" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Current Condition of the Patient</mat-label>
+      <input matInput type="text" [(ngModel)]="currentCondition" />
+    </mat-form-field>
+  </div>
+
+  <!-- Vitals Section -->
+  <div style="margin-top: 1rem;">
+    <h4 class="sub-heading">Vitals</h4>
+    <div class="grid-vitals">
+      <mat-form-field appearance="outline" class="vital-field">
+        <mat-label>Pulse(/min)</mat-label>
+        <input matInput type="number" [(ngModel)]="progressPulse" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="vital-field">
+        <mat-label>Blood Pressure(mmgh)</mat-label>
+        <input matInput type="text" [(ngModel)]="progressBp" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="vital-field">
+        <mat-label>RR(/min)</mat-label>
+        <input matInput type="number" [(ngModel)]="progressRr" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="vital-field">
+        <mat-label>SpO₂(%)</mat-label>
+        <input matInput type="number" [(ngModel)]="progressSpo2" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="vital-field">
+        <mat-label>Pain Score</mat-label>
+        <input matInput type="number" [(ngModel)]="painScore" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="vital-field">
+        <mat-label>GCS(EVM)</mat-label>
+        <input matInput type="number" [(ngModel)]="gcsScore" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Relevant Reports Section -->
+  <div style="margin-top: 1.5rem;">
+    <h4 class="sub-heading">Relevant Reports of Investigation</h4>
+    <div class="grid-2">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Blood Test</mat-label>
+        <input matInput type="text" [(ngModel)]="bloodTest" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Imaging</mat-label>
+        <input matInput type="text" [(ngModel)]="imagingTest" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field full-width">
+        <mat-label>Further Management Plan</mat-label>
+        <input matInput type="text" [(ngModel)]="furtherPlan" />
+      </mat-form-field>
+    </div>
+  </div>
+</section>
+
+
+<!-- trauma section -->
+<section class="section" *ngIf="selectedTemplate === 'trauma'">
+  <h3 class="sub-heading">Trauma Template</h3>
+
+  <!-- A/H/O -->
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>A/H/O</mat-label>
+    <mat-select [(ngModel)]="ahoType">
+      <mat-option value="Road traffic accident">Road traffic accident</mat-option>
+      <mat-option value="Assault">Assault</mat-option>
+      <mat-option value="Fall">Fall</mat-option>
+      <mat-option value="Others">Others</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- If 'Others' is selected -->
+  <div class="grid-2" *ngIf="ahoType === 'Others'">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Place of Event</mat-label>
+      <input matInput type="text" [(ngModel)]="placeOfEvent" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Date of Injury</mat-label>
+      <input matInput [matDatepicker]="injuryDate" [(ngModel)]="dateOfInjury">
+      <mat-datepicker-toggle matSuffix [for]="injuryDate"></mat-datepicker-toggle>
+      <mat-datepicker #injuryDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Time of Injury</mat-label>
+      <input matInput type="time" [(ngModel)]="timeOfInjury" />
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Mechanism of Injury</mat-label>
+    <input matInput type="text" [(ngModel)]="mechanismOfInjury" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>MLC No.</mat-label>
+    <input matInput type="text" [(ngModel)]="mlcNo" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Presenting Complaints</mat-label>
+    <input matInput type="text" [(ngModel)]="presentingComplaints" />
+  </mat-form-field>
+
+  <!-- Yes/No Radios -->
+  <div class="grid-3">
+    <div class="yes-no-field">
+      <label>H/O Loss of Consciousness:</label>
+      <mat-radio-group [(ngModel)]="lossOfConsciousness">
+        <mat-radio-button value="Yes">Yes</mat-radio-button>
+        <mat-radio-button value="No">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="yes-no-field">
+      <label>ENT Bleed:</label>
+      <mat-radio-group [(ngModel)]="entBleed">
+        <mat-radio-button value="Yes">Yes</mat-radio-button>
+        <mat-radio-button value="No">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="yes-no-field">
+      <label>Amnesia:</label>
+      <mat-radio-group [(ngModel)]="amnesia">
+        <mat-radio-button value="Yes">Yes</mat-radio-button>
+        <mat-radio-button value="No">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="yes-no-field">
+      <label>Seizures:</label>
+      <mat-radio-group [(ngModel)]="seizures">
+        <mat-radio-button value="Yes">Yes</mat-radio-button>
+        <mat-radio-button value="No">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="yes-no-field">
+      <label>Vomiting:</label>
+      <mat-radio-group [(ngModel)]="vomiting">
+        <mat-radio-button value="Yes">Yes</mat-radio-button>
+        <mat-radio-button value="No">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Injury Identified: Head to Toe</mat-label>
+    <input matInput type="text" [(ngModel)]="injuryDetails" />
+  </mat-form-field>
+
+  <!-- Additional Fields -->
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>History of Allergy</mat-label>
+    <input matInput type="text" [(ngModel)]="allergyHistory" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Medication History</mat-label>
+    <input matInput type="text" [(ngModel)]="medicationHistory" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Past History / Comorbidity</mat-label>
+    <input matInput type="text" [(ngModel)]="pastHistory" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>If Female: LMP</mat-label>
+    <input matInput type="text" [(ngModel)]="lmp" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>UPT</mat-label>
+    <mat-select [(ngModel)]="upt">
+      <mat-option value="Positive">Positive</mat-option>
+      <mat-option value="Negative">Negative</mat-option>
+      <mat-option value="Not Done">Not Done</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Last Meal</mat-label>
+    <input matInput type="text" [(ngModel)]="lastMeal" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Any treatment received before coming to AIIMS</mat-label>
+    <input matInput type="text" [(ngModel)]="priorTreatment" />
+  </mat-form-field>
+
+  <!-- Investigation Section -->
+  <h4 class="sub-heading" style="margin-top: 1rem;">Investigation Advised</h4>
+  <div class="grid-2">
+    <mat-checkbox [(ngModel)]="xrayAdvised">X-rays</mat-checkbox>
+    <mat-checkbox [(ngModel)]="ctAdvised">CT Scan</mat-checkbox>
+    <mat-checkbox [(ngModel)]="mriAdvised">MRI</mat-checkbox>
+  </div>
+
+  <mat-form-field appearance="outline" class="form-field" style="margin-top: 1rem;">
+    <mat-label>Treatment Plan</mat-label>
+    <textarea matInput rows="3" [(ngModel)]="treatmentPlan"></textarea>
+  </mat-form-field>
+</section>
+
+<!-- multipal button -->
+<section class="section" *ngIf="selectedTemplate">
+     <div class="button-groupallbtn">
+     <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+     <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+     <button mat-raised-button color="accent" (click)="onReset() ">Clear</button>
+   </div>
+</section>
+
+  <!-- <div class="grid-3">
+    <div><strong>Doctor Name:</strong> {{ doctorName }}</div>
+    <div><strong>Designation:</strong> {{ designation }}</div>
+    <div><strong>Date:</strong> {{ currentDate }}</div>
+    <div><strong>Time:</strong> {{ currentTime }}</div>
+  </div> -->
+  <!-- Action Buttons -->
+   <!-- <div class="button-groupallbtn">
+     <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+     <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+     <button mat-raised-button color="accent" (click)="onReset() ">Clear</button>
+   </div> -->
+
+    <!-- Smaller Slide Toggle -->
+  <!-- <mat-slide-toggle
+    [(ngModel)]="showEmergencyFields"
+    color="primary"
+    class="custom-slide-toggle">
+  </mat-slide-toggle> -->
+
+    <!-- <mat-slide-toggle
+      [(ngModel)]="showProgressNote"
+      color="primary"
+      class="custom-slide-toggle"
+    ></mat-slide-toggle> -->

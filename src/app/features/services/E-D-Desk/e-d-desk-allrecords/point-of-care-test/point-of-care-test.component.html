@@ -1,0 +1,88 @@
+<section class="section">
+  <h3 class="sub-heading">+ POCUS</h3>
+
+  <!-- Date & Time -->
+  <div class="grid-3">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="pocusDate" [(ngModel)]="date" />
+      <mat-datepicker-toggle matSuffix [for]="pocusDate"></mat-datepicker-toggle>
+      <mat-datepicker #pocusDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Time</mat-label>
+      <input matInput type="time" [(ngModel)]="time" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Protocol</mat-label>
+      <mat-select [(ngModel)]="protocol">
+        <mat-option value="eFAST">eFAST</mat-option>
+        <mat-option value="RUSH">RUSH</mat-option>
+        <mat-option value="BLUE">BLUE</mat-option>
+        <mat-option value="MSK">MSK</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Findings -->
+  <div class="grid-1">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Findings</mat-label>
+      <textarea matInput rows="3" [(ngModel)]="findings"></textarea>
+    </mat-form-field>
+  </div>
+
+  <!-- Doctor Sign -->
+  <div class="grid-1">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Doctor Sign</mat-label>
+      <input matInput type="text" [(ngModel)]="doctorSign" />
+    </mat-form-field>
+  </div>
+</section>
+
+
+<section class="section">
+  <h3 class="sub-heading">+ ECG</h3>
+
+  <div class="grid-3">
+    <!-- Date -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="ecgDatePicker" [(ngModel)]="ecgDate" />
+      <mat-datepicker-toggle matSuffix [for]="ecgDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #ecgDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Time -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Time</mat-label>
+      <input matInput type="time" [(ngModel)]="ecgTime" />
+    </mat-form-field>
+  </div>
+
+  <div class="grid-2">
+    <!-- Findings -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Findings</mat-label>
+      <textarea matInput rows="3" [(ngModel)]="ecgFindings"></textarea>
+    </mat-form-field>
+
+    <!-- Doctor Sign -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Doctor Sign</mat-label>
+      <input matInput type="text" [(ngModel)]="ecgDoctorSign" />
+    </mat-form-field>
+  </div>
+
+  <div class="grid-1">
+    <!-- Image Upload -->
+    <label for="ecgImage" class="upload-label">Upload ECG Image*</label>
+    <input type="file" id="ecgImage" (change)="onEcgImageUpload($event)" accept="image/*" required />
+    <div *ngIf="ecgImagePreview" class="image-preview">
+      <img [src]="ecgImagePreview" alt="ECG Preview" />
+    </div>
+  </div>
+</section>

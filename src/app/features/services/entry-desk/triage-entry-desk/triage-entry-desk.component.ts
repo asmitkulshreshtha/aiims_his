@@ -49,28 +49,33 @@ isSubmitting = false;
     });
   }
 
-  ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.patientService.getPatientById(id).subscribe((data: any) => {
-      console.log('Patient data fetched:', data);
-      this.patient = data;
+ngOnInit() {
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+  this.patientService.getPatientById(id).subscribe((data: any) => {
+    console.log('Patient data fetched:', data);
+    this.patient = data;
 
-      if (data) {
-        this.triageForm.patchValue({
-          emergencyType: data.emergencyType || '',
-          date: data.date || '',
-          time: data.time || '',
-          triageNotes: data.triageNotes || '',
-          status: data.status || '',
-          hr: data.hr || '', // Capital H
-          bp: data.bp || '',
-          rr: data.rr || '',
-          spo2: data.spo2 || '',
-          rbs: data.rbs || ''
-        });
-      }
+    // Get current date and time
+    const now = new Date();
+    const currentDate = now.toISOString().substring(0, 10);
+    const currentTime = now.toTimeString().substring(0, 5);
+
+    // Patch values
+    this.triageForm.patchValue({
+      emergencyType: data.emergencyType || '',
+      date: data.date || currentDate,
+      time: data.time || currentTime,
+      triageNotes: data.triageNotes || '',
+      status: data.status || '',
+      hr: data.hr || '',
+      bp: data.bp || '',
+      rr: data.rr || '',
+      spo2: data.spo2 || '',
+      rbs: data.rbs || ''
     });
-  }
+  });
+}
+
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -93,6 +98,11 @@ saveTriageInfo() {
         console.log('Patient updated successfully', response);
         this.successMessage = '✅ Patient details saved successfully!';
         this.isSubmitting = false;
+
+        setTimeout(() => {
+            this.router.navigate(['/prepare-summary', this.patient.id]);
+        }, 2000);
+        console.log('Updated patient data:', this.patient.id);
       },
       error => {
         console.error('Error updating patient', error);

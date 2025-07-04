@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../api/auth.service';
-import { MaterialModule } from '../../../shared/material/material.module'; // ✅ your shared material module
-import { HeaderComponent } from '../../header/header.component'; // ✅ your header component
+import { MaterialModule } from '../../../shared/material/material.module'; 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, MaterialModule , HeaderComponent],
+  imports: [CommonModule, MaterialModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

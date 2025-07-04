@@ -111,3 +111,30 @@
   background-color: #d57526;
   transform: scale(0.98);
 }
+
+
+
+
+
+
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.content {
+  padding: 16px;
+}
+
+.menu-btn {
+  margin-right: 8px;
+}

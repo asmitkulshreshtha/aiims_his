@@ -19,6 +19,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatOptionModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -45,7 +48,7 @@ import { MatOptionModule } from '@angular/material/core';
     ],
     exports: [
         CommonModule,
-
+        MatRadioModule,
         MatCardModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -65,7 +68,8 @@ import { MatOptionModule } from '@angular/material/core';
         MatNativeDateModule,
         MatDialogModule,
         MatSnackBarModule,
-        MatOptionModule
+        MatOptionModule,
+        MatSlideToggleModule,
     ]
 })
 export class MaterialModule { }

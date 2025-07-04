@@ -1,0 +1,49 @@
+.assessment-container {
+  padding: 24px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+}
+
+.section {
+  margin-top: 32px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.section-heading {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.sub-heading {
+  color: #2a3f54;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+.button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
