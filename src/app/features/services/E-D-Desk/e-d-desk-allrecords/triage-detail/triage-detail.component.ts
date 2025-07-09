@@ -4,30 +4,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../../shared/material/material.module';
+
 @Component({
   selector: 'app-triage-detail',
-    imports: [FormsModule, MaterialModule],
   standalone: true,
+  imports: [FormsModule, MaterialModule],
   templateUrl: './triage-detail.component.html',
-  styleUrls: ['./triage-detail.component.css'] 
+  styleUrls: ['./triage-detail.component.css']
 })
 export class TriageDetailComponent implements OnInit {
   patient: any;
   triageForm: FormGroup;
+  triageData: any[] = [];
   isMenuOpen = false;
   successMessage = '';
   isSubmitting = false;
 
   displayedColumns: string[] = ['triage', 'triageNotes', 'date', 'time'];
-
-  triageData = [
-    { triage: "GREEN", triageNotes: "zsxdftgyh xcv", date: "2025-06-27", time: "12:33:00", patient_id: 13 },
-    { triage: "GREEN", triageNotes: "xdfgvh cgvh", date: "2024-02-02", time: "00:23:00", patient_id: 13 },
-    { triage: "GREEN", triageNotes: "bhyf uhfvbuhf", date: "2025-12-22", time: "00:22:00", patient_id: 13 },
-    { triage: "GREEN", triageNotes: "qASDFG", date: "2025-02-02", time: "00:11:00", patient_id: 13 },
-    { triage: "BLACK", triageNotes: "vgh b", date: "2025-02-02", time: "02:22:00", patient_id: 13 },
-    { triage: "RED", triageNotes: "all data", date: "2025-02-02", time: "11:14:00", patient_id: 13 }
-  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -57,22 +50,23 @@ export class TriageDetailComponent implements OnInit {
     this.patientService.getPatientById(id).subscribe((data: any) => {
       console.log('Patient data fetched:', data);
       this.patient = data;
+      this.triageData = data.patientTriage || [];
 
       const now = new Date();
       const currentDate = now.toISOString().substring(0, 10);
       const currentTime = now.toTimeString().substring(0, 5);
 
       this.triageForm.patchValue({
-        emergencyType: data.emergencyType || '',
-        date: data.date || currentDate,
-        time: data.time || currentTime,
-        triageNotes: data.triageNotes || '',
-        status: data.status || '',
-        hr: data.hr || '',
-        bp: data.bp || '',
-        rr: data.rr || '',
-        spo2: data.spo2 || '',
-        rbs: data.rbs || ''
+        emergencyType: '',
+        date: currentDate,
+        time: currentTime,
+        triageNotes: '',
+        status: '',
+        hr: '',
+        bp: '',
+        rr: '',
+        spo2: '',
+        rbs: ''
       });
     });
   }

@@ -20,7 +20,7 @@ export class PatientService {
     getPatientById(id: number): any {
         return this.http.get(`${this.baseUrl}/patientDetails/${id}`);
     }
-
+    
     updatePatient(updatedPatient: any) {
         return this.http.post(`${this.baseUrl}/addTriage/${updatedPatient.id}`, updatedPatient);
     }

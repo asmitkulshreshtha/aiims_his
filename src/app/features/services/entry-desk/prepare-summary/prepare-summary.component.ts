@@ -15,12 +15,4 @@ export class PrepareSummaryComponent {
     public route: ActivatedRoute,
     public patientService: PatientService,
   ){}
-  //  ngOnInit() {
-  //     const id = Number(this.route.snapshot.paramMap.get('id'));
-  //     this.patientService.getPatientById(id).subscribe((data: any) => {
-  //       console.log('Patient data fetched:', data);
-  //       this.patient = data;
-  //     });
-  //   }
-
 }

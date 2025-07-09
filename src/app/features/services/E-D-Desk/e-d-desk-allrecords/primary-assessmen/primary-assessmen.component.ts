@@ -8,160 +8,161 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [FormsModule, MaterialModule],
   templateUrl: './primary-assessmen.component.html',
-  styleUrl: './primary-assessmen.component.css'
+  styleUrl: './primary-assessmen.component.css',
 })
 export class PrimaryAssessmenComponent {
-  grossSounds: string = 'none';
-  respEffort: string = 'normal';
-  airwayStatus: string = '';
+  gross_added_sounds: string = 'none';
+  respiratory_effort: string = 'normal';
+  airway_open_stable: string = '';
   rr: number | null = null;
   spo2: number | null = null;
   respEffortOther: string = '';
-  airEntry: string = '';
+  air_entry: string = '';
   grossSoundsOther: string = '';
 
-  pulseRate: number | null = null;
-isRegular: string = '';
-crt: number | null = null;
-skinType: string = 'warm';
-skinOther: string = '';
-bp: string = '';
-rightArm: string = '';
-leftArm: string = '';
-circulationOther: string = '';
-overallcirculationOther: string = '';
-gcsE: number | null = null;
-gcsV: number | string | null = null;
-gcsM: number | null = null;
-gcsTotal: number = 0;
-gcsTotalDisplay: string = '';
-rightEyeSize: number | null = null;
-rightEyeReaction: string | null = null;
-leftEyeSize: number | null = null;
-leftEyeReaction: string | null = null;
-limbAsymmetry: string = '';
-facialAsymmetry: string = '';
-posturing: string = '';
-temperature: number | null = null;
-rash: string = '';
-cynosis: string = '';
-patientId!: string;
-constructor(private router: Router, private route: ActivatedRoute) {}
-ngOnInit() {
-  // this.route.paramMap.subscribe(params => {
-  //   const id = params.get('id');
-  //   if (id !== null) {
-  //     this.patientId = id;
-  //   } else {
-  //     console.error('❌ ID not available');
-  //   }
-  // });
-}
-
-calculateGcsTotal() {
-  const e = typeof this.gcsE === 'number' ? this.gcsE : 0;
-  const m = typeof this.gcsM === 'number' ? this.gcsM : 0;
-
-  let total = e + m;
-  let vText = '';
-
-  if (typeof this.gcsV === 'number') {
-    total += this.gcsV;
-  } else if (this.gcsV === 'T') {
-    vText = 'T';
+  pulse_rate: number | null = null;
+  pulse_regular: string = '';
+  crt_seconds: number | null = null;
+  skin: string = 'warm';
+  skinOther: string = '';
+  bp_right_arm: string = '';
+  bp_left_arm : string = '';
+  circulation_other: string = '';
+  assessment_other: string = '';
+  gcs_e: number | null = null;
+  gcs_v: number | string | null = null;
+  gcs_m: number | null = null;
+  gcsTotal: number = 0;
+  gcs_total: string = '';
+  pupil_right_eye: number | null = null;
+  reaction_to_light_right: string | null = null;
+  pupil_left_eye: number | null = null;
+  reaction_to_light_left: string | null = null;
+  asymmetry_limb_movement: string = '';
+  facial_asymmetry: string = '';
+  posturing: string = '';
+ temperature_f: number | null = null;
+  rash: string = '';
+  cynosis: string = '';
+  patientId!: string;
+  constructor(private router: Router, private route: ActivatedRoute) {}
+  ngOnInit() {
+    // this.route.paramMap.subscribe(params => {
+    //   const id = params.get('id');
+    //   if (id !== null) {
+    //     this.patientId = id;
+    //   } else {
+    //     console.error('❌ ID not available');
+    //   }
+    // });
   }
 
-  this.gcsTotalDisplay = total + vText;
-}
+  calculateGcsTotal() {
+    const e = typeof this.gcs_e === 'number' ? this.gcs_e : 0;
+    const m = typeof this.gcs_m === 'number' ? this.gcs_m : 0;
 
-onSave() {
-  const data = {
-    airwayStatus: this.airwayStatus,
-    rr: this.rr,
-    spo2: this.spo2,
-    respEffort: this.respEffort,
-    respEffortOther: this.respEffortOther,
-    grossSounds: this.grossSounds,
-    grossSoundsOther: this.grossSoundsOther,
-    airEntry: this.airEntry,
-    pulseRate: this.pulseRate,
-    isRegular: this.isRegular,
-    crt: this.crt,
-    skinType: this.skinType,
-    skinOther: this.skinOther,
-    bp: this.bp,
-    rightArm: this.rightArm,
-    leftArm: this.leftArm,
-    circulationOther: this.circulationOther,
-    overallcirculationOther: this.overallcirculationOther,
-    gcsE: this.gcsE,
-    gcsV: this.gcsV,
-    gcsM: this.gcsM,
-    gcsTotalDisplay: this.gcsTotalDisplay,
-    rightEyeSize: this.rightEyeSize,
-    rightEyeReaction: this.rightEyeReaction,
-    leftEyeSize: this.leftEyeSize,
-    leftEyeReaction: this.leftEyeReaction,
-    limbAsymmetry: this.limbAsymmetry,
-    facialAsymmetry: this.facialAsymmetry,
-    posturing: this.posturing,
-    temperature: this.temperature,
-    rash: this.rash,
-    cynosis: this.cynosis
-  };
+    let total = e + m;
+    let vText = '';
 
-  const hasAnyValue = Object.values(data).some(value => value !== null && value !== '' && value !== undefined);
+    if (typeof this.gcs_v === 'number') {
+      total += this.gcs_v;
+    } else if (this.gcs_v === 'T') {
+      vText = 'T';
+    }
 
-  if (hasAnyValue) {
-    console.log('Saving form data:', data);
-    localStorage.setItem(`primaryAssessment_${this.patientId}`, JSON.stringify(data));
-    console.log('✅ Form data saved to localStorage');
-  } else {
-    console.warn('⚠️ No data entered to save');
+    this.gcs_total = total + vText;
   }
-}
 
+  onSave() {
+    const data = {
+      airway_open_stable: this.airway_open_stable,
+      rr: this.rr,
+      spo2: this.spo2,
+      respiratory_effort: this.respiratory_effort,
+      respEffortOther: this.respEffortOther,
+      gross_added_sounds: this.gross_added_sounds,
+      grossSoundsOther: this.grossSoundsOther,
+      air_entry: this.air_entry,
+      pulse_rate: this.pulse_rate,
+      pulse_regular: this.pulse_regular,
+      crt_seconds: this.crt_seconds,
+      skin: this.skin,
+      skinOther: this.skinOther,
+      bp_right_arm: this.bp_right_arm,
+      bp_left_arm: this.bp_left_arm,
+      circulation_other: this.circulation_other,
+      assessment_other: this.assessment_other,
+      gcs_e: this.gcs_e,
+      gcs_v: this.gcs_v,
+      gcs_m: this.gcs_m,
+      gcs_total: this.gcs_total,
+      pupil_right_eye: this.pupil_right_eye,
+      reaction_to_light_right: this.reaction_to_light_right,
+      pupil_left_eye: this.pupil_left_eye,
+      reaction_to_light_left: this.reaction_to_light_left,
+      asymmetry_limb_movement: this.asymmetry_limb_movement,
+      facial_asymmetry: this.facial_asymmetry,
+      posturing: this.posturing,
+      temperature_f: this.temperature_f,
+      rash: this.rash,
+      cynosis: this.cynosis,
+    };
 
-onCancel() {
-  if (this.patientId) {
-    this.router.navigate(['/patient-dashboard', this.patientId]);
-  } else {
-    console.error('❌ ID not available');
+    const hasAnyValue = Object.values(data).some(
+      (value) => value !== null && value !== '' && value !== undefined
+    );
+
+    if (hasAnyValue) {
+      console.log('Saving form data:', data);
+      localStorage.setItem(
+        `primaryAssessment_${this.patientId}`,
+        JSON.stringify(data)
+      );
+      console.log('✅ Form data saved to localStorage');
+    } else {
+      console.warn('⚠️ No data entered to save');
+    }
   }
-}
+
+  onCancel() {
+    if (this.patientId) {
+      this.router.navigate(['/patient-dashboard', this.patientId]);
+    } else {
+      console.error('❌ ID not available');
+    }
+  }
 
   onReset() {
-    this.grossSounds = 'none';
-    this.respEffort = 'normal';
-    this.airwayStatus = '';
+    this.gross_added_sounds = 'none';
+    this.respiratory_effort = 'normal';
+    this.airway_open_stable = '';
     this.rr = null;
     this.spo2 = null;
     this.respEffortOther = '';
-    this.airEntry = '';
+    this.air_entry = '';
     this.grossSoundsOther = '';
-    this.pulseRate = null;
-    this.isRegular = '';
-    this.crt = null;
-    this.skinType = 'warm';
+    this.pulse_rate = null;
+    this.pulse_regular = '';
+    this.crt_seconds = null;
+    this.skin= 'warm';
     this.skinOther = '';
-    this.bp = '';
-    this.rightArm = '';
-    this.leftArm = '';
-    this.circulationOther = '';
-    this.overallcirculationOther = '';
-    this.gcsE = null;
-    this.gcsV = null;
-    this.gcsM = null;
+    this.bp_right_arm = '';
+    this.bp_left_arm = '';
+    this.circulation_other = '';
+    this.assessment_other = '';
+    this.gcs_e = null;
+    this.gcs_v = null;
+    this.gcs_m = null;
     this.gcsTotal = 0;
-    this.gcsTotalDisplay = '';
-    this.rightEyeSize = null;
-    this.rightEyeReaction = null;
-    this.leftEyeSize = null;
-    this.leftEyeReaction = null;
-    this.limbAsymmetry = '';
-    this.facialAsymmetry = '';
+    this.gcs_total = '';
+    this.pupil_right_eye = null;
+    this.reaction_to_light_right = null;
+    this.pupil_left_eye = null;
+    this.reaction_to_light_left = null;
+    this.asymmetry_limb_movement = '';
+    this.facial_asymmetry = '';
     this.posturing = '';
-    this.temperature = null;
+    this.temperature_f = null;
     this.rash = '';
     this.cynosis = '';
   }
