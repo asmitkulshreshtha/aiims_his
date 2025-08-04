@@ -10,19 +10,19 @@ export class AuthService {
 
   constructor(public http: HttpClient) {}
   registerPatient(patient: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, patient);
+    return this.http?.post(`${this.baseUrl}/register`, patient);
   }
 
   login(patient: any) {
-    return this.http.post(`${this.baseUrl}/login`, patient);
+    return this.http?.post(`${this.baseUrl}/login`, patient);
   }
   // auth.service.ts
   getCurrentUserFromToken(): any {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage?.getItem('authToken');
     if (!token) return null;
 
     const payload = token.split('.')[1];
-    const decoded = atob(payload); // decode base64
-    return JSON.parse(decoded); // convert to JSON object
+    const decoded = atob(payload); 
+    return JSON.parse(decoded); 
   }
 }

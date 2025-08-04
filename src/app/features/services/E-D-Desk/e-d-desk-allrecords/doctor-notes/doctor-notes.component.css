@@ -71,7 +71,8 @@
   width: 30% !important;
 }
 
-.grid-2 {
+.grid-2,
+.grid-form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem;

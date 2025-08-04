@@ -1,55 +1,53 @@
 <header class="header">
-    <div class="header-top">
-        <div class="aiims-heading">
-            <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर</span>
-            <span>All India Institute of Medical Sciences, Raipur</span>
-        </div>
+  <div class="header-top">
+    <div class="aiims-heading">
+      <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर</span>
+      <span>All India Institute of Medical Sciences, Raipur</span>
     </div>
+  </div>
 
-    <nav class="nav-bar" *ngIf="!isMenuOpen">
-        <span class="site-title">AIIMS Raipur DC Services</span>
-        <div class="nav-links">
-            <nav class="nav-links">
-                <button (click)="navigateTo('/service')">Emergency</button>
-                <button (click)="navigateTo('/service')">OPD</button>
-                <button (click)="navigateTo('/service')">E M R</button>
-            </nav>
-        </div>
+  <nav class="nav-bar" *ngIf="!isMenuOpen">
+    <span class="site-title">AIIMS Raipur DC Services</span>
+    <div class="nav-links">
+      <nav class="nav-links">
+        <button (click)="navigateTo('/service')">Emergency</button>
+        <button (click)="navigateTo('/service')">OPD</button>
+        <button (click)="navigateTo('/service')">E M R</button>
+      </nav>
+    </div>
+  </nav>
+
+  <div class="dropdown-menu" *ngIf="isMenuOpen">
+    <nav class="nav-links">
+      <button (click)="navigateTo('/service')">Emergency</button>
+      <button (click)="navigateTo('/service')">OPD</button>
+      <button (click)="navigateTo('/service')">E M R</button>
     </nav>
-
-    <div class="dropdown-menu" *ngIf="isMenuOpen">
-        <nav class="nav-links">
-            <button (click)="navigateTo('/service')">Emergency</button>
-            <button (click)="navigateTo('/service')">OPD</button>
-            <button (click)="navigateTo('/service')">E M R</button>
-        </nav>
-    </div>
+  </div>
 </header>
 
 <section class="services-section">
-    <h2>Our Services</h2>
-    <div class="card-container">
-
-        <div class="service-card">
-            <div class="icon-placeholder">🏥</div>
-            <h3>Triage Entry Desk</h3>
-            <p>First point of contact for emergency cases.</p>
-            <a [routerLink]="['/patient-added']"><button>View</button></a>
-        </div>
-
-        <div class="service-card">
-            <div class="icon-placeholder">📋</div>
-            <h3>E D Desk</h3>
-            <p>Emergency registrations and support.</p>
-            <a [routerLink]="['/patient-details']"><button>View</button></a>
-        </div>
-
-        <div class="service-card">
-            <div class="icon-placeholder">🩺</div>
-            <h3>Emergency Nursing Desk</h3>
-            <p>24/7 nursing assistance and patient care.</p>
-            <a [routerLink]="['/nursing-desk']"><button>View</button></a>
-        </div>
-
+  <h2>Our Services</h2>
+  <div class="card-container">
+    <div class="service-card">
+      <div class="icon-placeholder">🏥</div>
+      <h3>Triage Entry Desk</h3>
+      <p>First point of contact for emergency cases.</p>
+      <a [routerLink]="['/patient-added']"><button>View</button></a>
     </div>
+
+    <div class="service-card">
+      <div class="icon-placeholder">📋</div>
+      <h3>E D Desk</h3>
+      <p>Emergency registrations and support.</p>
+      <a [routerLink]="['/patient-details']"><button>View</button></a>
+    </div>
+
+    <div class="service-card">
+      <div class="icon-placeholder">🩺</div>
+      <h3>Emergency Nursing Desk</h3>
+      <p>24/7 nursing assistance and patient care.</p>
+      <a [routerLink]="['/nursing-desk']"><button>View</button></a>
+    </div>
+  </div>
 </section>

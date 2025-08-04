@@ -1,0 +1,42 @@
+<h2>Treatment Details</h2>
+
+<div class="treatment-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Date</mat-label>
+    <input matInput type="date" [(ngModel)]="treatmentData.date" name="date">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Time</mat-label>
+    <input matInput type="time" [(ngModel)]="treatmentData.time" name="time">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Drug Name</mat-label>
+    <input matInput [(ngModel)]="treatmentData.drugName" name="drugName">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Dose</mat-label>
+    <input matInput [(ngModel)]="treatmentData.dose" name="dose">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Frequency</mat-label>
+    <input matInput [(ngModel)]="treatmentData.frequency" name="frequency">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Route</mat-label>
+    <input matInput [(ngModel)]="treatmentData.route" name="route">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Special Instructions</mat-label>
+    <textarea matInput rows="3" [(ngModel)]="treatmentData.specialInstructions" name="specialInstructions"></textarea>
+  </mat-form-field>
+</div>
+
+<div class="button-container">
+    <button mat-raised-button color="primary" (click)="saveTreatment()">Save</button>
+</div>

@@ -75,7 +75,6 @@ export class DoctorNotesComponent implements OnInit {
   xray_advised = false;
   ct_advised = false;
   mri_advised = false;
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -86,8 +85,8 @@ export class DoctorNotesComponent implements OnInit {
 
   ngOnInit() {
     const idParam =
-      this.route.snapshot.paramMap.get('id') ||
-      this.route.parent?.snapshot.paramMap.get('id');
+      this.route?.snapshot?.paramMap.get('id') ||
+      this.route?.parent?.snapshot?.paramMap.get('id');
     this.patientId = idParam ? +idParam : NaN;
 
     if (isNaN(this.patientId)) {
@@ -99,35 +98,70 @@ export class DoctorNotesComponent implements OnInit {
     this.loadData();
   }
 
+  // loadData() {
+  //   this.isLoading = true;
+
+  //   this.templateService?.getemergencycare(this.patientId)?.subscribe({
+  //     next: (data: any) => (this.emergencyNotes = data?.data),
+  //     error: (err: any) => console.error('Emergency fetch error:', err),
+  //     complete: () => (this.isLoading = false),
+  //   });
+
+  //   this.templateService?.getprogressNotes(this.patientId)?.subscribe({
+  //     next: (data: any) => (this.progressNotes = data?.data),
+  //     error: (err: any) => console.error('Progress fetch error:', err),
+  //   });
+
+  //   this.templateService?.gettraumaTemplate(this.patientId)?.subscribe({
+  //     next: (data: any) => (this.traumaNotes = data?.data),
+  //     error: (err: any) => console.error('Trauma fetch error:', err),
+  //   });
+
+  //   this.patientService?.getPatientById(this.patientId)?.subscribe({
+  //     next: (data: any) => (this.patient = data),
+  //     error: (err: any) => console.error('Patient fetch error:', err),
+  //   });
+  // }
+
   loadData() {
-    this.isLoading = true;
+  this.isLoading = true;
 
-    this.templateService.getemergencycare(this.patientId).subscribe({
-      next: (data: any) => (this.emergencyNotes = data.data),
-      error: (err: any) => console.error('Emergency fetch error:', err),
-      complete: () => (this.isLoading = false),
-    });
+  this.templateService.getemergencycare(this.patientId).subscribe({
+    next: (data: any) => (this.emergencyNotes = data.data),
+    error: (err: any) => {
+      console.error('Emergency fetch error:', err);
+      if (err.status === 404) this.emergencyNotes = [];
+    },
+    complete: () => (this.isLoading = false),
+  });
 
-    this.templateService.getprogressNotes(this.patientId).subscribe({
-      next: (data: any) => (this.progressNotes = data.data),
-      error: (err: any) => console.error('Progress fetch error:', err),
-    });
+  this.templateService.getprogressNotes(this.patientId).subscribe({
+    next: (data: any) => (this.progressNotes = data.data),
+    error: (err: any) => {
+      console.error('Progress fetch error:', err);
+      if (err.status === 404) this.progressNotes = [];
+    },
+  });
 
-    this.templateService.gettraumaTemplate(this.patientId).subscribe({
-      next: (data: any) => (this.traumaNotes = data.data),
-      error: (err: any) => console.error('Trauma fetch error:', err),
-    });
+  this.templateService.gettraumaTemplate(this.patientId).subscribe({
+    next: (data: any) => (this.traumaNotes = data.data),
+    error: (err: any) => {
+      console.error('Trauma fetch error:', err);
+      if (err.status === 404) this.traumaNotes = [];
+    },
+  });
 
-    this.patientService.getPatientById(this.patientId).subscribe({
-      next: (data: any) => (this.patient = data),
-      error: (err: any) => console.error('Patient fetch error:', err),
-    });
-  }
+  this.patientService.getPatientById(this.patientId).subscribe({
+    next: (data: any) => (this.patient = data),
+    error: (err: any) => console.error('Patient fetch error:', err),
+  });
+}
 
+  //  Save Emergency Notes
   onSaveEmergency() {
     const user = this.authService.getCurrentUserFromToken();
     const data = {
-      patient_id: this.patientId,
+      patientId: this.patientId,
       chief_complains: this.chief_complains,
       history_of_present_illness: this.history_of_present_illness,
       review_of_symptoms: this.review_of_symptoms,
@@ -153,11 +187,11 @@ export class DoctorNotesComponent implements OnInit {
       error: (err: any) => console.error('Emergency save error:', err),
     });
   }
-
+  //  Save Progress Notes
   onSaveProgressNote() {
     const user = this.authService.getCurrentUserFromToken();
     const note = {
-      patient_id: this.patientId,
+      patientId: this.patientId,
       doctor_name: user?.user || 'Unknown',
       designation: user?.designation || 'N/A',
       date: this.currentDate,
@@ -196,11 +230,11 @@ export class DoctorNotesComponent implements OnInit {
       error: (err: any) => console.error('Progress save error:', err),
     });
   }
-
+  //  Save Trauma Notes
   onSaveTraumaNote() {
     const user = this.authService.getCurrentUserFromToken();
     const note = {
-      patient_id: this.patientId,
+      patientId: this.patientId,
       aho: this.aho,
       place_of_event: this.place_of_event,
       date_of_injury: this.date_of_injury,
@@ -236,7 +270,6 @@ export class DoctorNotesComponent implements OnInit {
         const savedNote = res.data;
         savedNote.showDetails = false; // toggle ke liye zaruri hai
 
-        // ✅ Array me add karo UI ke liye
         this.traumaNotes.unshift(savedNote); // naya top par aaye
 
         console.log('✅ Trauma saved & added to list');
@@ -244,7 +277,6 @@ export class DoctorNotesComponent implements OnInit {
       error: (err: any) => console.error('Trauma save error:', err),
     });
   }
-
   getSelectedInvestigations(): string[] {
     const list = [];
     if (this.xray_advised) list.push('X-ray');
@@ -254,7 +286,6 @@ export class DoctorNotesComponent implements OnInit {
   }
 
   onReset() {
-    this.selectedTemplate = '';
     this.chief_complains = '';
     this.history_of_present_illness = '';
     this.review_of_symptoms = '';
@@ -305,6 +336,7 @@ export class DoctorNotesComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/']);
+    this.selectedTemplate = '';
+    this.onReset();
   }
 }

@@ -15,10 +15,10 @@ import { HeaderComponent } from '../../../header/header.component';
     MatTableModule,
     MatButtonModule,
     HttpClientModule,
-    HeaderComponent
+    HeaderComponent,
   ],
   templateUrl: './patient-list.component.html',
-  styleUrls: ['./patient-list.component.css']
+  styleUrls: ['./patient-list.component.css'],
 })
 export class PatientListComponent implements OnInit {
   displayedColumns: string[] = [
@@ -30,22 +30,25 @@ export class PatientListComponent implements OnInit {
     'department',
     'room',
     'visitDate',
-    'visitTime'
+    'visitTime',
   ];
 
   patients: any[] = [];
   isMenuOpen = false;
 
-  constructor(public patientService: PatientService, public router: Router) { }
+  constructor(public patientService: PatientService, public router: Router) {}
 
   ngOnInit() {
-    this.patientService.getPatients().subscribe((response: any) => {
-      this.patients = response.data; // ✅ Use only the 'data' array from response
-      console.log('Patients fetched:', this.patients);
-    }, (error: any) => {
-      console.error('Error fetching patients:', error);
-      alert('Failed to fetch patient list.');
-    });
+    this.patientService.getPatients().subscribe(
+      (response: any) => {
+        this.patients = response.data; // Use only the 'data' array from response
+        console.log('Patients fetched:', this.patients);
+      },
+      (error: any) => {
+        console.error('Error fetching patients:', error);
+        alert('Failed to fetch patient list.');
+      }
+    );
   }
 
   toggleMenu() {
@@ -53,6 +56,6 @@ export class PatientListComponent implements OnInit {
   }
 
   viewDetails(patient: any) {
-    this.router.navigate(['/patient-details', patient.id]);
+    this.router.navigate(['/patient-details', patient?.id]);
   }
 }

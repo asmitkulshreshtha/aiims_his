@@ -1,0 +1,83 @@
+<!-- Select Template -->
+<section class="section selectedTemplate">
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Select Template</mat-label>
+    <mat-select [(ngModel)]="selectedTemplate">
+      <mat-option value="">Select</mat-option>
+      <mat-option value="cbc">Complete Blood Count</mat-option>
+      <mat-option value="lft">Liver Function Test</mat-option>
+      <mat-option value="kft">Kidney Function Test</mat-option>
+      <mat-option value="urine">Urine Test</mat-option>
+    </mat-select>
+  </mat-form-field>
+</section>
+
+<!-- Complete Blood Count Template -->
+<section class="section" *ngIf="selectedTemplate === 'cbc'">
+  <div class="grid-3 toggle-header">
+    <h3 class="sub-heading">Complete Blood Count (CBC)</h3>
+  </div>
+
+  <div class="grid-2">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Platelet Count</mat-label>
+      <input matInput [(ngModel)]="plateletCount" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Basophil</mat-label>
+      <input matInput [(ngModel)]="basophil" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Eosinophils</mat-label>
+      <input matInput [(ngModel)]="eosinophils" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Monocytes</mat-label>
+      <input matInput [(ngModel)]="monocytes" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Lymphocytes</mat-label>
+      <input matInput [(ngModel)]="lymphocytes" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Neutrophils</mat-label>
+      <input matInput [(ngModel)]="neutrophils" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Differential Leukocyte Count (DLC)</mat-label>
+      <input matInput [(ngModel)]="dlc" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Total Leukocyte Count (TLC)</mat-label>
+      <input matInput [(ngModel)]="tlc" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Red Cell Distribution Width (RDW CV)</mat-label>
+      <input matInput [(ngModel)]="rdw_cv" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Mean Corpuscular Volume (MCV)</mat-label>
+      <input matInput [(ngModel)]="mcv" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Hematocrit (HCT)</mat-label>
+      <input matInput [(ngModel)]="hct" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Hemoglobin</mat-label>
+      <input matInput [(ngModel)]="hemoglobin" />
+    </mat-form-field>
+  </div>
+  <button mat-raised-button color="primary" (click)="saveInvestigationOrder()">Save</button>
+</section>

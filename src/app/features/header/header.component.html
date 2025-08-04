@@ -6,25 +6,28 @@
     </div>
     <button class="menu-toggle" (click)="toggleMenu()">☰</button>
   </div>
-<div>
+  <div>
+    <div class="nav-bar" *ngIf="!isMenuOpen">
+      <span class="site-title">AIIMS Raipur</span>
+      <div class="nav-links">
+        <nav class="nav-links">
+          <button (click)="navigateTo('/patient-added')">
+            Patient Registration
+          </button>
+          <button (click)="navigateTo('/patient-list')">Patient List</button>
+          <button (click)="navigateTo('/service')">Services</button>
+        </nav>
+      </div>
+    </div>
 
-  <div class="nav-bar" *ngIf="!isMenuOpen" >
-    <span class="site-title">AIIMS Raipur DC Services</span>
-    <div class="nav-links">
+    <div class="dropdown-menu" *ngIf="isMenuOpen">
       <nav class="nav-links">
-        <button (click)="navigateTo('/patient-added')">Patient Registration</button>
+        <button (click)="navigateTo('/patient-added')">
+          Patient Registration
+        </button>
         <button (click)="navigateTo('/patient-list')">Patient List</button>
         <button (click)="navigateTo('/service')">Services</button>
       </nav>
     </div>
   </div>
-
-  <div class="dropdown-menu" *ngIf="isMenuOpen">
-    <nav class="nav-links">
-      <button (click)="navigateTo('/patient-added')">Patient Registration</button>
-      <button (click)="navigateTo('/patient-list')">Patient List</button>
-      <button (click)="navigateTo('/service')">Services</button>
-    </nav>
-  </div>
-</div>
 </header>

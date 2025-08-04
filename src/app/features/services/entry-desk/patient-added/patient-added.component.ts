@@ -4,36 +4,42 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { PatientService } from '../../../../api/patient.service';
 import { MaterialModule } from '../../../../shared/material/material.module';
 import { HeaderComponent } from '../../../header/header.component';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-patient-added',
   standalone: true,
   imports: [CommonModule, MaterialModule, ReactiveFormsModule, HeaderComponent],
   templateUrl: './patient-added.component.html',
-  styleUrl: './patient-added.component.css'
+  styleUrl: './patient-added.component.css',
 })
 export class PatientAddedComponent implements OnInit {
   patientForm: any;
   successMessage: string = '';
   isSubmitting: boolean = false;
-
-  constructor(public fb: FormBuilder, public patientService: PatientService) {}
+  constructor(
+    public fb: FormBuilder,
+    public patientService: PatientService,
+    public router: Router
+  ) {}
 
   ngOnInit() {
-      // Get current date and time
-        const now = new Date();
-        const currentDate = now.toISOString().substring(0, 10);
-        const currentTime = now.toTimeString().substring(0, 5);
+    const now = new Date();
+
+    const currentDate = now.toISOString().slice(0, 10);
+    const currentTime = now.toTimeString().slice(0, 5);
+
     this.patientForm = this.fb.group({
       name: ['', Validators.required],
       crNumber: ['', Validators.required],
+      address: ['', Validators.required],
       gender: ['', Validators.required],
-      age: ['', Validators.required],
-      category: ['', Validators.required],
+      age: ['', [Validators.required, Validators.min(0)]],
+      guardianType: ['Father', Validators.required],
+      guardianName: ['', Validators.required],
       department: ['', Validators.required],
       room: ['', Validators.required],
-      visitDate: ['', Validators.required],
-      visitTime: ['', Validators.required]
+      visitDate: [currentDate, Validators.required],
+      visitTime: [currentTime, Validators.required],
     });
   }
 
@@ -44,24 +50,21 @@ export class PatientAddedComponent implements OnInit {
       const formValue = this.patientForm.value;
       const patientData = {
         ...formValue,
-        visitDateTime: new Date(`${formValue.visitDate}T${formValue.visitTime}`).toISOString()
+        visitDateTime: new Date(
+          `${formValue.visitDate}T${formValue.visitTime}`
+        ).toISOString(),
       };
 
       this.patientService.addPatient(patientData).subscribe(
-        response => {
+        (response) => {
           console.log('✅ Patient added successfully', response);
           this.successMessage = '✅ Patient added successfully!';
-          
-          setTimeout(() => {
-            this.successMessage = '';
-            this.patientForm.reset();
-            this.isSubmitting = false;
-          }, 3000);
+          setTimeout(() => this.router.navigateByUrl('/patient-list'), 1000);
         },
-        error => {
+        (error) => {
           console.error('❌ Error adding patient', error);
           this.successMessage = '❌ Error while adding patient!';
-          
+
           setTimeout(() => {
             this.successMessage = '';
             this.isSubmitting = false;

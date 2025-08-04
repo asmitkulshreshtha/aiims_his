@@ -1,0 +1,33 @@
+.heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+.treatment-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin: auto;
+}
+
+button {
+  grid-column: 1 / -1;
+  justify-self: start;
+}

@@ -92,6 +92,6 @@
   border: 1px solid #81c784;
 }
 
-.message-box:has-text('Error') {
+.message-box:has-text("Error") {
   background-color: #f44336;
 }

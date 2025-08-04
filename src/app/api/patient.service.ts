@@ -11,30 +11,35 @@ export class PatientService {
 
     constructor(public http: HttpClient) { }
     addPatient(patient: any){
-        return this.http.post(`${this.baseUrl}/registerPatient`, patient);
+        return this.http?.post(`${this.baseUrl}/registerPatient`, patient);
     }
 
     getPatients(){
-        return this.http.get(`${this.baseUrl}/PatientList`);
+        return this.http?.get(`${this.baseUrl}/PatientList`);
     }
     getPatientById(id: number): any {
-        return this.http.get(`${this.baseUrl}/patientDetails/${id}`);
+        return this.http?.get(`${this.baseUrl}/patientDetails/${id}`);
     }
     
     updatePatient(updatedPatient: any) {
-        return this.http.post(`${this.baseUrl}/addTriage/${updatedPatient.id}`, updatedPatient);
+        return this.http?.post(`${this.baseUrl}/addTriage/${updatedPatient?.id}`, updatedPatient);
     }
 
     getPatientsWithTriage(){
-        return this.http.get(`${this.baseUrl}/patientList/triage`);
+        return this.http?.get(`${this.baseUrl}/patientList/triage`);
     }
 
-    addTriage(patientId: number, triageData: any){
-        return this.http.post(`${this.baseUrl}/addTriage/${patientId}`, triageData);
-    }
+ addTriage(patientId: number, triageData: any) {
+    const body = {
+        patientId,
+        ...triageData
+    };
+    return this.http?.post(`${this.baseUrl}/addTriage`, body);
+}
+
 
 getalltriages(id: number){
-    return this.http.get(`${this.baseUrl}/all-triages/${id}`);
+    return this.http?.get(`${this.baseUrl}/all-triages/${id}`);
 }
 }
 

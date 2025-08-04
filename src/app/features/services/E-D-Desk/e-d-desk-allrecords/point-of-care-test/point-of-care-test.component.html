@@ -1,88 +1,734 @@
-<section class="section">
-  <h3 class="sub-heading">+ POCUS</h3>
+<!-- POCUS -->
+<div class="section">
+  <button mat-raised-button color="primary" (click)="toggleSection('pocus')">
+    + POCUS
+  </button>
+  <div *ngIf="activeSection === 'pocus'" class="activeSection">
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="pocusDate" [(ngModel)]="date" />
+        <mat-datepicker-toggle matSuffix [for]="pocusDate"></mat-datepicker-toggle>
+        <mat-datepicker #pocusDate></mat-datepicker>
+      </mat-form-field>
 
-  <!-- Date & Time -->
-  <div class="grid-3">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="pocusDate" [(ngModel)]="date" />
-      <mat-datepicker-toggle matSuffix [for]="pocusDate"></mat-datepicker-toggle>
-      <mat-datepicker #pocusDate></mat-datepicker>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [(ngModel)]="time" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Time</mat-label>
-      <input matInput type="time" [(ngModel)]="time" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Protocol</mat-label>
+        <mat-select [(ngModel)]="protocol">
+          <mat-option value="eFAST">eFAST</mat-option>
+          <mat-option value="RUSH">RUSH</mat-option>
+          <mat-option value="BLUE">BLUE</mat-option>
+          <mat-option value="MSK">MSK</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Protocol</mat-label>
-      <mat-select [(ngModel)]="protocol">
-        <mat-option value="eFAST">eFAST</mat-option>
-        <mat-option value="RUSH">RUSH</mat-option>
-        <mat-option value="BLUE">BLUE</mat-option>
-        <mat-option value="MSK">MSK</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="grid-1">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Findings</mat-label>
+        <textarea matInput rows="3" [(ngModel)]="findings"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="grid-1">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Doctor Sign</mat-label>
+        <input matInput type="text" [(ngModel)]="doctorSign" />
+      </mat-form-field>
+    </div>
+    <div class="allSaveButton">
+      <button mat-raised-button color="primary" (click)="savePocus(patientId)">
+        💾 Save POCUS
+      </button>
+    </div>
   </div>
+</div>
+<!-- Saved POCUS Records Section -->
+<section class="section" *ngIf="pocusData.length > 0">
+  <h3 class="sub-heading">POCUS Records</h3>
 
-  <!-- Findings -->
-  <div class="grid-1">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Findings</mat-label>
-      <textarea matInput rows="3" [(ngModel)]="findings"></textarea>
-    </mat-form-field>
-  </div>
+  <div *ngFor="let record of pocusData" class="doctor-entry">
+    <div class="grid-3 user-header">
+      <div>
+        <strong *ngIf="record.submittedBy">Doctor Name:</strong>
+        {{ record.submittedBy }}
+      </div>
+      <div>
+        <strong *ngIf="record.designation">Designation:</strong>
+        {{ record.designation }}
+      </div>
+      <div>
+        <strong>Date:</strong> {{ record.createdAt | date : "dd-MM-yyyy" }}
+      </div>
+      <div>
+        <strong>Time:</strong> {{ record.createdAt | date : "shortTime" }}
+      </div>
 
-  <!-- Doctor Sign -->
-  <div class="grid-1">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Doctor Sign</mat-label>
-      <input matInput type="text" [(ngModel)]="doctorSign" />
-    </mat-form-field>
+      <!-- Toggle for details -->
+      <mat-slide-toggle [(ngModel)]="record.showDetails" color="primary" class="custom-slide-toggle">
+      </mat-slide-toggle>
+    </div>
+
+    <!-- Detail table -->
+    <table class="mat-elevation-z2 full-width-table" *ngIf="record.showDetails">
+      <tr>
+        <th>Protocol</th>
+        <td>{{ record.protocol }}</td>
+      </tr>
+      <tr>
+        <th>Findings</th>
+        <td>{{ record.findings }}</td>
+      </tr>
+    </table>
   </div>
 </section>
 
+<!-- ECG -->
+<div class="section">
+  <button mat-raised-button color="primary" (click)="toggleSection('ecg')">
+    + ECG
+  </button>
+  <div *ngIf="activeSection === 'ecg'" class="activeSection">
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="ecgDatePicker" [(ngModel)]="ecgDate" />
+        <mat-datepicker-toggle matSuffix [for]="ecgDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #ecgDatePicker></mat-datepicker>
+      </mat-form-field>
 
-<section class="section">
-  <h3 class="sub-heading">+ ECG</h3>
-
-  <div class="grid-3">
-    <!-- Date -->
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="ecgDatePicker" [(ngModel)]="ecgDate" />
-      <mat-datepicker-toggle matSuffix [for]="ecgDatePicker"></mat-datepicker-toggle>
-      <mat-datepicker #ecgDatePicker></mat-datepicker>
-    </mat-form-field>
-
-    <!-- Time -->
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Time</mat-label>
-      <input matInput type="time" [(ngModel)]="ecgTime" />
-    </mat-form-field>
-  </div>
-
-  <div class="grid-2">
-    <!-- Findings -->
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Findings</mat-label>
-      <textarea matInput rows="3" [(ngModel)]="ecgFindings"></textarea>
-    </mat-form-field>
-
-    <!-- Doctor Sign -->
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Doctor Sign</mat-label>
-      <input matInput type="text" [(ngModel)]="ecgDoctorSign" />
-    </mat-form-field>
-  </div>
-
-  <div class="grid-1">
-    <!-- Image Upload -->
-    <label for="ecgImage" class="upload-label">Upload ECG Image*</label>
-    <input type="file" id="ecgImage" (change)="onEcgImageUpload($event)" accept="image/*" required />
-    <div *ngIf="ecgImagePreview" class="image-preview">
-      <img [src]="ecgImagePreview" alt="ECG Preview" />
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [(ngModel)]="ecgTime" />
+      </mat-form-field>
     </div>
+
+    <div class="grid-2">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Findings</mat-label>
+        <textarea matInput rows="3" [(ngModel)]="ecgFindings"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Doctor Sign</mat-label>
+        <input matInput type="text" [(ngModel)]="ecgDoctorSign" />
+      </mat-form-field>
+    </div>
+
+    <div class="grid-1">
+      <label for="ecgImage" class="upload-label">Upload ECG Image*</label>
+      <input type="file" id="ecgImage" (change)="onEcgImageUpload($event)" accept="image/*" required />
+      <div *ngIf="ecgImagePreview" class="image-preview">
+        <img [src]="ecgImagePreview" alt="ECG Preview" />
+      </div>
+    </div>
+
+    <!-- SAVE BUTTON ADDED -->
+    <div class="allSaveButton">
+      <button mat-raised-button color="primary" (click)="saveEcg(patientId)">
+        💾 Save ECG
+      </button>
+    </div>
+  </div>
+</div>
+
+<section class="section" *ngIf="ecgData.length > 0">
+  <h3 class="sub-heading">ECG Records</h3>
+
+  <div *ngFor="let ecg of ecgData" class="doctor-entry">
+    <div class="grid-3 user-header">
+      <div><strong>Doctor Name:</strong> {{ ecg.submittedBy }}</div>
+      <div><strong>Designation:</strong> {{ ecg.designation }}</div>
+      <div>
+        <strong>Date:</strong> {{ ecg.createdAt | date : "dd-MM-yyyy" }}
+      </div>
+      <div><strong>Time:</strong> {{ ecg.createdAt | date : "shortTime" }}</div>
+
+      <mat-slide-toggle [(ngModel)]="ecg.showDetails" color="primary" class="custom-slide-toggle"></mat-slide-toggle>
+    </div>
+
+    <table class="mat-elevation-z2 full-width-table" *ngIf="ecg.showDetails">
+      <tr>
+        <th>Findings</th>
+        <td>{{ ecg.ecgFindings }}</td>
+      </tr>
+
+      <tr *ngIf="ecg.ecgImage_url">
+  <th>Image</th>
+  <td>
+    <button mat-button (click)="ecg.showImage = !ecg.showImage">
+      {{ ecg.showImage ? "Hide Image" : "Show Image" }}
+    </button>
+
+    <div *ngIf="ecg.showImage">
+      <!-- Thumbnail Preview -->
+      <img
+        [src]="ecg.ecgImage_url"
+        alt="ECG"
+        class="ecg-thumbnail"
+        (click)="openFullScreen(ecg.ecgImage_url)"
+      />
+    </div>
+  </td>
+</tr>
+
+<!-- Fullscreen Overlay -->
+<div
+  class="ecg-overlay"
+  *ngIf="fullscreenImageUrl"
+  (click)="closeFullScreen()"
+>
+  <img [src]="fullscreenImageUrl" class="ecg-fullscreen-img" />
+</div>
+
+    </table>
+  </div>
+</section>
+<!-- ECG Section End -->
+
+<!-- Blood Gas -->
+<div class="section">
+  <button mat-raised-button color="primary" (click)="toggleSection('bloodGas')">
+    + Blood Gas
+  </button>
+  <div *ngIf="activeSection === 'bloodGas'" class="activeSection">
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="bloodGasDatePicker" [(ngModel)]="bloodGasDate" />
+        <mat-datepicker-toggle matSuffix [for]="bloodGasDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #bloodGasDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [(ngModel)]="bloodGasTime" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Type (Arterial/Venous)</mat-label>
+        <mat-select [(ngModel)]="bloodGasType">
+          <mat-option value="Arterial">Arterial</mat-option>
+          <mat-option value="Venous">Venous</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>pH</mat-label>
+        <input matInput [(ngModel)]="ph" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>PCO₂</mat-label>
+        <input matInput [(ngModel)]="pco2" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>PO₂</mat-label>
+        <input matInput [(ngModel)]="po2" />
+      </mat-form-field>
+    </div>
+
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>HCO₃</mat-label>
+        <input matInput [(ngModel)]="hco3" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Na⁺</mat-label>
+        <input matInput [(ngModel)]="na" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>K⁺</mat-label>
+        <input matInput [(ngModel)]="k" />
+      </mat-form-field>
+    </div>
+
+    <div class="grid-2">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Cl⁻</mat-label>
+        <input matInput [(ngModel)]="cl" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Other</mat-label>
+        <input matInput [(ngModel)]="bloodGasOther" />
+      </mat-form-field>
+    </div>
+
+    <div class="grid-1">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Interpretation</mat-label>
+        <textarea matInput rows="3" [(ngModel)]="bloodGasInterpretation"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="grid-1">
+      <label for="bloodGasImage" class="upload-label">Upload Blood Gas Image*</label>
+      <input type="file" id="bloodGasImage" (change)="onBloodGasImageUpload($event)" accept="image/*" required />
+      <div *ngIf="bloodGasImagePreview" class="image-preview">
+        <img [src]="bloodGasImagePreview" alt="Blood Gas Preview" />
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="saveBloodGas(patientId)">
+      💾 Save Blood Gas
+    </button>
+  </div>
+</div>
+<!-- Blood Gas records section -->
+<section class="section" *ngIf="bloodGasData.length > 0">
+  <h3 class="sub-heading">Blood Gas Records</h3>
+
+  <div *ngFor="let gas of bloodGasData" class="doctor-entry">
+    <div class="grid-3 user-header">
+      <div><strong>Doctor Name:</strong> {{ gas.submittedBy }}</div>
+      <div>
+        <strong>Date:</strong> {{ gas.createdAt | date : "dd-MM-yyyy" }}
+      </div>
+      <div><strong>Time:</strong> {{ gas.createdAt | date : "shortTime" }}</div>
+
+      <mat-slide-toggle [(ngModel)]="gas.showDetails" color="primary" class="custom-slide-toggle">
+      </mat-slide-toggle>
+    </div>
+
+    <table class="mat-elevation-z2 full-width-table" *ngIf="gas.showDetails">
+      <tr>
+        <th>Type</th>
+        <td>{{ gas.bloodGasType }}</td>
+      </tr>
+      <tr>
+        <th>pH</th>
+        <td>{{ gas.ph }}</td>
+      </tr>
+      <tr>
+        <th>PCO₂</th>
+        <td>{{ gas.pco2 }}</td>
+      </tr>
+      <tr>
+        <th>PO₂</th>
+        <td>{{ gas.po2 }}</td>
+      </tr>
+      <tr>
+        <th>HCO₃</th>
+        <td>{{ gas.hco3 }}</td>
+      </tr>
+      <tr>
+        <th>Na⁺</th>
+        <td>{{ gas.na }}</td>
+      </tr>
+      <tr>
+        <th>K⁺</th>
+        <td>{{ gas.k }}</td>
+      </tr>
+      <tr>
+        <th>Cl⁻</th>
+        <td>{{ gas.cl }}</td>
+      </tr>
+      <tr>
+        <th>Other</th>
+        <td>{{ gas.bloodGasOther }}</td>
+      </tr>
+      <tr>
+        <th>Interpretation</th>
+        <td>{{ gas.bloodGasInterpretation }}</td>
+      </tr>
+  <tr *ngIf="gas.bloodGasImage_url">
+  <th>Image</th>
+  <td>
+    <button mat-button (click)="toggleImage(gas)">
+      {{ gas.showImage ? "Hide Image" : "Show Image" }}
+    </button>
+
+    <div *ngIf="gas.showImage">
+      <img
+        [src]="gas.bloodGasImage_blobUrl"
+        alt="Blood Gas"
+        class="ecg-thumbnail"
+        (click)="openFullScreen(gas.bloodGasImage_blobUrl)"
+      />
+    </div>
+  </td>
+</tr>
+
+<!-- FULLSCREEN IMAGE OVERLAY (Shared by both) -->
+<div
+  class="ecg-overlay"
+  *ngIf="fullscreenImageUrl"
+  (click)="closeFullScreen()"
+>
+  <img [src]="fullscreenImageUrl" class="ecg-fullscreen-img" />
+</div>
+    </table>
+  </div>
+</section>
+
+<!-- Troponin -->
+<div class="section">
+  <button mat-raised-button color="primary" (click)="toggleSection('troponin')">
+    + Troponin
+  </button>
+  <div *ngIf="activeSection === 'troponin'" class="activeSection">
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="troponinDatePicker" [(ngModel)]="troponinDate" />
+        <mat-datepicker-toggle matSuffix [for]="troponinDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #troponinDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [(ngModel)]="troponinTime" />
+      </mat-form-field>
+    </div>
+
+    <!-- Test Type Checkboxes -->
+    <div class="checkbox-group">
+      <label class="checkbox-label">Test Type:</label>
+      <mat-checkbox [(ngModel)]="isQualitative">Qualitative</mat-checkbox>
+      <mat-checkbox [(ngModel)]="isQuantitative">Quantitative</mat-checkbox>
+    </div>
+
+    <!-- Troponin Type Checkboxes -->
+    <div class="checkbox-group">
+      <label class="checkbox-label">Troponin Type:</label>
+      <mat-checkbox [(ngModel)]="isTropI">Trop I</mat-checkbox>
+      <mat-checkbox [(ngModel)]="isTropT">Trop T</mat-checkbox>
+    </div>
+
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Value</mat-label>
+        <input matInput type="number" [(ngModel)]="troponinValue" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Interpretation</mat-label>
+        <mat-select [(ngModel)]="troponinInterpretation">
+          <mat-option value="Normal">Normal</mat-option>
+          <mat-option value="Abnormal">Abnormal</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="grid-1">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Doctor Sign</mat-label>
+        <input matInput type="text" [(ngModel)]="troponinDoctorSign" />
+      </mat-form-field>
+    </div>
+
+    <div class="grid-1">
+      <button mat-raised-button color="accent" (click)="saveTroponin(patientId)">
+        Save Troponin
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Troponin show -->
+<section class="section" *ngIf="troponinDataList.length > 0">
+  <h3 class="sub-heading">Troponin Records</h3>
+
+  <div *ngFor="let troponin of troponinDataList" class="doctor-entry">
+    <div class="grid-3 user-header">
+      <div><strong>Doctor:</strong> {{ troponin.submittedBy }}</div>
+      <div>
+        <strong>Date:</strong> {{ troponin.createdAt | date : "dd-MM-yyyy" }}
+      </div>
+      <div>
+        <strong>Time:</strong> {{ troponin.createdAt | date : "shortTime" }}
+      </div>
+
+      <mat-slide-toggle [(ngModel)]="troponin.showDetails" color="primary"
+        class="custom-slide-toggle"></mat-slide-toggle>
+    </div>
+
+    <table class="mat-elevation-z2 full-width-table" *ngIf="troponin.showDetails">
+      <tr>
+        <th>Test Type</th>
+        <td>{{ troponin.testType || "-" }}</td>
+      </tr>
+      <tr>
+        <th>Troponin Type</th>
+        <td>{{ troponin.troponinType || "-" }}</td>
+      </tr>
+      <tr>
+        <th>Value</th>
+        <td>{{ troponin.troponinValue || "-" }}</td>
+      </tr>
+      <tr>
+        <th>Interpretation</th>
+        <td>{{ troponin.troponinInterpretation || "-" }}</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- OTHER -->
+<div class="section">
+  <button mat-raised-button color="primary" (click)="toggleSection('other')">
+    + Other
+  </button>
+  <div *ngIf="activeSection === 'other'" class="activeSection">
+    <div class="grid-3">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="otherDatePicker" [(ngModel)]="otherDate" />
+        <mat-datepicker-toggle matSuffix [for]="otherDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #otherDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Time</mat-label>
+        <input matInput type="time" [(ngModel)]="otherTime" />
+      </mat-form-field>
+    </div>
+
+    <!-- Checkbox List -->
+    <mat-checkbox [(ngModel)]="showProBnp">pro BNP</mat-checkbox>
+    <div *ngIf="showProBnp" class="grid-2">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>pro BNP Value</mat-label>
+        <input matInput [(ngModel)]="proBnpValue" />
+      </mat-form-field>
+      <mat-radio-group [(ngModel)]="proBnpInterpretation" class="radio-group">
+        <mat-radio-button value="Positive">Positive</mat-radio-button>
+        <mat-radio-button value="Negative">Negative</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-checkbox [(ngModel)]="showDdimer">D-dimer</mat-checkbox>
+    <div *ngIf="showDdimer" class="grid-2">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>D-dimer Value</mat-label>
+        <input matInput [(ngModel)]="dDimerValue" />
+      </mat-form-field>
+      <mat-radio-group [(ngModel)]="dDimerInterpretation" class="radio-group">
+        <mat-radio-button value="Positive">Positive</mat-radio-button>
+        <mat-radio-button value="Negative">Negative</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-checkbox [(ngModel)]="showCrp">CRP</mat-checkbox>
+    <div *ngIf="showCrp" class="grid-2">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>CRP Value</mat-label>
+        <input matInput [(ngModel)]="crpValue" />
+      </mat-form-field>
+      <mat-radio-group [(ngModel)]="crpInterpretation" class="radio-group">
+        <mat-radio-button value="Positive">Positive</mat-radio-button>
+        <mat-radio-button value="Negative">Negative</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-checkbox [(ngModel)]="showEsr">ESR</mat-checkbox>
+    <div *ngIf="showEsr" class="grid-2">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>ESR Value</mat-label>
+        <input matInput [(ngModel)]="esrValue" />
+      </mat-form-field>
+      <mat-radio-group [(ngModel)]="esrInterpretation" class="radio-group">
+        <mat-radio-button value="Positive">Positive</mat-radio-button>
+        <mat-radio-button value="Negative">Negative</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <button mat-raised-button color="accent" (click)="saveOtherTest(patientId)">
+      Save Other Test
+    </button>
+  </div>
+</div>
+
+<section class="section" *ngIf="otherTestDataList.length > 0">
+  <h3 class="sub-heading">Saved Other Test Records</h3>
+
+  <div *ngFor="let other of otherTestDataList" class="doctor-entry">
+    <div class="grid-3 user-header">
+      <div><strong>Doctor Name:</strong> {{ other.submittedBy || "-" }}</div>
+      <div>
+        <strong>Date:</strong> {{ other.createdAt | date : "dd-MM-yyyy" }}
+      </div>
+      <div>
+        <strong>Time:</strong> {{ other.createdAt | date : "shortTime" }}
+      </div>
+
+      <mat-slide-toggle [(ngModel)]="other.showDetails" color="primary" class="custom-slide-toggle"></mat-slide-toggle>
+    </div>
+
+    <table class="mat-elevation-z2 full-width-table" *ngIf="other.showDetails">
+      <tr>
+        <th>pro BNP</th>
+        <td>
+          {{ other.proBnpValue || "-" }} ({{
+          other.proBnpInterpretaion || "-"
+          }})
+        </td>
+      </tr>
+      <tr>
+        <th>D-Dimer</th>
+        <td>
+          {{ other.dDimerValue || "-" }} ({{
+          other.dDimerInterpretaion || "-"
+          }})
+        </td>
+      </tr>
+      <tr>
+        <th>CRP</th>
+        <td>
+          {{ other.crpValue || "-" }} ({{ other.crpInterpretaion || "-" }})
+        </td>
+      </tr>
+      <tr>
+        <th>ESR</th>
+        <td>
+          {{ other.esrValue || "-" }} ({{ other.esrInterpretaion || "-" }})
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- X-RAY -->
+<div class="section">
+  <button mat-raised-button color="primary" (click)="toggleSection('xray')">
+    + X-Ray
+  </button>
+
+  <div *ngIf="activeSection === 'xray'" class="activeSection">
+    <div class="grid-3">
+      <!-- X-ray Type -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>X-ray Type</mat-label>
+        <mat-select [(ngModel)]="xrayType">
+          <mat-option value="Chest">Chest</mat-option>
+          <mat-option value="Pelvis">Pelvis</mat-option>
+          <mat-option value="Extremities">Extremities</mat-option>
+          <mat-option value="Other">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Findings -->
+    <mat-form-field appearance="outline" class="form-field full-width">
+      <mat-label>Findings</mat-label>
+      <textarea matInput [(ngModel)]="xrayFindings" rows="3"></textarea>
+    </mat-form-field>
+
+    <!-- File Upload + Preview -->
+    <div class="file-upload">
+      <label for="fileInput">Upload X-ray Image</label>
+      <input type="file" (change)="onFileSelected($event)" id="fileInput" />
+    </div>
+
+    <img *ngIf="previewUrl" [src]="previewUrl" alt="Preview" style="max-height: 200px; margin: 10px 0;" />
+
+    <button mat-raised-button color="accent" (click)="submitXray()">
+      Submit X-ray
+    </button>
+  </div>
+</div>
+
+<section class="section" *ngIf="xrayDataList.length > 0">
+  <h3 class="sub-heading">Saved X-ray Records</h3>
+
+  <div *ngFor="let xray of xrayDataList" class="doctor-entry">
+    <div class="grid-3 user-header">
+      <div><strong>Doctor:</strong> {{ xray.submittedBy || "-" }}</div>
+      <div><strong>Date:</strong> {{ xray.createdAt | date: 'dd-MM-yyyy' }}</div>
+      <div><strong>Time:</strong> {{ xray.createdAt | date: 'shortTime' }}</div>
+
+      <mat-slide-toggle [(ngModel)]="xray.showDetails" color="primary" class="custom-slide-toggle"></mat-slide-toggle>
+    </div>
+
+    <table class="mat-elevation-z2 full-width-table" *ngIf="xray.showDetails">
+      <tr>
+        <th>X-ray Type</th>
+        <td>{{ xray.xrayType || '-' }}</td>
+      </tr>
+      <tr>
+        <th>Findings</th>
+        <td>{{ xray.xrayFindings || '-' }}</td>
+      </tr>
+      <tr *ngIf="xray.xrayImage_url">
+        <th>Image</th>
+        <td>
+          <button mat-button (click)="xray.showImage = !xray.showImage">
+            {{ xray.showImage ? 'Hide' : 'Show' }} Image
+          </button>
+          <div *ngIf="xray.showImage">
+            <img [src]="xray.xrayImage_url" alt="X-ray Image" style="max-height: 200px; margin-top: 8px;" />
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- CT-Scan -->
+<div class="section">
+  <button mat-raised-button color="primary" (click)="toggleSection('CTScan')">
+    + CT-Scan
+  </button>
+  <div *ngIf="activeSection === 'CTScan'" class="activeSection">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>CT Type</mat-label>
+      <mat-select [(ngModel)]="ctType">
+        <mat-option *ngFor="let type of ctTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Findings</mat-label>
+      <textarea matInput [(ngModel)]="ctFindings" placeholder="Enter CT scan findings..."></textarea>
+    </mat-form-field>
+ 
+    <div class="file-upload">
+      <label for="ctScanImage">Upload Image*</label>
+      <input type="file" id="ctScanImage" (change)="onCTFileSelected($event)" />
+    </div>
+  
+    <button mat-raised-button color="primary" (click)="submitCTScan()">Submit CT Scan</button>
+  </div>
+</div>
+
+
+<!-- CT Scan Show -->
+<section class="section" *ngIf="ctScanList.length > 0">
+  <h3 class="sub-heading">Saved CT Scan Records</h3>
+
+  <div *ngFor="let ct of ctScanList" class="doctor-entry">
+    <div class="grid-3 user-header">
+      <div><strong>Doctor:</strong> {{ ct.submittedBy }}</div>
+      <div><strong>Date:</strong> {{ ct.createdAt | date: 'dd-MM-yyyy' }}</div>
+      <div><strong>Time:</strong> {{ ct.createdAt | date: 'shortTime' }}</div>
+
+      <mat-slide-toggle [(ngModel)]="ct.showDetails" color="primary" class="custom-slide-toggle"></mat-slide-toggle>
+    </div>
+
+    <table class="mat-elevation-z2 full-width-table" *ngIf="ct.showDetails">
+      <tr>
+        <th>CT Type</th>
+        <td>{{ ct.ctType || '-' }}</td>
+      </tr>
+      <tr>
+        <th>Findings</th>
+        <td>{{ ct.ctFindings || '-' }}</td>
+      </tr>
+    <tr *ngIf="ct.ctScanImage_url">
+  <th>Image</th>
+  <td>
+    <button mat-button (click)="ct.showImage = !ct.showImage">
+      {{ ct.showImage ? 'Hide' : 'Show' }} Image
+    </button>
+    <div *ngIf="ct.showImage">
+      <img [src]="ct.ctScanImage_url" alt="CT Scan Image" style="max-height: 200px; margin-top: 8px;" />
+    </div>
+  </td>
+</tr>
+
+    </table>
   </div>
 </section>

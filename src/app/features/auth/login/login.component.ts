@@ -40,22 +40,22 @@ export class LoginComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
   navigateTo(path: string) {
-    this.router.navigate([path]);
+    this.router?.navigate([path]);
   }
 
   onInput(event: any, field: string) {
-    this.formData[field] = event.value ?? event.target?.value;
+    this.formData[field] = event.value ?? event?.target?.value;
   }
 
   onSubmit() {
     const { name, email, mobile, designation, password } = this.formData;
 
     if (this.isLoginMode) {
-      this.authService.login({ email, password }).subscribe(
+      this.authService?.login({ email, password }).subscribe(
         (response: any) => {
           // Save JWT token
-          localStorage.setItem('authToken', response.token);
-          console.log('Token saved to localStorage:', response.token);
+          localStorage.setItem('authToken', response?.token);
+          console.log('Token saved to localStorage:', response?.token);
 
           // Redirect on success
           this.message = `Welcome back!`;
@@ -79,7 +79,7 @@ export class LoginComponent {
         designation,
         password,
       };
-      this.authService.registerPatient(userData).subscribe(
+      this.authService?.registerPatient(userData).subscribe(
         (response) => {
           console.log('Patient added successfully', response);
           this.message = '✅ Signup Successful! Please login.';

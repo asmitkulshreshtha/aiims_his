@@ -10,7 +10,7 @@ import { MaterialModule } from '../../../../../shared/material/material.module';
   standalone: true,
   imports: [FormsModule, MaterialModule],
   templateUrl: './triage-detail.component.html',
-  styleUrls: ['./triage-detail.component.css']
+  styleUrls: ['./triage-detail.component.css'],
 })
 export class TriageDetailComponent implements OnInit {
   patient: any;
@@ -39,12 +39,12 @@ export class TriageDetailComponent implements OnInit {
       date: ['', Validators.required],
       time: ['', Validators.required],
       triage: [''],
-      triageNotes: ['']
+      triageNotes: [''],
     });
   }
 
   ngOnInit(): void {
-    const id = Number(this.route.parent?.snapshot.paramMap.get('id'));
+    const id = Number(this.route?.parent?.snapshot?.paramMap?.get('id'));
     console.log('Fetching patient with ID:', id);
 
     this.patientService.getPatientById(id).subscribe((data: any) => {
@@ -66,7 +66,7 @@ export class TriageDetailComponent implements OnInit {
         bp: '',
         rr: '',
         spo2: '',
-        rbs: ''
+        rbs: '',
       });
     });
   }
@@ -79,16 +79,16 @@ export class TriageDetailComponent implements OnInit {
     this.successMessage = '';
     this.isSubmitting = true;
 
-    console.log('Form submitted with values:', this.triageForm.value);
+    console.log('Form submitted with values:', this.triageForm?.value);
 
     if (this.patient) {
       const updatedPatient: any = {
         ...this.patient,
-        ...this.triageForm.value
+        ...this.triageForm.value,
       };
 
       this.patientService.updatePatient(updatedPatient).subscribe(
-        response => {
+        (response) => {
           console.log('Patient updated successfully', response);
           this.successMessage = '✅ Patient details saved successfully!';
           this.isSubmitting = false;
@@ -97,9 +97,10 @@ export class TriageDetailComponent implements OnInit {
             this.router.navigate(['/prepare-summary', this.patient.id]);
           }, 2000);
         },
-        error => {
+        (error) => {
           console.error('Error updating patient', error);
-          this.successMessage = '❌ Error saving patient data. Please try again.';
+          this.successMessage =
+            '❌ Error saving patient data. Please try again.';
           setTimeout(() => {
             this.successMessage = '';
             this.isSubmitting = false;

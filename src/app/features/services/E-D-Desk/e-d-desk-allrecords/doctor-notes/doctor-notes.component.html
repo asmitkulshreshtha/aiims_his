@@ -3,10 +3,10 @@
   <h3 class="sub-heading">Patient Details</h3>
   <div class="grid-3">
     <div><strong>Name:</strong> {{ patient?.name }}</div>
+    <div><strong>Guardian Name:</strong> {{ patient?.guardianName }}</div>
     <div><strong>Age:</strong> {{ patient?.age }}</div>
     <div><strong>Gender:</strong> {{ patient?.gender }}</div>
-    <div><strong>CR Number:</strong> {{ patient?.cr_number }}</div>
-    <div><strong>Category:</strong> {{ patient?.category }}</div>
+    <div><strong>CR Number:</strong> {{ patient?.crNumber }}</div>
     <div><strong>Department:</strong> {{ patient?.department }}</div>
   </div>
 </section>
@@ -400,6 +400,7 @@
 <!-- multipal button -->
 <section class="section" *ngIf="selectedTemplate">
   <div class="button-groupallbtn">
+    <!-- Emergency Note -->
     <button
       mat-raised-button
       color="primary"
@@ -408,6 +409,7 @@
     >
       Save
     </button>
+    <!-- Progress Note -->
     <button
       mat-raised-button
       color="primary"
@@ -416,6 +418,7 @@
     >
       Save
     </button>
+    <!-- Trauma Note -->
     <button
       mat-raised-button
       color="primary"
@@ -435,13 +438,13 @@
 
   <div *ngFor="let note of emergencyNotes" class="doctor-entry">
     <div class="grid-3 user-header">
-      <div><strong>Doctor Name:</strong> {{ note.submitted_by }}</div>
-      <div><strong>Designation:</strong> {{ note.designation }}</div>
+      <div><strong>Doctor Name:</strong> {{ note?.submittedBy }}</div>
+      <div><strong>Designation:</strong> {{ note?.designation }}</div>
       <div>
-        <strong>Date:</strong> {{ note.createdAt | date : "dd-MM-yyyy" }}
+        <strong>Date:</strong> {{ note?.createdAt | date : "dd-MM-yyyy" }}
       </div>
       <div>
-        <strong>Time:</strong> {{ note.createdAt | date : "shortTime" }}
+        <strong>Time:</strong> {{ note?.createdAt | date : "shortTime" }}
       </div>
       <mat-slide-toggle
         [(ngModel)]="note.showDetails"
@@ -454,43 +457,43 @@
     <table class="mat-elevation-z2 full-width-table" *ngIf="note.showDetails">
       <tr>
         <th>Chief Complains</th>
-        <td>{{ note.chief_complains }}</td>
+        <td>{{ note?.chief_complains }}</td>
       </tr>
       <tr>
         <th>History of Present Illness</th>
-        <td>{{ note.history_of_present_illness }}</td>
+        <td>{{ note?.history_of_present_illness }}</td>
       </tr>
       <tr>
         <th>Review of Symptoms</th>
-        <td>{{ note.review_of_symptoms }}</td>
+        <td>{{ note?.review_of_symptoms }}</td>
       </tr>
       <tr>
         <th>Progression of Symptoms</th>
-        <td>{{ note.progression_of_symptoms }}</td>
+        <td>{{ note?.progression_of_symptoms }}</td>
       </tr>
       <tr>
         <th>Why Today</th>
-        <td>{{ note.why_today }}</td>
+        <td>{{ note?.why_today }}</td>
       </tr>
       <tr>
         <th>General Physical Examination</th>
-        <td>{{ note.general_physical_examination }}</td>
+        <td>{{ note?.general_physical_examination }}</td>
       </tr>
       <tr>
         <th>Systemic Examination</th>
-        <td>{{ note.systemic_examination }}</td>
+        <td>{{ note?.systemic_examination }}</td>
       </tr>
       <tr>
         <th>Relevant Investigation Findings</th>
-        <td>{{ note.relevant_investigation_findings }}</td>
+        <td>{{ note?.relevant_investigation_findings }}</td>
       </tr>
       <tr>
         <th>Provisional Dx Differentials</th>
-        <td>{{ note.provisional_dx_differentials }}</td>
+        <td>{{ note?.provisional_dx_differentials }}</td>
       </tr>
       <tr>
         <th>Further Management Plan</th>
-        <td>{{ note.emergency_further_management_plan }}</td>
+        <td>{{ note?.emergency_further_management_plan }}</td>
       </tr>
     </table>
   </div>
@@ -502,8 +505,8 @@
 
   <div *ngFor="let note of progressNotes" class="doctor-entry">
     <div class="grid-3 user-header">
-      <div><strong>Doctor Name:</strong> {{ note.submitted_by }}</div>
-      <div><strong>Designation:</strong> {{ note.designation }}</div>
+      <div><strong>Doctor Name:</strong> {{ note?.submittedBy }}</div>
+      <div><strong>Designation:</strong> {{ note?.designation }}</div>
       <div>
         <strong>Date:</strong> {{ note.createdAt | date : "dd-MM-yyyy" }}
       </div>
@@ -522,47 +525,47 @@
     <table class="mat-elevation-z2 full-width-table" *ngIf="note.showDetails">
       <tr>
         <th>Provisional Diagnosis</th>
-        <td>{{ note.provisional_diagnosis }}</td>
+        <td>{{ note?.provisional_diagnosis }}</td>
       </tr>
       <tr>
         <th>Current Condition</th>
-        <td>{{ note.current_condition }}</td>
+        <td>{{ note?.current_condition }}</td>
       </tr>
       <tr>
         <th>Pulse (/min)</th>
-        <td>{{ note.pulse }}</td>
+        <td>{{ note?.pulse }}</td>
       </tr>
       <tr>
         <th>Blood Pressure (mmHg)</th>
-        <td>{{ note.blood_pressure }}</td>
+        <td>{{ note?.blood_pressure }}</td>
       </tr>
       <tr>
         <th>RR (/min)</th>
-        <td>{{ note.rr }}</td>
+        <td>{{ note?.rr }}</td>
       </tr>
       <tr>
         <th>SpO₂ (%)</th>
-        <td>{{ note.spo2 }}</td>
+        <td>{{ note?.spo2 }}</td>
       </tr>
       <tr>
         <th>Pain Score</th>
-        <td>{{ note.pain_score }}</td>
+        <td>{{ note?.pain_score }}</td>
       </tr>
       <tr>
         <th>GCS (EVM)</th>
-        <td>{{ note.gcs }}</td>
+        <td>{{ note?.gcs }}</td>
       </tr>
       <tr>
         <th>Blood Test</th>
-        <td>{{ note.blood_test }}</td>
+        <td>{{ note?.blood_test }}</td>
       </tr>
       <tr>
         <th>Imaging</th>
-        <td>{{ note.imaging }}</td>
+        <td>{{ note?.imaging }}</td>
       </tr>
       <tr>
         <th>Further Management Plan</th>
-        <td>{{ note.progress_further_management_plan }}</td>
+        <td>{{ note?.progress_further_management_plan }}</td>
       </tr>
     </table>
   </div>
@@ -573,13 +576,13 @@
   <h3 class="sub-heading">Trauma Note Details</h3>
   <div *ngFor="let note of traumaNotes" class="doctor-entry">
     <div class="grid-3 user-header">
-      <div><strong>Doctor Name:</strong> {{ note.submitted_by }}</div>
-      <div><strong>Designation:</strong> {{ note.designation }}</div>
+      <div><strong>Doctor Name:</strong> {{ note?.submittedBy }}</div>
+      <div><strong>Designation:</strong> {{ note?.designation }}</div>
       <div>
-        <strong>Date:</strong> {{ note.createdAt | date : "dd-MM-yyyy" }}
+        <strong>Date:</strong> {{ note?.createdAt | date : "dd-MM-yyyy" }}
       </div>
       <div>
-        <strong>Time:</strong> {{ note.createdAt | date : "shortTime" }}
+        <strong>Time:</strong> {{ note?.createdAt | date : "shortTime" }}
       </div>
       <mat-slide-toggle
         [(ngModel)]="note.showDetails"
@@ -591,15 +594,15 @@
     <table class="mat-elevation-z2 full-width-table" *ngIf="note.showDetails">
       <tr>
         <th>A/H/O</th>
-        <td>{{ note.aho }}</td>
+        <td>{{ note?.aho }}</td>
       </tr>
       <tr *ngIf="note.aho === 'Others'">
         <th>Place of Event</th>
-        <td>{{ note.place_of_event }}</td>
+        <td>{{ note?.place_of_event }}</td>
       </tr>
       <tr *ngIf="note.aho === 'Others'">
         <th>Date of Injury</th>
-        <td>{{ note.date_of_injury | date }}</td>
+        <td>{{ note?.date_of_injury | date }}</td>
       </tr>
       <tr *ngIf="note.aho === 'Others'">
         <th>Time of Injury</th>
@@ -607,71 +610,71 @@
       </tr>
       <tr>
         <th>Mechanism of Injury</th>
-        <td>{{ note.mechanism_of_injury }}</td>
+        <td>{{ note?.mechanism_of_injury }}</td>
       </tr>
       <tr>
         <th>MLC No.</th>
-        <td>{{ note.mlc_no }}</td>
+        <td>{{ note?.mlc_no }}</td>
       </tr>
       <tr>
         <th>Presenting Complaints</th>
-        <td>{{ note.presenting_complaints }}</td>
+        <td>{{ note?.presenting_complaints }}</td>
       </tr>
       <tr>
         <th>Loss of Consciousness</th>
-        <td>{{ note.loss_of_consciousness }}</td>
+        <td>{{ note?.loss_of_consciousness }}</td>
       </tr>
       <tr>
         <th>ENT Bleed</th>
-        <td>{{ note.ent_bleed }}</td>
+        <td>{{ note?.ent_bleed }}</td>
       </tr>
       <tr>
         <th>Amnesia</th>
-        <td>{{ note.amnesia }}</td>
+        <td>{{ note?.amnesia }}</td>
       </tr>
       <tr>
         <th>Seizures</th>
-        <td>{{ note.seizures }}</td>
+        <td>{{ note?.seizures }}</td>
       </tr>
       <tr>
         <th>Vomiting</th>
-        <td>{{ note.vomiting }}</td>
+        <td>{{ note?.vomiting }}</td>
       </tr>
       <tr>
         <th>Injury Identified</th>
-        <td>{{ note.injury_identified }}</td>
+        <td>{{ note?.injury_identified }}</td>
       </tr>
       <tr>
         <th>Allergy History</th>
-        <td>{{ note.allergy_history }}</td>
+        <td>{{ note?.allergy_history }}</td>
       </tr>
       <tr>
         <th>Medication History</th>
-        <td>{{ note.medication_history }}</td>
+        <td>{{ note?.medication_history }}</td>
       </tr>
       <tr>
         <th>Past History</th>
-        <td>{{ note.past_history }}</td>
+        <td>{{ note".past_history }}</td>
       </tr>
       <tr>
         <th>LMP</th>
-        <td>{{ note.lmp }}</td>
+        <td>{{ note?.lmp }}</td>
       </tr>
       <tr>
         <th>UPT</th>
-        <td>{{ note.upt }}</td>
+        <td>{{ note?.upt }}</td>
       </tr>
       <tr>
         <th>Last Meal</th>
-        <td>{{ note.last_meal }}</td>
+        <td>{{ note?.last_meal }}</td>
       </tr>
       <tr>
         <th>Treatment Before AIIMS</th>
-        <td>{{ note.prior_treatment }}</td>
+        <td>{{ note?.prior_treatment }}</td>
       </tr>
       <tr>
         <th>Treatment Plan</th>
-        <td>{{ note.treatment_plan }}</td>
+        <td>{{ note?.treatment_plan }}</td>
       </tr>
     </table>
   </div>

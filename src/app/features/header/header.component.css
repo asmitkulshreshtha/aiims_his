@@ -1,27 +1,27 @@
 .header {
-    position: sticky;
-    top: 0;
-    background: #cfa359;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    z-index: 1000;
-    border-radius: 0 0 40px 40px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  background: #cfa359;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  z-index: 1000;
+  border-radius: 0 0 40px 40px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header-top {
-   display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .aiims-heading {
-    display: flex;
-    flex-direction: column;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
 }
 
 .menu-toggle {
@@ -34,12 +34,12 @@
 }
 
 .nav-bar {
- background: white;
-    padding: 0.8rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 20PX 20PX 20px 20px;
+  background: white;
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 20px 20px;
 }
 
 .site-title {
@@ -74,11 +74,11 @@
 
   .dropdown-menu {
     display: flex;
-    border-radius: 20PX 20PX 20px 20px;
-    padding: 10PX;
+    border-radius: 20px 20px 20px 20px;
+    padding: 10px;
   }
 
-  .nav-links button{
+  .nav-links button {
     padding: 3px 5px;
   }
 }
@@ -89,17 +89,17 @@
 }
 
 .nav-links button {
-    background-color: #cfa359;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: inherit;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #cfa359;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .nav-links button:hover {
@@ -111,11 +111,6 @@
   background-color: #d57526;
   transform: scale(0.98);
 }
-
-
-
-
-
 
 .sidenav-container {
   height: 100vh;

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../../shared/material/material.module';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PrimaryAssessmentService } from '../../../../../api/primary-assessment.service';
 
 @Component({
   selector: 'app-primary-assessmen',
@@ -26,7 +27,7 @@ export class PrimaryAssessmenComponent {
   skin: string = 'warm';
   skinOther: string = '';
   bp_right_arm: string = '';
-  bp_left_arm : string = '';
+  bp_left_arm: string = '';
   circulation_other: string = '';
   assessment_other: string = '';
   gcs_e: number | null = null;
@@ -41,26 +42,50 @@ export class PrimaryAssessmenComponent {
   asymmetry_limb_movement: string = '';
   facial_asymmetry: string = '';
   posturing: string = '';
- temperature_f: number | null = null;
+  temperature_f: number | null = null;
   rash: string = '';
   cynosis: string = '';
-  patientId!: string;
-  constructor(private router: Router, private route: ActivatedRoute) {}
-  ngOnInit() {
-    // this.route.paramMap.subscribe(params => {
-    //   const id = params.get('id');
-    //   if (id !== null) {
-    //     this.patientId = id;
-    //   } else {
-    //     console.error('❌ ID not available');
-    //   }
-    // });
+  patientId: string = '';
+// assessmentExists: boolean = false;
+assessmentData: any = null;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public primaryAssessmentService: PrimaryAssessmentService
+  ) {}
+
+ngOnInit() {
+  const idFromRoute =
+    this.route?.snapshot?.paramMap?.get('id') ||
+    this.route?.parent?.snapshot?.paramMap?.get('id');
+
+  if (idFromRoute) {
+    this.patientId = idFromRoute;
+    console.log('✅ Patient ID:', this.patientId);
+
+    // ✅ Load assessment data
+    this.loadAssessmentData(Number(this.patientId));
+  } else {
+    console.error('❌ No patient ID in route');
   }
+}
+
+loadAssessmentData(patientId: number) {
+  this.primaryAssessmentService.getAssessmentByPatientId(patientId).subscribe({
+    next: (res: any) => {
+      this.assessmentData = res?.data;
+      this.assessmentData.showDetails = true; 
+    },
+    error: (err) => {
+      console.error('❌ Error loading assessment data:', err);
+    }
+  });
+}
+
 
   calculateGcsTotal() {
     const e = typeof this.gcs_e === 'number' ? this.gcs_e : 0;
     const m = typeof this.gcs_m === 'number' ? this.gcs_m : 0;
-
     let total = e + m;
     let vText = '';
 
@@ -74,31 +99,34 @@ export class PrimaryAssessmenComponent {
   }
 
   onSave() {
+    if (!this.patientId || isNaN(Number(this.patientId))) {
+      console.error('❌ Invalid patientId:', this.patientId);
+      return;
+    }
+
     const data = {
+      patientId: Number(this.patientId),
       airway_open_stable: this.airway_open_stable,
       rr: this.rr,
       spo2: this.spo2,
       respiratory_effort: this.respiratory_effort,
-      respEffortOther: this.respEffortOther,
-      gross_added_sounds: this.gross_added_sounds,
-      grossSoundsOther: this.grossSoundsOther,
       air_entry: this.air_entry,
+      breathing_other: this.respEffortOther,
+      gross_added_sounds: this.gross_added_sounds,
       pulse_rate: this.pulse_rate,
       pulse_regular: this.pulse_regular,
-      crt_seconds: this.crt_seconds,
+      crt_seconds: this.crt_seconds?.toString(),
       skin: this.skin,
-      skinOther: this.skinOther,
+      circulation_other: this.circulation_other,
       bp_right_arm: this.bp_right_arm,
       bp_left_arm: this.bp_left_arm,
-      circulation_other: this.circulation_other,
-      assessment_other: this.assessment_other,
       gcs_e: this.gcs_e,
       gcs_v: this.gcs_v,
       gcs_m: this.gcs_m,
       gcs_total: this.gcs_total,
-      pupil_right_eye: this.pupil_right_eye,
+      pupil_right_eye: this.pupil_right_eye?.toString(),
+      pupil_left_eye: this.pupil_left_eye?.toString(),
       reaction_to_light_right: this.reaction_to_light_right,
-      pupil_left_eye: this.pupil_left_eye,
       reaction_to_light_left: this.reaction_to_light_left,
       asymmetry_limb_movement: this.asymmetry_limb_movement,
       facial_asymmetry: this.facial_asymmetry,
@@ -106,23 +134,62 @@ export class PrimaryAssessmenComponent {
       temperature_f: this.temperature_f,
       rash: this.rash,
       cynosis: this.cynosis,
+      assessment_other: this.assessment_other,
     };
 
-    const hasAnyValue = Object.values(data).some(
-      (value) => value !== null && value !== '' && value !== undefined
-    );
+    // ✅ Required fields to check
+    const requiredFields = [
+      'airway_open_stable',
+      'rr',
+      'spo2',
+      'respiratory_effort',
+      'air_entry',
+      'gross_added_sounds',
+      'pulse_rate',
+      'pulse_regular',
+      'crt_seconds',
+      'skin',
+      'bp_right_arm',
+      'bp_left_arm',
+      'gcs_e',
+      'gcs_v',
+      'gcs_m',
+      'gcs_total',
+      'pupil_right_eye',
+      'pupil_left_eye',
+      'reaction_to_light_right',
+      'reaction_to_light_left',
+      'asymmetry_limb_movement',
+      'facial_asymmetry',
+      'posturing',
+      'temperature_f',
+      'rash',
+      'cynosis',
+    ];
 
-    if (hasAnyValue) {
-      console.log('Saving form data:', data);
-      localStorage.setItem(
-        `primaryAssessment_${this.patientId}`,
-        JSON.stringify(data)
-      );
-      console.log('✅ Form data saved to localStorage');
-    } else {
-      console.warn('⚠️ No data entered to save');
+    const allFilled = requiredFields.every((key) => {
+      const value = (data as any)[key];
+      return value !== null && value !== '' && value !== undefined;
+    });
+
+    if (!allFilled) {
+      alert('❌ Please fill all required fields.');
+      return;
     }
+
+    // ✅ Proceed if valid
+    console.log('📤 Sending data to API:', data);
+    this.primaryAssessmentService.createAssessment(data).subscribe({
+      next: (response: any) => {
+            this.loadAssessmentData(Number(this.patientId));
+        console.log('✅ Data successfully saved to backend:', response);
+      },
+      error: (error: any) => {
+        console.error('❌ Error saving data:', error);
+      },
+    });
   }
+
 
   onCancel() {
     if (this.patientId) {
@@ -131,7 +198,6 @@ export class PrimaryAssessmenComponent {
       console.error('❌ ID not available');
     }
   }
-
   onReset() {
     this.gross_added_sounds = 'none';
     this.respiratory_effort = 'normal';
@@ -144,7 +210,7 @@ export class PrimaryAssessmenComponent {
     this.pulse_rate = null;
     this.pulse_regular = '';
     this.crt_seconds = null;
-    this.skin= 'warm';
+    this.skin = 'warm';
     this.skinOther = '';
     this.bp_right_arm = '';
     this.bp_left_arm = '';

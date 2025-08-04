@@ -1,4 +1,3 @@
-
 <header class="header">
   <div class="header-top">
     <div class="aiims-heading">
@@ -8,34 +7,31 @@
     <button class="menu-toggle" (click)="toggleMenu()">☰</button>
   </div>
 
- <!-- Desktop Navigation -->
-<div class="nav-bar" *ngIf="!isMenuOpen">
+  <!-- Desktop Navigation -->
+  <div class="nav-bar" *ngIf="!isMenuOpen">
     <span class="site-title">AIIMS Raipur DC Services</span>
     <div class="nav-links">
-        <a routerLink="/patient-added">Home</a>
-        <a routerLink="/patient-list">FEATURES</a>
-        <a routerLink="/patient-list">GALLERY</a>
-        <a routerLink="/patient-list">ABOUT US</a>
-        <a routerLink="/service">CONTACT</a>
+      <a routerLink="/patient-added">Home</a>
+      <a routerLink="/patient-list">FEATURES</a>
+      <a routerLink="/patient-list">GALLERY</a>
+      <a routerLink="/patient-list">ABOUT US</a>
+      <a routerLink="/service">CONTACT</a>
     </div>
-</div>
+  </div>
 
-<!-- Mobile Dropdown Menu -->
-<div class="dropdown-menu" *ngIf="isMenuOpen">
-        <a routerLink="/Home">Home</a>
-        <a routerLink="/FEATURES">FEATURES</a>
-        <a routerLink="/GALLERY">GALLERY</a>
-        <a routerLink="/ABOUT">ABOUT</a>
-        <a routerLink="/service">CONTACT</a>
-</div>
-
+  <!-- Mobile Dropdown Menu -->
+  <div class="dropdown-menu" *ngIf="isMenuOpen">
+    <a routerLink="/Home">Home</a>
+    <a routerLink="/FEATURES">FEATURES</a>
+    <a routerLink="/GALLERY">GALLERY</a>
+    <a routerLink="/ABOUT">ABOUT</a>
+    <a routerLink="/service">CONTACT</a>
+  </div>
 </header>
-
-
 
 <div class="login-container">
   <mat-card class="login-card">
-    <h2 class="login-title">{{ isLoginMode ? 'Login' : 'Signup' }}</h2>
+    <h2 class="login-title">{{ isLoginMode ? "Login" : "Signup" }}</h2>
 
     <!-- Signup Mode -->
     <ng-container *ngIf="!isLoginMode">
@@ -82,12 +78,21 @@
       </mat-form-field>
     </ng-container>
 
-    <button mat-raised-button color="primary" class="full-width" (click)="onSubmit()">
-      {{ isLoginMode ? 'Login' : 'Signup' }}
+    <button
+      mat-raised-button
+      color="primary"
+      class="full-width"
+      (click)="onSubmit()"
+    >
+      {{ isLoginMode ? "Login" : "Signup" }}
     </button>
 
     <p class="toggle" (click)="toggleMode()">
-      {{ isLoginMode ? "Don't have an account? Signup" : "Already have an account? Login" }}
+      {{
+        isLoginMode
+          ? "Don't have an account? Signup"
+          : "Already have an account? Login"
+      }}
     </p>
 
     <p class="message">{{ message }}</p>

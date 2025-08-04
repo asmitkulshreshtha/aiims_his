@@ -6,41 +6,45 @@
       <div class="info-grid enhanced-info-grid">
         <div class="info-row">
           <strong>Patient Name:</strong>
-          <span>{{ patient.name }}</span>
+          <span>{{ patient?.name }}</span>
         </div>
+
         <div class="info-row">
           <strong>CR Number:</strong>
-          <span>{{ patient.cr_number }}</span>
+          <span>{{ patient?.crNumber }}</span>
         </div>
 
         <div class="info-row">
           <strong>Gender:</strong>
-          <span>{{ patient.gender }}</span>
+          <span>{{ patient?.gender }}</span>
         </div>
 
         <div class="info-row">
           <strong>Age:</strong>
-          <span>{{ patient.age }}</span>
+          <span>{{ patient?.age }}</span>
         </div>
 
         <div class="info-row">
-          <strong>Category:</strong>
-          <span>{{ patient.category }}</span>
+          <strong>Guardian Name:</strong>
+          <span>{{ patient?.guardianName }}</span>
         </div>
 
         <div class="info-row">
           <strong>Department:</strong>
-          <span>{{ patient.department }}</span>
+          <span>{{ patient?.department }}</span>
         </div>
 
         <div class="info-row">
           <strong>Room:</strong>
-          <span>{{ patient.room }}</span>
+          <span>{{ patient?.room }}</span>
         </div>
-
         <div class="info-row">
-          <strong>Visit Date Time:</strong>
-          <span>{{ patient.visitDate | date: 'medium' }}</span>
+          <strong>Visit Date:</strong>
+          <span>{{ patient?.createdAt | date : "dd/MM/yyyy" }}</span>
+        </div>
+        <div class="info-row">
+          <strong>Visit Time:</strong>
+          <span>{{ patient?.createdAt | date : "hh:mm:ss a" }}</span>
         </div>
       </div>
     </div>
@@ -48,7 +52,6 @@
     <div class="section">
       <h3 class="section-title">🚑 Triage & Emergency Info</h3>
       <form [formGroup]="triageForm" class="form-grid">
-
         <!-- Emergency Type -->
         <mat-form-field appearance="outline">
           <mat-label>Emergency Type</mat-label>
@@ -56,18 +59,6 @@
             <mat-option value="TRAUMA">TRAUMA</mat-option>
             <mat-option value="NON-TRAUMA">NON-TRAUMA</mat-option>
           </mat-select>
-        </mat-form-field>
-
-        <!-- Date -->
-        <mat-form-field appearance="outline">
-          <mat-label>Date</mat-label>
-          <input matInput formControlName="date" type="date" />
-        </mat-form-field>
-
-        <!-- Time -->
-        <mat-form-field appearance="outline">
-          <mat-label>Time</mat-label>
-          <input matInput formControlName="time" type="time" />
         </mat-form-field>
 
         <!-- BP -->
@@ -136,8 +127,13 @@
   </div>
 
   <mat-card-actions class="button-row">
-    <button mat-raised-button color="primary" (click)="saveTriageInfo()" [disabled]="isSubmitting">
-      {{ isSubmitting ? 'Saving...' : 'Save' }}
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="saveTriageInfo()"
+      [disabled]="isSubmitting"
+    >
+      {{ isSubmitting ? "Saving..." : "Save" }}
     </button>
     <button mat-raised-button color="warn" (click)="clearForm()">Clear</button>
     <button mat-raised-button (click)="cancel()">Cancel</button>
@@ -147,5 +143,7 @@
 <!-- Fallback if patient is not found -->
 <div *ngIf="!patient" class="no-patient">
   <p>Patient not found.</p>
-  <button mat-raised-button color="primary" (click)="cancel()">Back to List</button>
+  <button mat-raised-button color="primary" (click)="cancel()">
+    Back to List
+  </button>
 </div>

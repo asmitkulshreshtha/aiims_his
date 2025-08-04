@@ -67,3 +67,22 @@ td {
   font-size: 14px;
   border-bottom: 1px solid #e0e0e0;
 }
+.triage-red {
+  color: red;
+  font-weight: bold;
+}
+
+.triage-yellow {
+  color: goldenrod;;
+  font-weight: bold;
+}
+
+.triage-green {
+  color: green;
+  font-weight: bold;
+}
+
+.triage-black {
+  color: black;
+  font-weight: bold;
+}

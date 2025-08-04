@@ -19,12 +19,6 @@
   margin-bottom: 24px;
 }
 
-.sub-heading {
-  color: #2a3f54;
-  font-size: 20px;
-  margin-bottom: 16px;
-}
-
 .radio-group {
   display: flex;
   gap: 16px;
@@ -48,4 +42,51 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.header_togglebtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sub-heading {
+  font-size: 1.3rem;
+  color: #444;
+}
+
+/* ✅ Grid layout for 4-column assessment */
+.assessment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.assessment-item {
+  background: #f1f1f1;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.grid-3.user-header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+::ng-deep .custom-slide-toggle {
+  transform: scale(0.7);
+}
+
+::ng-deep .custom-slide-toggle .mdc-switch__track::after {
+  background: #cfa359 !important;
+}
+
+::ng-deep .mdc-switch--selected .mdc-switch__icon {
+  fill: #cfa359 !important;
 }

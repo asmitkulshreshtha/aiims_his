@@ -5,20 +5,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-service',
-  imports: [RouterModule, MaterialModule, HttpClientModule
-  ],
+  imports: [RouterModule, MaterialModule, HttpClientModule],
   templateUrl: './service.component.html',
-  styleUrl: './service.component.css'
+  styleUrl: './service.component.css',
 })
 export class ServiceComponent {
   isMenuOpen = false;
-     constructor(public router: Router) {}
-  
+  constructor(public router: Router) {}
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-    navigateTo(path: string) {
+  navigateTo(path: string) {
     this.router.navigate([path]);
   }
 }
