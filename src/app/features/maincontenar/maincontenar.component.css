@@ -27,3 +27,20 @@
 .main-content::-webkit-scrollbar {
   display: none;
 }
+@media (max-width: 768px) {
+  .layout-container {
+    flex-direction: column;
+    height: auto; 
+  }
+
+  .sidebar {
+    width: 100%;  
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .main-content {
+    padding: 12px; 
+  }
+}

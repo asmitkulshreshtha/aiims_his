@@ -7,7 +7,7 @@
   </div>
 
   <nav class="nav-bar" *ngIf="!isMenuOpen">
-    <span class="site-title">AIIMS Raipur DC Services</span>
+    <span class="site-title">AIIMS Raipur HIS</span>
     <div class="nav-links">
       <nav class="nav-links">
         <button (click)="navigateTo('/service')">Emergency</button>
@@ -29,25 +29,33 @@
 <section class="services-section">
   <h2>Our Services</h2>
   <div class="card-container">
-    <div class="service-card">
+    <div class="service-card" *ngIf="role === 'r' || role === 'd' || role === 'm'">
+      <div class="icon-placeholder">📚</div>
+      <h3>Patient Registration</h3>
+      <p>Quick and hassle-free patient registration.</p>
+      <a [routerLink]="['/patient-added']"><button>View</button></a>
+    </div>
+    <div class="service-card" *ngIf="role === 't' || role === 'd' || role === 'm'">
       <div class="icon-placeholder">🏥</div>
       <h3>Triage Entry Desk</h3>
       <p>First point of contact for emergency cases.</p>
-      <a [routerLink]="['/patient-added']"><button>View</button></a>
+      <a [routerLink]="['/triage-list']"><button>View</button></a>
     </div>
 
-    <div class="service-card">
+    <div class="service-card" *ngIf="role === 'd' || role === 'm'">
       <div class="icon-placeholder">📋</div>
       <h3>E D Desk</h3>
       <p>Emergency registrations and support.</p>
-      <a [routerLink]="['/patient-details']"><button>View</button></a>
+      <a [routerLink]="['/ed-desk/patient-details']"><button>View</button></a>
     </div>
 
-    <div class="service-card">
+    <div class="service-card" *ngIf="role === 'n' || role === 'd' || role === 'm'">
       <div class="icon-placeholder">🩺</div>
       <h3>Emergency Nursing Desk</h3>
       <p>24/7 nursing assistance and patient care.</p>
-      <a [routerLink]="['/nursing-desk']"><button>View</button></a>
+      <a [routerLink]="['/nursing-desk/patient-details']"
+        ><button>View</button></a
+      >
     </div>
   </div>
 </section>

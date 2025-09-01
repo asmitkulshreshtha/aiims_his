@@ -49,6 +49,7 @@
 }
 .activeSection{
   margin-top: 10px;
+  display: grid;
 }
 .allSaveButton{
   display: flex;
@@ -104,4 +105,13 @@
   transform: scale(1.2);
   z-index: 10;
   position: relative;
+}
+.Allergy-form{
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+.Allergy-fields{
+  width: 30%;
 }

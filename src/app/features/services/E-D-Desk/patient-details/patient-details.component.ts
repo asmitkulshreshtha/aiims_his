@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PatientService } from '../../../../api/patient.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '../../../header/header.component';
+import { MaterialModule } from '../../../../shared/material/material.module';
 
 @Component({
   selector: 'app-patient-details',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, MaterialModule],
   templateUrl: './patient-details.component.html',
   styleUrls: ['./patient-details.component.css'],
 })
@@ -17,40 +18,56 @@ export class PatientDetailsComponent implements OnInit {
   currentPage = 1;
   totalPages = 0;
   fullResponse: any;
-
-  constructor(public patientService: PatientService, public router: Router) {}
+  submittedBy = '';
+  deskType!: string;
+  constructor(
+    public patientService: PatientService,
+    public router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.getPatients();
+    this.deskType = this.route.snapshot.paramMap.get('deskType')!;
+    console.log('Desk Type:', this.deskType);
   }
 
   getPatients() {
     this.patientService.getPatientsWithTriage().subscribe(
       (response: any) => {
+        console.log('Patient data fetched:', response);
         this.fullResponse = response;
         this.patients = response.data;
+        this.submittedBy = response.submittedBy;
         this.totalRecords = response.totalRecords;
         this.currentPage = response.currentPage;
         this.totalPages = response.totalPages;
+        if (this.patients.length > 0) {
+          this.submittedBy = this.patients[0].submittedBy;
+        }
       },
+
       (error: any) => console.error('Error fetching patients', error)
     );
   }
 
-  getLatestTriage(triageList: any[]): string | null {
-    if (!triageList || triageList.length === 0) return null;
+  getLatestTriage(triageList: any[]) {
+    console.log('Triage List:', triageList);
+    console.log('Type of Triage List:', typeof triageList);
 
-    const sorted = triageList
-      .filter((t) => t.triage)
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+    if (!triageList || triageList.length === 0) return 'Pending';
 
-    return sorted.length > 0 ? sorted[0].triage : null;
+    const sortedList = [...triageList].sort(
+      (a, b) =>
+        new Date(b.triageTimeStamp).getTime() -
+        new Date(a.triageTimeStamp).getTime()
+    );
+
+    const latest = sortedList[0];
+    return latest.triage || 'Pending';
   }
 
-  getTriageColorClass(triage: string | null): string {
+  getTriageColorClass(triage: string | null) {
     if (!triage) return 'triage-default';
 
     switch (triage.toLowerCase()) {
@@ -61,12 +78,55 @@ export class PatientDetailsComponent implements OnInit {
       case 'red':
         return 'triage-red';
       default:
-        return 'triage-default';
+        return 'triage-pending blinking';
+    }
+  }
+  getLatestEmergencyType(triages: any[]) {
+    if (!triages || triages.length === 0) return 'NON-TRAUMA';
+    return triages[triages.length - 1].emergencyType;
+  }
+  getAssessmentStatus(primaryAssessment: any) {
+    return primaryAssessment ? 'Completed' : 'Pending';
+  }
+
+  getDischargeStatus(dischargeSummary: any[]) {
+    return dischargeSummary && dischargeSummary.length > 0
+      ? 'Completed'
+      : 'Pending';
+  }
+
+  getStatusClass(status: string) {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return 'triage-green';
+      default:
+        return 'triage-pending blinking';
     }
   }
 
   viewDetails(patient: any) {
     console.log('Navigating to patient details:', patient.id);
-    this.router.navigate(['/patient-dashboard', patient.id]);
+    const triage = this.getLatestTriage(patient.patientTriage)
+    if (triage === 'Pending') {
+     return
+    }
+    this.router.navigate([
+      '/' + this.deskType + '/patient-dashboard',
+      patient.id,
+    ]);
+  }
+
+  editPatient(patient: any, event: Event) {
+    event.stopPropagation();
+    this.router.navigate(['/triage-entry-desk', patient.id], {
+      queryParams: { source: 'd', mode: 'e' },
+    });
+  }
+
+  deletePatient(patient: any, event: Event) {
+    event.stopPropagation();
+    if (confirm(`Are you sure you want to delete ${patient.name}?`)) {
+      console.log('Delete patient:', patient);
+    }
   }
 }

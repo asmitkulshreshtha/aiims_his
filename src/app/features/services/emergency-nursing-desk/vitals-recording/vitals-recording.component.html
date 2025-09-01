@@ -1,0 +1,76 @@
+<!-- Vitals Form -->
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>🩺 Record Vitals</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Weight (Kg)</mat-label>
+        <input matInput type="number" [(ngModel)]="vitalsData.weightKg" (input)="calculateBMI()">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Height (Cm)</mat-label>
+        <input matInput type="number" [(ngModel)]="vitalsData.heightCm" (input)="calculateBMI()">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>BMI</mat-label>
+        <input matInput type="number" [(ngModel)]="vitalsData.bmi" readonly>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline"><mat-label>Temp (°F)</mat-label><input matInput type="number" [(ngModel)]="vitalsData.temperature"></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Pulse Rate</mat-label><input matInput type="number" [(ngModel)]="vitalsData.pulseRate"></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Respiration</mat-label><input matInput type="number" [(ngModel)]="vitalsData.respiration"></mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline"><mat-label>Systolic BP</mat-label><input matInput type="number" [(ngModel)]="vitalsData.systolicBP"></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Diastolic BP</mat-label><input matInput type="number" [(ngModel)]="vitalsData.diastolicBP"></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Mean BP</mat-label><input matInput type="number" [(ngModel)]="vitalsData.meanBloodPressure"></mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline"><mat-label>Spo2</mat-label><input matInput type="number" [(ngModel)]="vitalsData.spo2"></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>RBS</mat-label><input matInput type="number" [(ngModel)]="vitalsData.rbs"></mat-form-field>
+      <mat-form-field appearance="outline" class="full-width"><mat-label>Allergies</mat-label><input matInput type="text" [(ngModel)]="vitalsData.allergies"></mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width"><mat-label>Time</mat-label><input matInput type="datetime-local" [(ngModel)]="vitalsData.time"></mat-form-field>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="saveVitals()">💾 Save Vitals</button>
+  </mat-card-actions>
+</mat-card>
+
+<!-- Vitals Saved Records -->
+<section *ngIf="vitalsRecords.length > 0">
+  <h3 class="sub-heading">Saved Vitals</h3>
+  <div *ngFor="let v of vitalsRecords" class="lft-card">
+    <div class="entry-header">
+       <div><strong>Nurse:</strong> {{ v?.submittedBy }}</div>
+      <div><strong>Designation:</strong> {{ v?.designation }}</div>
+      <div><strong>Date:</strong> {{ v.createdAt | date:'dd-MM-yyyy' }}</div>
+      <div><strong>Time:</strong> {{ v.createdAt | date:'shortTime' }}</div>
+      <mat-slide-toggle [(ngModel)]="v.showDetails" color="primary" class="custom-slide-toggle"></mat-slide-toggle>
+    </div>
+
+    <div class="cbc-grid" *ngIf="v.showDetails">
+      <div class="cbc-item"><strong>Weight:</strong> {{ v.weight }}</div>
+      <div class="cbc-item"><strong>Height:</strong> {{ v.height }}</div>
+      <div class="cbc-item"><strong>BMI:</strong> {{ v.bmi }}</div>
+      <div class="cbc-item"><strong>Temperature:</strong> {{ v.temperature }}</div>
+      <div class="cbc-item"><strong>Pulse Rate:</strong> {{ v.pulseRate }}</div>
+      <div class="cbc-item"><strong>Respiration:</strong> {{ v.respiration }}</div>
+      <div class="cbc-item"><strong>Systolic BP:</strong> {{ v.systolicBp }}</div>
+      <div class="cbc-item"><strong>Diastolic BP:</strong> {{ v.diastolicBp }}</div>
+      <div class="cbc-item"><strong>Mean BP:</strong> {{ v.meanBp }}</div>
+      <div class="cbc-item"><strong>Spo2:</strong> {{ v.spo2 }}</div>
+      <div class="cbc-item"><strong>RBS:</strong> {{ v.rbs }}</div>
+      <div class="cbc-item"><strong>Allergies:</strong> {{ v.allergies }}</div>
+    </div>
+  </div>
+</section>

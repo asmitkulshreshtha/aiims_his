@@ -1,100 +1,123 @@
-<header class="header">
-  <div class="header-top">
-    <div class="aiims-heading">
-      <span>अखिल भारतीय आयुर्विज्ञान संस्थान, रायपुर</span>
-      <span>All India Institute of Medical Sciences, Raipur</span>
-    </div>
-    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+<div class="auth-wrapper">
+  <div class="auth-cards">
+    <!-- Left Card (Brand / Image) -->
+    <mat-card class="brand-card">
+      <div class="brand-overlay"></div>
+      <div class="brand-content">
+        <img
+          src="../../../assets/aiimslogo.jpg"
+          alt="AIIMS Logo"
+          class="brand-logo"
+        />
+        <h1 class="brand-title">AIIMS Raipur HIS</h1>
+        <p class="brand-subtitle">Hospital Information System</p>
+
+        <ul class="brand-bullets">
+          <li>Secure Access</li>
+          <li>Role-based Modules</li>
+          <li>Paperless Workflow</li>
+        </ul>
+      </div>
+    </mat-card>
+
+    <!-- Right Card (Form: Login/Signup) -->
+    <mat-card class="form-card">
+      <div class="form-header">
+        <h2>{{ isLoginMode ? "Login" : "Signup" }}</h2>
+
+        <!-- Toggle Buttons (same function you already have) -->
+        <div class="mode-toggle">
+          <button
+            mat-button
+            [disabled]="isLoginMode"
+            (click)="isLoginMode = true"
+          >
+            Login
+          </button>
+          <button
+            mat-flat-button
+            color="primary"
+            [disabled]="!isLoginMode"
+            (click)="isLoginMode = false"
+          >
+            Signup
+          </button>
+        </div>
+      </div>
+
+      <!-- Signup -->
+      <ng-container *ngIf="!isLoginMode">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" (input)="onInput($event, 'name')" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" (input)="onInput($event, 'email')" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput type="tel" (input)="onInput($event, 'mobile')" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Designation</mat-label>
+          <mat-select (selectionChange)="onInput($event, 'designation')">
+            <mat-option value="Doctor">Doctor</mat-option>
+            <mat-option value="Triage-officer">Triage Officer</mat-option>
+            <mat-option value="Nursing-Staff">Nursing Staff</mat-option>
+            <mat-option value="Admin">Admin</mat-option>
+            <mat-option value="Registration-desk">Registration desk</mat-option>
+            <mat-option value="Master">Master</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            (input)="onInput($event, 'password')"
+          />
+        </mat-form-field>
+      </ng-container>
+
+      <!-- Login -->
+      <ng-container *ngIf="isLoginMode">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" (input)="onInput($event, 'email')" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            (input)="onInput($event, 'password')"
+          />
+        </mat-form-field>
+      </ng-container>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="action-btn"
+        (click)="onSubmit()"
+      >
+        {{ isLoginMode ? "Login" : "Signup" }}
+      </button>
+
+      <p class="switch" (click)="toggleMode()">
+        {{
+          isLoginMode
+            ? "Don't have an account? Signup"
+            : "Already have an account? Login"
+        }}
+      </p>
+
+      <p class="message" *ngIf="message">{{ message }}</p>
+    </mat-card>
   </div>
-
-  <!-- Desktop Navigation -->
-  <div class="nav-bar" *ngIf="!isMenuOpen">
-    <span class="site-title">AIIMS Raipur DC Services</span>
-    <div class="nav-links">
-      <a routerLink="/patient-added">Home</a>
-      <a routerLink="/patient-list">FEATURES</a>
-      <a routerLink="/patient-list">GALLERY</a>
-      <a routerLink="/patient-list">ABOUT US</a>
-      <a routerLink="/service">CONTACT</a>
-    </div>
-  </div>
-
-  <!-- Mobile Dropdown Menu -->
-  <div class="dropdown-menu" *ngIf="isMenuOpen">
-    <a routerLink="/Home">Home</a>
-    <a routerLink="/FEATURES">FEATURES</a>
-    <a routerLink="/GALLERY">GALLERY</a>
-    <a routerLink="/ABOUT">ABOUT</a>
-    <a routerLink="/service">CONTACT</a>
-  </div>
-</header>
-
-<div class="login-container">
-  <mat-card class="login-card">
-    <h2 class="login-title">{{ isLoginMode ? "Login" : "Signup" }}</h2>
-
-    <!-- Signup Mode -->
-    <ng-container *ngIf="!isLoginMode">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Name</mat-label>
-        <input matInput type="text" (input)="onInput($event, 'name')" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" (input)="onInput($event, 'email')" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Mobile Number</mat-label>
-        <input matInput type="tel" (input)="onInput($event, 'mobile')" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Designation</mat-label>
-        <mat-select (selectionChange)="onInput($event, 'designation')">
-          <mat-option value="Doctor">Doctor</mat-option>
-          <mat-option value="Nursing Staff">Nursing Staff</mat-option>
-          <mat-option value="Other">Other</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" (input)="onInput($event, 'password')" />
-      </mat-form-field>
-    </ng-container>
-
-    <!-- Login Mode -->
-    <ng-container *ngIf="isLoginMode">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" (input)="onInput($event, 'email')" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" (input)="onInput($event, 'password')" />
-      </mat-form-field>
-    </ng-container>
-
-    <button
-      mat-raised-button
-      color="primary"
-      class="full-width"
-      (click)="onSubmit()"
-    >
-      {{ isLoginMode ? "Login" : "Signup" }}
-    </button>
-
-    <p class="toggle" (click)="toggleMode()">
-      {{
-        isLoginMode
-          ? "Don't have an account? Signup"
-          : "Already have an account? Login"
-      }}
-    </p>
-
-    <p class="message">{{ message }}</p>
-  </mat-card>
 </div>

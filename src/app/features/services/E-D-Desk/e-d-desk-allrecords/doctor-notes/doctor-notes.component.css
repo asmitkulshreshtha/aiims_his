@@ -27,6 +27,7 @@
   color: #2a3f54;
   font-size: 20px;
   margin-bottom: 16px;
+  text-align: center;
 }
 
 .section {
@@ -79,10 +80,10 @@
 }
 
 .grid-vitals {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 0.5rem;
+display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    justify-content: center;
 }
 
 .vital-field {
@@ -122,4 +123,10 @@
   grid-template-columns: repeat(5, auto);
   gap: 10px;
   margin-bottom: 10px;
+}
+::ng-deep .Conditional-Display .mat-mdc-form-field {
+    width: 100%;
+}
+.vitals-column{
+  display: grid;
 }

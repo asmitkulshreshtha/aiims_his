@@ -6,6 +6,7 @@ import { TemplateService } from '../../../../../api/template.service';
 import { AuthService } from '../../../../../api/auth.service';
 import { PatientService } from '../../../../../api/patient.service';
 import { Console } from 'console';
+import { FileService } from '../../../../../api/file.service';
 @Component({
   selector: 'app-discharge',
   standalone: true,
@@ -54,7 +55,7 @@ export class DischargeComponent {
     respiratory_rate: '',
     spo2: '',
     pain_score: '',
-    gcs: '',
+    gcs: 0,
     discharge_advice: '',
   };
   dischargeSummaries: any[] = [];
@@ -76,7 +77,8 @@ export class DischargeComponent {
     private route: ActivatedRoute,
     public templateService: TemplateService,
     public authService: AuthService,
-    public patientService: PatientService
+    public patientService: PatientService,
+    private fileService: FileService
   ) {}
 
   ngOnInit() {
@@ -230,16 +232,12 @@ export class DischargeComponent {
   }
 
   getLamaConsent(patientId: number = this.patientId) {
-    // if (patientId) {
-    //   console.warn('❗ Patient ID missing for LAMA fetch');
-    //   return;
-    // }
     console.log('Fetching LAMA Consent for patient ID:', patientId);
     this.templateService.getLamaConsent(this.patientId).subscribe({
       next: (res: any) => {
         console.log('📦 LAMA API response:', res);
 
-        const latestConsent = res.data?.[res.data.length - 1]; 
+        const latestConsent = res.data?.[res.data.length - 1];
         if (latestConsent) {
           console.log('Latest LAMA Consent:', latestConsent);
           this.lama = {
@@ -260,5 +258,61 @@ export class DischargeComponent {
 
   closeImageModal(): void {
     this.modalImage = null;
+  }
+
+  fullscreenImageUrl: string | null = null;
+
+  // Open fullscreen for ECG or Gas image
+  openFullScreen(imageUrl: string) {
+    this.fullscreenImageUrl = imageUrl;
+  }
+
+  closeFullScreen() {
+    this.fullscreenImageUrl = null;
+  }
+
+  toggleImage(item: any, imageKey: string) {
+    if (item.showImage) {
+      item.showImage = false;
+      return;
+    }
+
+    if (item.image_blobUrl) {
+      item.showImage = true;
+      return;
+    }
+
+    console.log('Fetching image for:', item);
+
+    const fileName = item[imageKey];
+    if (!fileName) {
+      console.error('❌ Invalid file URL');
+      return;
+    }
+
+    this.fileService.getfile(fileName).subscribe({
+      next: (blob: Blob) => {
+        const objectUrl = URL.createObjectURL(blob);
+        item.image_blobUrl = objectUrl;
+        item.showImage = true;
+      },
+      error: (err) => {
+        console.error('❌ Error fetching file:', err);
+        item.showImage = false;
+      },
+    });
+  }
+
+  isValidBP(bp: string): boolean {
+    if (!bp) return false;
+    const regex = /^[0-9]{2,3}\/[0-9]{2,3}$/;
+    return regex.test(bp);
+  }
+  get respRateNum(): number {
+    return Number(this.discharge?.respiratory_rate);
+  }
+
+  get spo2Num(): number {
+    return Number(this.discharge?.spo2);
   }
 }

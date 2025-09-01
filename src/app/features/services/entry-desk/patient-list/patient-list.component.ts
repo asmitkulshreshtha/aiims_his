@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { PatientService } from '../../../../api/patient.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from '../../../header/header.component';
-
+import { AuthService } from '../../../../api/auth.service';
 @Component({
   selector: 'app-patient-list',
   standalone: true,
@@ -21,14 +21,15 @@ import { HeaderComponent } from '../../../header/header.component';
   styleUrls: ['./patient-list.component.css'],
 })
 export class PatientListComponent implements OnInit {
+  role: string | null = null;
   displayedColumns: string[] = [
     'name',
     'crNumber',
     'gender',
     'age',
-    'category',
-    'department',
-    'room',
+    // 'category',
+    // 'department',
+    // 'room',
     'visitDate',
     'visitTime',
   ];
@@ -36,9 +37,11 @@ export class PatientListComponent implements OnInit {
   patients: any[] = [];
   isMenuOpen = false;
 
-  constructor(public patientService: PatientService, public router: Router) {}
+  constructor(public patientService: PatientService, public router: Router, public authService: AuthService) {}
 
   ngOnInit() {
+    this.role = this.authService.role;
+    console.log('User Role:', this.role);
     this.patientService.getPatients().subscribe(
       (response: any) => {
         this.patients = response.data; // Use only the 'data' array from response

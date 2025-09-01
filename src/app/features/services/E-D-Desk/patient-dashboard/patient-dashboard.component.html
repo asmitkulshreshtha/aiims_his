@@ -42,49 +42,65 @@
           class="mat-elevation-z1"
           multiTemplateDataRows
         >
-         <ng-container matColumnDef="date">
+          <!-- Date -->
+          <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef>Date</th>
             <td mat-cell *matCellDef="let triage">
               {{ triage?.createdAt | date : "dd/MM/yyyy" }}
             </td>
           </ng-container>
 
+          <!-- Time -->
           <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef>Time</th>
             <td mat-cell *matCellDef="let triage">
               {{ triage?.createdAt | date : "hh:mm:ss a" }}
             </td>
           </ng-container>
+
+          <!-- Status -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef>Status</th>
             <td mat-cell *matCellDef="let triage">{{ triage?.status }}</td>
           </ng-container>
 
+          <!-- SpO2 -->
           <ng-container matColumnDef="spo2">
             <th mat-header-cell *matHeaderCellDef>SpO₂</th>
             <td mat-cell *matCellDef="let triage">{{ triage?.spo2 }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="hr">
-            <th mat-header-cell *matHeaderCellDef>HR</th>
-            <td mat-cell *matCellDef="let triage">{{ triage?.hr }}</td>
+          <!-- Pulse -->
+          <ng-container matColumnDef="pulse">
+            <th mat-header-cell *matHeaderCellDef>Pulse</th>
+            <td mat-cell *matCellDef="let triage">{{ triage?.pulse }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="bp">
-            <th mat-header-cell *matHeaderCellDef>BP</th>
-            <td mat-cell *matCellDef="let triage">{{ triage?.bp }}</td>
+          <!-- SBP -->
+          <ng-container matColumnDef="sbp">
+            <th mat-header-cell *matHeaderCellDef>SBP</th>
+            <td mat-cell *matCellDef="let triage">{{ triage?.sbp }}</td>
           </ng-container>
 
+          <!-- DBP -->
+          <ng-container matColumnDef="dbp">
+            <th mat-header-cell *matHeaderCellDef>DBP</th>
+            <td mat-cell *matCellDef="let triage">{{ triage?.dbp }}</td>
+          </ng-container>
+
+          <!-- RR -->
           <ng-container matColumnDef="rr">
             <th mat-header-cell *matHeaderCellDef>RR</th>
             <td mat-cell *matCellDef="let triage">{{ triage?.rr }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="rbs">
-            <th mat-header-cell *matHeaderCellDef>RBS</th>
-            <td mat-cell *matCellDef="let triage">{{ triage?.rbs }}</td>
+          <!-- Temp -->
+          <ng-container matColumnDef="temp">
+            <th mat-header-cell *matHeaderCellDef>Temp</th>
+            <td mat-cell *matCellDef="let triage">{{ triage?.temp }}</td>
           </ng-container>
 
+          <!-- Emergency Type -->
           <ng-container matColumnDef="emergencyType">
             <th mat-header-cell *matHeaderCellDef>Emergency Type</th>
             <td mat-cell *matCellDef="let triage">
@@ -92,19 +108,37 @@
             </td>
           </ng-container>
 
-            <ng-container matColumnDef="triage">
-              <th mat-header-cell *matHeaderCellDef>Triage</th>
-              <td mat-cell *matCellDef="let triage">
-                <span [ngClass]="getTriageColorClass(triage?.triage)">
-                  {{ triage?.triage }}
-                </span>
-              </td>
-            </ng-container>
-          <ng-container matColumnDef="triageNotes">
-            <th mat-header-cell *matHeaderCellDef>Notes</th>
-            <td mat-cell *matCellDef="let triage">{{ triage?.triageNotes }}</td>
+          <!-- Triage -->
+          <ng-container matColumnDef="triage">
+            <th mat-header-cell *matHeaderCellDef>Triage</th>
+            <td mat-cell *matCellDef="let triage">
+              <span [ngClass]="getTriageColorClass(triage?.triage)">
+                {{ triage?.triage }}
+              </span>
+            </td>
           </ng-container>
 
+          <!-- Complaints -->
+          <ng-container matColumnDef="complaints">
+            <th mat-header-cell *matHeaderCellDef>Complaints</th>
+            <td mat-cell *matCellDef="let triage">
+              {{ getComplaints(triage?.complaints) }}
+            </td>
+          </ng-container>
+
+          <!-- Submitted By -->
+          <ng-container matColumnDef="submittedBy">
+            <th mat-header-cell *matHeaderCellDef>Submitted By</th>
+            <td mat-cell *matCellDef="let triage">{{ triage?.submittedBy }}</td>
+          </ng-container>
+
+          <!-- Designation -->
+          <ng-container matColumnDef="designation">
+            <th mat-header-cell *matHeaderCellDef>Designation</th>
+            <td mat-cell *matCellDef="let triage">{{ triage?.designation }}</td>
+          </ng-container>
+
+          <!-- Header & Row -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>

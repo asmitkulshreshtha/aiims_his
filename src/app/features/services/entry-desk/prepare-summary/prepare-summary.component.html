@@ -14,10 +14,8 @@
           <div class="patient-info">
             <p><strong>Age:</strong> {{ patient.age }}</p>
             <p><strong>Guardian Name:</strong> {{ patient?.guardianName }}</p>
-            <p><strong>Department:</strong> {{ patient?.department }}</p>
           </div>
           <div class="patient-info">
-            <p><strong>Room:</strong> {{ patient.room }}</p>
             <p>
               <strong>Visit Date:</strong>
               {{ patient?.createdAt | date : "dd/MM/yyyy" }}

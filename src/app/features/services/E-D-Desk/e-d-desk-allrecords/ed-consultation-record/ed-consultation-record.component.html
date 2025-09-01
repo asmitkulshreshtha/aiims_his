@@ -1,0 +1,87 @@
+<section class="section">
+  <h3 class="sub-heading">ED Consultation Record</h3>
+
+  <div class="form-grid">
+    <div class="form-row">
+        <!-- Call Given To -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Call Given To</mat-label>
+          <mat-select [(ngModel)]="callGivenTo" name="callGivenTo">
+            <mat-option *ngFor="let person of callGivenOptions" [value]="person">
+              {{ person }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <!-- Call Responded At -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Call Responded At</mat-label>
+          <input matInput type="datetime-local" [(ngModel)]="callRespondedAt" name="callRespondedAt" />
+        </mat-form-field>
+    
+        <!-- Consultant Name -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Consultant/Sr/Jr Name</mat-label>
+          <input matInput [(ngModel)]="consultantName" name="consultantName" />
+        </mat-form-field>
+    
+        <!-- Department -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Department</mat-label>
+          <mat-select [(ngModel)]="department" name="department">
+            <mat-option *ngFor="let dept of departments" [value]="dept">
+              {{ dept }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <!-- Call Seen At -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Call Seen At (Date/Time)</mat-label>
+          <input matInput type="datetime-local" [(ngModel)]="callSeenAt" name="callSeenAt" />
+        </mat-form-field>
+    </div>
+
+    <!-- Disposition Plan -->
+    <div class="disposition-box">
+      <h4>Disposition Plan After Consultation</h4>
+      <mat-checkbox [(ngModel)]="admitting" name="admitting">Admitting</mat-checkbox>
+      <mat-checkbox [(ngModel)]="noBedsAvailable" name="noBedsAvailable">No Beds Available</mat-checkbox>
+      <mat-checkbox [(ngModel)]="observation" name="observation">Observation</mat-checkbox>
+      <mat-checkbox [(ngModel)]="crossReferral" name="crossReferral">Cross Referral</mat-checkbox>
+      <mat-checkbox [(ngModel)]="willReview" name="willReview">Will Review Again</mat-checkbox>
+      <mat-checkbox [(ngModel)]="discharge" name="discharge">Discharge</mat-checkbox>
+    </div>
+
+    <!-- Routes (from notes: IV, oral, per rectal, through RT, SC, etc.) -->
+    <div class="routes-box">
+      <h4>Route of Administration</h4>
+      <mat-checkbox [(ngModel)]="iv" name="iv">I/V</mat-checkbox>
+      <mat-checkbox [(ngModel)]="oral" name="oral">Oral</mat-checkbox>
+      <mat-checkbox [(ngModel)]="pr" name="pr">Per Rectal</mat-checkbox>
+      <mat-checkbox [(ngModel)]="rt" name="rt">Through RT</mat-checkbox>
+      <mat-checkbox [(ngModel)]="id" name="id">I/D</mat-checkbox>
+      <mat-checkbox [(ngModel)]="sc" name="sc">S/C</mat-checkbox>
+    </div>
+
+    <!-- Frequencies (stat, OD, BD, TDS, QID) -->
+    <div class="frequency-box">
+      <h4>Frequency</h4>
+      <mat-checkbox [(ngModel)]="stat" name="stat">Stat</mat-checkbox>
+      <mat-checkbox [(ngModel)]="od" name="od">OD</mat-checkbox>
+      <mat-checkbox [(ngModel)]="bd" name="bd">BD</mat-checkbox>
+      <mat-checkbox [(ngModel)]="tds" name="tds">TDS</mat-checkbox>
+      <mat-checkbox [(ngModel)]="qid" name="qid">QID</mat-checkbox>
+    </div>
+ <div>
+     <!-- Special Instructions -->
+     <mat-form-field appearance="outline" class="form-field full-width">
+       <mat-label>Special Instructions</mat-label>
+       <textarea matInput rows="3" [(ngModel)]="specialInstructions" name="specialInstructions"></textarea>
+     </mat-form-field>
+ </div>
+  </div>
+<div class="button-container">
+    <button mat-raised-button color="primary" (click)="saveConsultation()">Save</button>
+</div>
+</section>

@@ -36,8 +36,6 @@ export class PatientAddedComponent implements OnInit {
       age: ['', [Validators.required, Validators.min(0)]],
       guardianType: ['Father', Validators.required],
       guardianName: ['', Validators.required],
-      department: ['', Validators.required],
-      room: ['', Validators.required],
       visitDate: [currentDate, Validators.required],
       visitTime: [currentTime, Validators.required],
     });
@@ -59,7 +57,7 @@ export class PatientAddedComponent implements OnInit {
         (response) => {
           console.log('✅ Patient added successfully', response);
           this.successMessage = '✅ Patient added successfully!';
-          setTimeout(() => this.router.navigateByUrl('/patient-list'), 1000);
+          setTimeout(() => this.router.navigateByUrl('/registration-list'), 1000);
         },
         (error) => {
           console.error('❌ Error adding patient', error);

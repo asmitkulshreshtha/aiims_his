@@ -30,83 +30,109 @@
   </div>
 
   <!-- Conditional Display -->
-  <div class="grid-2">
-    <mat-form-field appearance="outline" class="form-field">
+  <div class="Conditional-Display">
+    <mat-form-field appearance="outline">
       <mat-label>Chief Complains</mat-label>
-      <input matInput type="text" [(ngModel)]="chief_complains" />
+      <textarea matInput type="text" [(ngModel)]="chief_complains"></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>History of Present Illness</mat-label>
-      <input matInput type="text" [(ngModel)]="history_of_present_illness" />
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="history_of_present_illness"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Review of Symptoms</mat-label>
-      <input matInput type="text" [(ngModel)]="review_of_symptoms" />
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="review_of_symptoms"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Progression of Symptoms</mat-label>
-      <input matInput type="text" [(ngModel)]="progression_of_symptoms" />
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="progression_of_symptoms"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Why Today</mat-label>
-      <input matInput type="text" [(ngModel)]="why_today" />
+      <textarea matInput type="text" [(ngModel)]="why_today"></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>General Physical Examination</mat-label>
-      <input matInput type="text" [(ngModel)]="general_physical_examination" />
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="general_physical_examination"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Systemic Examination</mat-label>
-      <input matInput type="text" [(ngModel)]="systemic_examination" />
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="systemic_examination"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Relevant Investigation Findings</mat-label>
-      <input
+      <textarea
         matInput
         type="text"
         [(ngModel)]="relevant_investigation_findings"
-      />
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Provisional Dx Differentials</mat-label>
-      <input matInput type="text" [(ngModel)]="provisional_dx_differentials" />
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="provisional_dx_differentials"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Further Management Plan</mat-label>
-      <input
+      <textarea
         matInput
         type="text"
         [(ngModel)]="emergency_further_management_plan"
-      />
+      ></textarea>
     </mat-form-field>
   </div>
 </section>
 
 <!-- Progress Note -->
 <section class="section" *ngIf="selectedTemplate === 'progress'">
-  <div class="toggle-header">
-    <h3 class="sub-heading">Progress Note</h3>
-  </div>
+  <h3 class="sub-heading">Progress Note</h3>
 
   <!-- General Info -->
-  <div class="grid-2">
+  <div class="Conditional-Display">
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Provisional Diagnosis</mat-label>
-      <input matInput type="text" [(ngModel)]="provisional_diagnosis" />
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="provisional_diagnosis"
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Current Condition of the Patient</mat-label>
-      <input matInput type="text" [(ngModel)]="current_condition" />
+      <textarea matInput type="text" [(ngModel)]="current_condition"></textarea>
     </mat-form-field>
   </div>
 
@@ -114,59 +140,134 @@
   <div style="margin-top: 1rem">
     <h4 class="sub-heading">Vitals</h4>
     <div class="grid-vitals">
-      <mat-form-field appearance="outline" class="vital-field">
-        <mat-label>Pulse(/min)</mat-label>
-        <input matInput type="number" [(ngModel)]="pulse" />
-      </mat-form-field>
+      <div class="vitals-column">
+        <!-- Pulse Field -->
+        <mat-form-field appearance="outline" class="vital-field">
+          <mat-label>Pulse (/min)</mat-label>
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="pulse"
+            name="pulse"
+            required
+            min="0"
+            max="300"
+            #pulseCtrl="ngModel"
+          />
 
-      <mat-form-field appearance="outline" class="vital-field">
-        <mat-label>Blood Pressure(mmgh)</mat-label>
-        <input matInput type="text" [(ngModel)]="blood_pressure" />
-      </mat-form-field>
+          <mat-error *ngIf="pulseCtrl.hasError('min')">
+            Pulse must be at least 0
+          </mat-error>
+          <mat-error *ngIf="pulseCtrl.hasError('max')">
+            Pulse cannot be more than 300
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="vital-field">
-        <mat-label>RR(/min)</mat-label>
-        <input matInput type="number" [(ngModel)]="rr" />
-      </mat-form-field>
+        <!-- Blood Pressure Field -->
+        <mat-form-field appearance="outline" class="vital-field">
+          <mat-label>Blood Pressure (mmHg)</mat-label>
+          <input
+            matInput
+            type="text"
+            [(ngModel)]="blood_pressure"
+            name="bp"
+            required
+            pattern="^\d{2,3}\/\d{2,3}$"
+            #bpCtrl="ngModel"
+          />
+          <mat-error *ngIf="bpCtrl.hasError('pattern')">
+            Enter valid BP (e.g. 120/80)
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="vitals-column">
+        <!-- RR -->
+        <mat-form-field appearance="outline" class="vital-field">
+          <mat-label>RR(/min)</mat-label>
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="rr"
+            name="rr"
+            required
+            min="0"
+            max="80"
+            #rrCtrl="ngModel"
+          />
+          <mat-error *ngIf="rrCtrl.hasError('min') || rrCtrl.hasError('max')">
+            RR must be between 0 and 80
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="vital-field">
-        <mat-label>SpO₂(%)</mat-label>
-        <input matInput type="number" [(ngModel)]="spo2" />
-      </mat-form-field>
+        <!-- SpO₂ -->
+        <mat-form-field appearance="outline" class="vital-field">
+          <mat-label>SpO₂(%)</mat-label>
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="spo2"
+            name="spo2"
+            required
+            min="0"
+            max="100"
+            #spo2Ctrl="ngModel"
+          />
+          <mat-error
+            *ngIf="spo2Ctrl.hasError('min') || spo2Ctrl.hasError('max')"
+          >
+            SpO₂ must be between 0 and 100
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="vitals-column">
+        <mat-form-field appearance="outline" class="vital-field">
+          <mat-label>GCS (EVM)</mat-label>
+          <input matInput type="number" [(ngModel)]="gcs" min="0" max="15" />
+          <mat-error *ngIf="gcs != null && (gcs < 3 || gcs > 15)">
+            Value must be between 3 and 15
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="vital-field">
-        <mat-label>Pain Score</mat-label>
-        <input matInput type="number" [(ngModel)]="pain_score" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="vital-field">
-        <mat-label>GCS(EVM)</mat-label>
-        <input matInput type="number" [(ngModel)]="gcs" />
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="vital-field">
+          <mat-label>Pain Score</mat-label>
+          <input
+            matInput
+            type="number"
+            [(ngModel)]="pain_score"
+            min="0"
+            max="10"
+          />
+          <mat-error
+            *ngIf="pain_score != null && (pain_score < 1 || pain_score > 10)"
+          >
+            Value must be between 1 and 10
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </div>
 
   <!-- Relevant Reports Section -->
   <div style="margin-top: 1.5rem">
     <h4 class="sub-heading">Relevant Reports of Investigation</h4>
-    <div class="grid-2">
+    <div class="Conditional-Display">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Blood Test</mat-label>
-        <input matInput type="text" [(ngModel)]="blood_test" />
+        <textarea matInput type="text" [(ngModel)]="blood_test"></textarea>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Imaging</mat-label>
-        <input matInput type="text" [(ngModel)]="imaging" />
+        <textarea matInput type="text" [(ngModel)]="imaging"></textarea>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field full-width">
         <mat-label>Further Management Plan</mat-label>
-        <input
+        <textarea
           matInput
           type="text"
           [(ngModel)]="progress_further_management_plan"
-        />
+        ></textarea>
       </mat-form-field>
     </div>
   </div>
@@ -433,17 +534,22 @@
 </section>
 
 <!-- Emergency Case Details -->
-<section class="section">
+<section class="section" *ngIf="emergencyNotes.length > 0">
   <h3 class="sub-heading">Emergency Case Details</h3>
 
   <div *ngFor="let note of emergencyNotes" class="doctor-entry">
     <div class="grid-3 user-header">
-      <div><strong>Doctor Name:</strong> {{ note?.submittedBy }}</div>
-      <div><strong>Designation:</strong> {{ note?.designation }}</div>
-      <div>
-        <strong>Date:</strong> {{ note?.createdAt | date : "dd-MM-yyyy" }}
+      <div *ngIf="note?.submittedBy">
+        <strong>Doctor Name:</strong> {{ note?.submittedBy }}
+      </div>
+      <div *ngIf="note?.designation">
+        <strong>Designation:</strong> {{ note?.designation }}
       </div>
       <div>
+        <strong *ngIf="note?.createdAt">Date:</strong>
+        {{ note?.createdAt | date : "dd-MM-yyyy" }}
+      </div>
+      <div *ngIf="note?.createdAt">
         <strong>Time:</strong> {{ note?.createdAt | date : "shortTime" }}
       </div>
       <mat-slide-toggle
@@ -455,43 +561,43 @@
     </div>
 
     <table class="mat-elevation-z2 full-width-table" *ngIf="note.showDetails">
-      <tr>
+      <tr *ngIf="note?.chief_complains">
         <th>Chief Complains</th>
         <td>{{ note?.chief_complains }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.history_of_present_illness">
         <th>History of Present Illness</th>
         <td>{{ note?.history_of_present_illness }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.review_of_symptoms">
         <th>Review of Symptoms</th>
         <td>{{ note?.review_of_symptoms }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.progression_of_symptoms">
         <th>Progression of Symptoms</th>
         <td>{{ note?.progression_of_symptoms }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.why_today">
         <th>Why Today</th>
         <td>{{ note?.why_today }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.general_physical_examination">
         <th>General Physical Examination</th>
         <td>{{ note?.general_physical_examination }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.systemic_examination">
         <th>Systemic Examination</th>
         <td>{{ note?.systemic_examination }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.relevant_investigation_findings">
         <th>Relevant Investigation Findings</th>
         <td>{{ note?.relevant_investigation_findings }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.provisional_dx_differentials">
         <th>Provisional Dx Differentials</th>
         <td>{{ note?.provisional_dx_differentials }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.emergency_further_management_plan">
         <th>Further Management Plan</th>
         <td>{{ note?.emergency_further_management_plan }}</td>
       </tr>
@@ -505,12 +611,16 @@
 
   <div *ngFor="let note of progressNotes" class="doctor-entry">
     <div class="grid-3 user-header">
-      <div><strong>Doctor Name:</strong> {{ note?.submittedBy }}</div>
-      <div><strong>Designation:</strong> {{ note?.designation }}</div>
-      <div>
+      <div *ngIf="note?.submittedBy">
+        <strong>Doctor Name:</strong> {{ note?.submittedBy }}
+      </div>
+      <div *ngIf="note?.designation">
+        <strong>Designation:</strong> {{ note?.designation }}
+      </div>
+      <div *ngIf="note?.createdAt">
         <strong>Date:</strong> {{ note.createdAt | date : "dd-MM-yyyy" }}
       </div>
-      <div>
+      <div *ngIf="note?.createdAt">
         <strong>Time:</strong> {{ note.createdAt | date : "shortTime" }}
       </div>
 
@@ -523,47 +633,47 @@
     </div>
 
     <table class="mat-elevation-z2 full-width-table" *ngIf="note.showDetails">
-      <tr>
+      <tr *ngIf="note?.provisional_diagnosis">
         <th>Provisional Diagnosis</th>
         <td>{{ note?.provisional_diagnosis }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.current_condition">
         <th>Current Condition</th>
         <td>{{ note?.current_condition }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.pulse">
         <th>Pulse (/min)</th>
         <td>{{ note?.pulse }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.blood_pressure">
         <th>Blood Pressure (mmHg)</th>
         <td>{{ note?.blood_pressure }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.rr">
         <th>RR (/min)</th>
         <td>{{ note?.rr }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.spo2">
         <th>SpO₂ (%)</th>
         <td>{{ note?.spo2 }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.pain_score">
         <th>Pain Score</th>
         <td>{{ note?.pain_score }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.gcs">
         <th>GCS (EVM)</th>
         <td>{{ note?.gcs }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.blood_test">
         <th>Blood Test</th>
         <td>{{ note?.blood_test }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.imaging">
         <th>Imaging</th>
         <td>{{ note?.imaging }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.progress_further_management_plan">
         <th>Further Management Plan</th>
         <td>{{ note?.progress_further_management_plan }}</td>
       </tr>
@@ -576,12 +686,16 @@
   <h3 class="sub-heading">Trauma Note Details</h3>
   <div *ngFor="let note of traumaNotes" class="doctor-entry">
     <div class="grid-3 user-header">
-      <div><strong>Doctor Name:</strong> {{ note?.submittedBy }}</div>
-      <div><strong>Designation:</strong> {{ note?.designation }}</div>
-      <div>
+      <div *ngIf="note?.submittedBy">
+        <strong>Doctor Name:</strong> {{ note?.submittedBy }}
+      </div>
+      <div *ngIf="note?.designation">
+        <strong>Designation:</strong> {{ note?.designation }}
+      </div>
+      <div *ngIf="note?.createdAt">
         <strong>Date:</strong> {{ note?.createdAt | date : "dd-MM-yyyy" }}
       </div>
-      <div>
+      <div *ngIf="note?.createdAt">
         <strong>Time:</strong> {{ note?.createdAt | date : "shortTime" }}
       </div>
       <mat-slide-toggle
@@ -592,7 +706,7 @@
     </div>
 
     <table class="mat-elevation-z2 full-width-table" *ngIf="note.showDetails">
-      <tr>
+      <tr *ngIf="note.aho">
         <th>A/H/O</th>
         <td>{{ note?.aho }}</td>
       </tr>
@@ -608,71 +722,71 @@
         <th>Time of Injury</th>
         <td>{{ note.time_of_injury }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.mechanism_of_injury">
         <th>Mechanism of Injury</th>
         <td>{{ note?.mechanism_of_injury }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.mlc_no">
         <th>MLC No.</th>
         <td>{{ note?.mlc_no }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.presenting_complaints">
         <th>Presenting Complaints</th>
         <td>{{ note?.presenting_complaints }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.loss_of_consciousness">
         <th>Loss of Consciousness</th>
         <td>{{ note?.loss_of_consciousness }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.ent_bleed">
         <th>ENT Bleed</th>
         <td>{{ note?.ent_bleed }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.amnesia">
         <th>Amnesia</th>
         <td>{{ note?.amnesia }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.seizures">
         <th>Seizures</th>
         <td>{{ note?.seizures }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.vomiting">
         <th>Vomiting</th>
         <td>{{ note?.vomiting }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.injury_identified">
         <th>Injury Identified</th>
         <td>{{ note?.injury_identified }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.allergy_history">
         <th>Allergy History</th>
         <td>{{ note?.allergy_history }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.medication_history">
         <th>Medication History</th>
         <td>{{ note?.medication_history }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.past_history">
         <th>Past History</th>
         <td>{{ note".past_history }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.lmp">
         <th>LMP</th>
         <td>{{ note?.lmp }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.upt">
         <th>UPT</th>
         <td>{{ note?.upt }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.last_meal">
         <th>Last Meal</th>
         <td>{{ note?.last_meal }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.prior_treatment">
         <th>Treatment Before AIIMS</th>
         <td>{{ note?.prior_treatment }}</td>
       </tr>
-      <tr>
+      <tr *ngIf="note?.treatment_plan">
         <th>Treatment Plan</th>
         <td>{{ note?.treatment_plan }}</td>
       </tr>

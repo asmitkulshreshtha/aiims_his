@@ -5,8 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class PatientReportService {
 
-    generatePatientReportHtml(data: any){
+     generatePatientReportHtml(data: any, baseUrl: string) {
     const patientName = data?.patientDetails?.name || 'Unknown';
+
+    // Define fields that contain image data
+    const imageFields = ['xrayImage', 'ecgImage', 'bloodGasImage', 'lamaConsentDocument'];
     let html = `
       <!DOCTYPE html>
       <html lang="en">
@@ -61,22 +64,28 @@ export class PatientReportService {
         </style>
       </head>
       <body>
-      <h1> Patient Report</h1>
-      `;
+      <h1>Patient Report</h1>
+    `;
+
+    // Helper function to format keys (unchanged)
     const formatKey = (key: string): string => {
       return key
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/_/g, ' ')
-        .replace(/^\w/, c => c.toUpperCase());
     };
 
     // Helper function to render a single object as a table
     const renderObject = (obj: any, title: string): string => {
       if (!obj || typeof obj !== 'object') return '';
       let tableHtml = `<div class="section"><h2>${title}</h2><table><tr><th>Field</th><th>Value</th></tr>`;
-      for (const [key, value] of Object?.entries(obj)) {
-        if (value !== null && value !== undefined && !Array?.isArray(value) && typeof value !== 'object') {
-          tableHtml += `<tr><td>${formatKey(key)}</td><td>${value}</td></tr>`;
+      for (const [key, value] of Object.entries(obj)) {
+        if (value !== null && value !== undefined && !Array.isArray(value) && typeof value !== 'object') {
+          if (imageFields.includes(key)) {
+            // Render image fields as <img> tags
+            // tableHtml += `<tr><td>${formatKey(key)}</td><td><img src="${baseUrl}/${value}" alt="${formatKey(key)}" style="max-width: 200px;"/></td></tr>`;
+            tableHtml += `<img src="${baseUrl}/${value}" alt="${formatKey(key)}" style="width: 100vw; height: auto;"/>`;
+          } else {
+            // Render non-image fields as text
+            tableHtml += `<tr><td>${formatKey(key)}</td><td>${value}</td></tr>`;
+          }
         }
       }
       tableHtml += '</table></div>';
@@ -85,7 +94,7 @@ export class PatientReportService {
 
     // Helper function to render an array of objects as a table
     const renderArray = (arr: any[], title: string): string => {
-      if (!arr || arr?.length === 0) return '';
+      if (!arr || arr.length === 0) return '';
       let tableHtml = `<div class="section"><h2>${title}</h2><table><tr>`;
      
       // Get headers from the first object, excluding specific fields
@@ -94,6 +103,10 @@ export class PatientReportService {
         !Array.isArray(arr[0][key]) && typeof arr[0][key] !== 'object'
       );
       headers.forEach(header => {
+        if (imageFields.includes(header)) {
+          // Skip image fields in headers
+          return;
+        }
         tableHtml += `<th>${formatKey(header)}</th>`;
       });
       tableHtml += '</tr>';
@@ -103,7 +116,15 @@ export class PatientReportService {
         tableHtml += '<tr>';
         headers.forEach(header => {
           const value = item[header] !== null && item[header] !== undefined ? item[header] : '-';
-          tableHtml += `<td>${value}</td>`;
+          if (imageFields.includes(header)) {
+            // Render image fields as <img> tags
+            // tableHtml += `<td><img src="${baseUrl}/${value}" alt="${formatKey(header)}" style="max-width: 200px;"/></td>`;
+               tableHtml += `<img src="${baseUrl}/${value}" alt="${formatKey(header)}" style="width: 100vw; height: auto;"/>`;
+
+          } else {
+            // Render non-image fields as text
+            tableHtml += `<td>${value}</td>`;
+          }
         });
         tableHtml += '</tr>';
       });
@@ -111,85 +132,64 @@ export class PatientReportService {
       return tableHtml;
     };
 
-    // Render patient details
+    // Render all sections
     if (data?.patientDetails) {
       html += renderObject(data?.patientDetails, 'Patient Details');
     }
-
-    // Render triage details
     if (data?.triageDetails) {
       html += renderArray(data?.triageDetails, 'Triage Details');
     }
-
-    // Render primary assessment
     if (data?.primaryAssesment) {
       html += renderObject(data?.primaryAssesment, 'Primary Assessment');
     }
-
-    // Render general emergency care
     if (data?.generalEmergencyCare) {
       html += renderObject(data?.generalEmergencyCare[0], 'General Emergency Care');
     }
-
-    // Render trauma templates
     if (data?.traumaTemplates) {
       html += renderObject(data?.traumaTemplates[0], 'Trauma Templates');
     }
-
-    // Render progress notes
     if (data?.progressNotes) {
       html += renderObject(data?.progressNotes[0], 'Progress Notes');
     }
-
-    // Render other tests
     if (data?.otherTests) {
       html += renderArray(data?.otherTests, 'Other Tests');
     }
-
-    // Render CT scans
     if (data?.ctScan) {
       html += renderArray(data?.ctScan, 'CT Scans');
     }
-
-    // Render X-rays
     if (data?.xray) {
       html += renderArray(data?.xray, 'X-rays');
     }
-
-    // Render POCUS
     if (data?.pocus) {
       html += renderArray(data?.pocus, 'POCUS');
     }
-
-    // Render ECG
     if (data?.ecg) {
       html += renderArray(data?.ecg, 'ECG');
     }
-
-    // Render blood gas
     if (data?.bloodGas) {
       html += renderArray(data?.bloodGas, 'Blood Gas');
     }
-
-    // Render troponin
     if (data?.troponin) {
       html += renderArray(data?.troponin, 'Troponin');
     }
-
-    // Handle null sections
-    const nullSections = ['dischargeSummary', 'transferOut', 'lamaConsent'];
-    nullSections.forEach(section => {
-      if (!data[section]) {
-        html += `<div class="section"><h2>${formatKey(section)}</h2><p>No data available</p></div>`;
-      }
-    });
-
+    // Render additional sections if data exists
+    if (data?.dischargeSummary) {
+      html += renderObject(data?.dischargeSummary, 'Discharge Summary');
+    }
+    if (data?.transferOut) {
+      html += renderObject(data?.transferOut, 'Transfer Out');
+    }
+    if (data?.lamaConsent) {
+      html += renderObject(data?.lamaConsent, 'Lama Consent');
+    }
+     if (data?.cbc) {
+      html += renderArray(data?.cbc, 'Complete Blood Count');
+    }
     html += `
-    <div class="footer">Prepared by: Yamini verma </div>
+      <div class="footer">Prepared by: Yamini Verma</div>
       </body>
       </html>
     `;
-
     return html;
   }
 }

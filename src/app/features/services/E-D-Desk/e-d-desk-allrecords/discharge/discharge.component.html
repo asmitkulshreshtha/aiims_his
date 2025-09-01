@@ -28,41 +28,59 @@
 <section class="section" *ngIf="selectedTemplate === 'transfer'">
   <h3 class="sub-heading">Transfer Out Slip</h3>
 
-  <div class="grid-form">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Name of the patient</mat-label>
-      <input matInput [(ngModel)]="transfer.name" readonly />
-    </mat-form-field>
+  <div>
+    <div class="transfer-container">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Name of the patient</mat-label>
+        <input matInput [(ngModel)]="transfer.name" readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Age</mat-label>
+        <input matInput [(ngModel)]="transfer.age" readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Sex</mat-label>
+        <input matInput [(ngModel)]="transfer.sex" readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Father’s/Husband Name</mat-label>
+        <input matInput [(ngModel)]="transfer.guardian_name" readonly />
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Age</mat-label>
-      <input matInput [(ngModel)]="transfer.age" readonly />
-    </mat-form-field>
+    <div>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Address</mat-label>
+        <textarea matInput [(ngModel)]="transfer.address" readonly></textarea>
+      </mat-form-field>
+    </div>
+    <div class="transfer-container">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Attended Date</mat-label>
+        <input
+          matInput
+          type="date"
+          [(ngModel)]="transfer.transfer_attended_date"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Attended Time</mat-label>
+        <input
+          matInput
+          type="time"
+          [(ngModel)]="transfer.transfer_attended_time"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Referred Date</mat-label>
+        <input matInput type="date" [(ngModel)]="transfer.referred_date" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Sex</mat-label>
-      <input matInput [(ngModel)]="transfer.sex" readonly />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Father’s/Husband Name</mat-label>
-      <input matInput [(ngModel)]="transfer.guardian_name" readonly />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Address</mat-label>
-      <textarea matInput [(ngModel)]="transfer.address" readonly></textarea>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Referred Date</mat-label>
-      <input matInput type="date" [(ngModel)]="transfer.referred_date" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Referred Time</mat-label>
-      <input matInput type="time" [(ngModel)]="transfer.referred_time" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Referred Time</mat-label>
+        <input matInput type="time" [(ngModel)]="transfer.referred_time" />
+      </mat-form-field>
+    </div>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Name of Facility</mat-label>
@@ -76,25 +94,6 @@
         [(ngModel)]="transfer.transfer_provisional_diagnosis"
       ></textarea>
     </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Attended Date</mat-label>
-      <input
-        matInput
-        type="date"
-        [(ngModel)]="transfer.transfer_attended_date"
-      />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Attended Time</mat-label>
-      <input
-        matInput
-        type="time"
-        [(ngModel)]="transfer.transfer_attended_time"
-      />
-    </mat-form-field>
-
     <mat-form-field appearance="outline" class="form-field full-width">
       <mat-label>Chief Complaints</mat-label>
       <textarea
@@ -103,34 +102,42 @@
         [(ngModel)]="transfer.chief_complaints"
       ></textarea>
     </mat-form-field>
+    <div class="transfer-container">
+      <mat-form-field appearance="outline" class="form-field full-width">
+        <mat-label>Reason for Referral</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="transfer.reason_for_referral"
+        ></textarea>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field full-width">
-      <mat-label>Reason for Referral</mat-label>
-      <textarea matInput [(ngModel)]="transfer.reason_for_referral"></textarea>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Condition at Referral</mat-label>
-      <mat-select [(ngModel)]="transfer.condition_at_referral">
-        <mat-option value="Stable">Stable</mat-option>
-        <mat-option value="Unstable">Unstable</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Condition at Referral</mat-label>
+        <mat-select [(ngModel)]="transfer.condition_at_referral">
+          <mat-option value="Stable">Stable</mat-option>
+          <mat-option value="Unstable">Unstable</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Treatment Received</mat-label>
       <textarea matInput [(ngModel)]="transfer.treatment_received"></textarea>
     </mat-form-field>
+    <div class="transfer-container">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Referring Physician</mat-label>
+        <input matInput [(ngModel)]="transfer.referring_physician_name" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Referring Physician</mat-label>
-      <input matInput [(ngModel)]="transfer.referring_physician_name" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Designation</mat-label>
-      <input matInput [(ngModel)]="transfer.referring_physician_designation" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Designation</mat-label>
+        <input
+          matInput
+          [(ngModel)]="transfer.referring_physician_designation"
+        />
+      </mat-form-field>
+    </div>
   </div>
 </section>
 
@@ -138,31 +145,32 @@
 <section class="section" *ngIf="selectedTemplate === 'discharge'">
   <h3 class="sub-heading">Discharge Summary</h3>
 
-  <div class="grid-form">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Name of the patient</mat-label>
-      <input matInput [(ngModel)]="discharge.name" readonly />
-    </mat-form-field>
+  <div>
+    <div class="transfer-container">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Name of the patient</mat-label>
+        <input matInput [(ngModel)]="discharge.name" readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Age</mat-label>
+        <input matInput [(ngModel)]="discharge.age" readonly />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Age</mat-label>
-      <input matInput [(ngModel)]="discharge.age" readonly />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Sex</mat-label>
-      <input matInput [(ngModel)]="discharge.sex" readonly />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Father’s/Husband Name</mat-label>
-      <input matInput [(ngModel)]="discharge.guardian_name" readonly />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="form-field full-width">
-      <mat-label>Address</mat-label>
-      <textarea matInput [(ngModel)]="discharge.address" readonly></textarea>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Sex</mat-label>
+        <input matInput [(ngModel)]="discharge.sex" readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Father’s/Husband Name</mat-label>
+        <input matInput [(ngModel)]="discharge.guardian_name" readonly />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline" class="form-field full-width">
+        <mat-label>Address</mat-label>
+        <textarea matInput [(ngModel)]="discharge.address" readonly></textarea>
+      </mat-form-field>
+    </div>
 
     <mat-form-field appearance="outline" class="form-field full-width">
       <mat-label>Brief Clinical Course</mat-label>
@@ -179,36 +187,93 @@
         [(ngModel)]="discharge.discharge_provisional_diagnosis"
       ></textarea>
     </mat-form-field>
+    <div class="transfer-container">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Pulse</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="discharge.pulse"
+          name="pulse"
+          #pulseCtrl="ngModel"
+          min="0"
+          max="300"
+        />
+        <mat-error
+          *ngIf="pulseCtrl.invalid && (pulseCtrl.dirty || pulseCtrl.touched)"
+        >
+          Value must be between 30 and 200
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Pulse</mat-label>
-      <input matInput [(ngModel)]="discharge.pulse" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Blood Pressure</mat-label>
+        <input matInput [(ngModel)]="discharge.blood_pressure" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Blood Pressure</mat-label>
-      <input matInput [(ngModel)]="discharge.blood_pressure" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>RR (Respiratory Rate)</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="discharge.respiratory_rate"
+          name="respiratoryRate"
+          #rr="ngModel"
+          min="0"
+          max="80"
+        />
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>RR (Respiratory Rate)</mat-label>
-      <input matInput [(ngModel)]="discharge.respiratory_rate" />
-    </mat-form-field>
+        <mat-error *ngIf="rr.invalid && (rr.dirty || rr.touched)">
+          Respiratory Rate must be between 0 and 80
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Spo2</mat-label>
-      <input matInput [(ngModel)]="discharge.spo2" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Spo2</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="discharge.spo2"
+          name="spo2"
+          min="0"
+          max="100"
+          required
+          #spo2Ctrl="ngModel"
+        />
+        <mat-error *ngIf="spo2Ctrl.hasError('min') || spo2Ctrl.hasError('max')">
+          Spo2 must be between 0 and 100
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Pain Score</mat-label>
-      <input matInput [(ngModel)]="discharge.pain_score" />
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Pain Score</mat-label>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="discharge.pain_score"
+          name="painScore"
+          #painScore="ngModel"
+          min="0"
+          max="10"
+        />
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>GCS</mat-label>
-      <input matInput [(ngModel)]="discharge.gcs" />
-    </mat-form-field>
+        <mat-error
+          *ngIf="painScore.invalid && (painScore.dirty || painScore.touched)"
+        >
+          Pain Score must be between 0 and 10
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>GCS</mat-label>
+        <input matInput type="number" [(ngModel)]="discharge.gcs" name="gcs" />
+        <mat-error
+          *ngIf="discharge.gcs && (discharge.gcs < 3 || discharge.gcs > 15)"
+        >
+          GCS must be between 3 and 15
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     <mat-form-field appearance="outline" class="form-field full-width">
       <mat-label>Advice on Discharge</mat-label>
@@ -252,7 +317,7 @@
   </mat-form-field>
 
   <label for="lamaUpload"
-    ><strong>Upload LAMA Consent Document (Hindi mandatory):</strong></label
+    ><strong>Upload LAMA Consent Document : </strong></label
   >
   <input
     type="file"
@@ -452,23 +517,23 @@
     </div>
 
     <table class="mat-elevation-z2 full-width-table" *ngIf="lama.showDetails">
-      <tr *ngIf="lama?.lamaConsentDocument">
-        <th>Consent Document</th>
-        <img
-          [src]="'http://localhost:8000/api/files/' + lama.lamaConsentDocument"
-          alt="LAMA Document"
-          width="300"
-          style="cursor: zoom-in"
-          (click)="openImageModal(lama.lamaConsentDocument)"
-        />
+      <tr *ngIf="lama.lamaConsentDocument">
+        <th>Image</th>
+        <td>
+          <button mat-button (click)="toggleImage(lama, 'lamaConsentDocument')">
+            {{ lama.showImage ? "Hide Image" : "Show Image" }}
+          </button>
 
-        <!-- Image Modal -->
-        <div class="image-modal" *ngIf="modalImage" (click)="closeImageModal()">
-          <img
-            [src]="'http://localhost:8000/api/files/' + modalImage"
-            alt="Enlarged Image"
-          />
-        </div>
+          <div *ngIf="lama.showImage">
+            <!-- Thumbnail Preview -->
+            <img
+              [src]="lama.image_blobUrl"
+              alt="LAMA Document"
+              class="ecg-thumbnail"
+              (click)="openFullScreen(lama.image_blobUrl)"
+            />
+          </div>
+        </td>
       </tr>
     </table>
   </div>

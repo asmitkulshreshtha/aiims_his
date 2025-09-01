@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../shared/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../api/auth.service';
 @Component({
   selector: 'app-service',
   imports: [RouterModule, MaterialModule, HttpClientModule],
@@ -11,8 +12,13 @@ import { Router } from '@angular/router';
 })
 export class ServiceComponent {
   isMenuOpen = false;
-  constructor(public router: Router) {}
-
+  role: string | null = null;
+  constructor(public router: Router, public authService: AuthService) {}
+  
+    ngOnInit() {
+      this.role = this.authService.role;
+      console.log('User Role:', this.role);
+    }
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }

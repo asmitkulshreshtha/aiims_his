@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { PointOfCareTestService } from '../../../../../api/point-of-care-test.service';
 import { FileService } from '../../../../../api/file.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-point-of-care-test',
   standalone: true,
@@ -27,24 +28,53 @@ export class PointOfCareTestComponent {
   ecgDate: Date | null = null;
   ecgTime: string = '';
   ecgFindings: string = '';
-  ecgDoctorSign: string = '';
+  // ecgDoctorSign: string = '';
   ecgImagePreview: string | null = null;
   ecgImageFile: File | null = null;
   ecgData: any[] = [];
   // Blood Gas
-  bloodGasDate: Date | null = null;
-  bloodGasTime: string = '';
-  bloodGasType: string = '';
-  ph: string = '';
-  pco2: string = '';
-  po2: string = '';
-  hco3: string = '';
-  na: string = '';
-  k: string = '';
-  cl: string = '';
-  bloodGasOther: string = '';
-  bloodGasInterpretation: string = '';
-  bloodGasImagePreview: string | null = null;
+  // bloodGasDate: Date | null = null;
+  // bloodGasTime: string = '';
+  // bloodGasType: string = '';
+  // ph: string = '';
+  // pco2: string = '';
+  // po2: string = '';
+  // hco3: string = '';
+  // na: string = '';
+  // k: string = '';
+  // cl: string = '';
+  // bloodGasOther: string = '';
+  // bloodGasInterpretation: string = '';
+  // bloodGasImagePreview: string | null = null;
+
+  // Blood Gas
+bloodGasDate: Date | null = null;
+bloodGasTime: string = '';
+bloodGasType: string = '';
+
+ph: string = '';
+pco2: string = '';
+po2: string = '';
+hco3: string = '';
+be: string = '';
+hct: string = ''; 
+hb: string = ''; 
+so2: string = '';  
+cohb: string = ''; 
+hgb: string = '';   
+mchb: string = ''; 
+na: string = '';   
+k: string = '';   
+ca: string = ''; 
+cl: string = ''; 
+mosm: string = ''; 
+glu: string = ''; 
+lac: string = ''; 
+
+bloodGasOther: string = '';
+bloodGasInterpretation: string = '';
+bloodGasImagePreview: string | null = null;
+
 
   // Troponin
   troponinDate: Date | null = null;
@@ -53,7 +83,7 @@ export class PointOfCareTestComponent {
   troponinTestType: string = '';
   troponinValue: number | null = null;
   troponinInterpretation: string = '';
-  troponinDoctorSign: string = '';
+  // troponinDoctorSign: string = '';
   troponinDataList: any[] = [];
   // Troponin multiple selections
   isQualitative: boolean = false;
@@ -103,7 +133,8 @@ export class PointOfCareTestComponent {
     private http: HttpClient,
     private pocService: PointOfCareTestService,
     private route: ActivatedRoute,
-    private fileService: FileService
+    private fileService: FileService,
+    private snackBar: MatSnackBar
   ) {
     const now = new Date();
 
@@ -161,7 +192,43 @@ export class PointOfCareTestComponent {
   }
 
   // Function to handle image upload for ECG
-  savePocus(patientId: number) {
+  // savePocus(patientId: number) {
+  //   const data = {
+  //     patientId: patientId,
+  //     protocol: this.protocol,
+  //     findings: this.findings,
+  //     submittedBy: 'Phantom Manence',
+  //     designation: 'Doctor',
+  //   };
+
+  //   this.pocService.savePocus(data).subscribe({
+  //     next: (res: any) => {
+  //       console.log('✅ POCUS saved successfully', res);
+  //       alert('POCUS data saved successfully.');
+
+  //       this.loadPocusData();
+
+  //       this.protocol = '';
+  //       this.findings = '';
+  //     },
+  //     error: (err) => {
+  //       console.error('❌ Failed to save POCUS:', err);
+  //       alert('Failed to save POCUS data.');
+  //     },
+  //   });
+  // }
+
+   savePocus(patientId: number) {
+    // ✅ Validation check
+    if (!this.protocol?.trim() && !this.findings?.trim()) {
+      this.snackBar.open(
+        'Please fill at least Protocol or Findings before saving!',
+        'Close',
+        { duration: 3000, panelClass: ['snackbar-error'] }
+      );
+      return;
+    }
+
     const data = {
       patientId: patientId,
       protocol: this.protocol,
@@ -173,7 +240,10 @@ export class PointOfCareTestComponent {
     this.pocService.savePocus(data).subscribe({
       next: (res: any) => {
         console.log('✅ POCUS saved successfully', res);
-        alert('POCUS data saved successfully.');
+        this.snackBar.open('POCUS data saved successfully.', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+        });
 
         // Refresh the data
         this.loadPocusData();
@@ -184,7 +254,10 @@ export class PointOfCareTestComponent {
       },
       error: (err) => {
         console.error('❌ Failed to save POCUS:', err);
-        alert('Failed to save POCUS data.');
+        this.snackBar.open('Failed to save POCUS data.', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
       },
     });
   }
@@ -224,7 +297,7 @@ export class PointOfCareTestComponent {
 
     const formData = new FormData();
     formData.append('patientId', patientId.toString());
-    formData.append('name', this.ecgDoctorSign || 'Unknown Doctor');
+    // formData.append('name', this.ecgDoctorSign || 'Unknown Doctor');
     formData.append('ecgFindings', this.ecgFindings);
     formData.append('ecgImage', this.ecgImageFile);
 
@@ -236,7 +309,7 @@ export class PointOfCareTestComponent {
 
         // Reset
         this.ecgFindings = '';
-        this.ecgDoctorSign = '';
+        // this.ecgDoctorSign = '';
         this.ecgImagePreview = null;
         this.ecgImageFile = null;
       },
@@ -296,7 +369,6 @@ export class PointOfCareTestComponent {
         this.loadBloodGasData();
         console.log('✅ Blood Gas saved', res);
         alert('Blood Gas data saved successfully.');
-        // Reset fields if needed
       },
       error: (err) => {
         console.error('❌ Blood Gas save failed', err);
@@ -320,32 +392,34 @@ export class PointOfCareTestComponent {
       },
     });
   }
- toggleImage(xray: any) {
-  if (xray.showImage) {
-    xray.showImage = false;
+toggleImage(item: any, imageKey: string) {
+  if (item.showImage) {
+    item.showImage = false;
     return;
   }
 
-  if (xray.xrayImage_blobUrl) {
-    xray.showImage = true;
+  if (item.image_blobUrl) {
+    item.showImage = true;
     return;
   }
 
-  const fileName = xray.xrayImage_url?.split('/').pop();
+  console.log('Fetching image for:', item);
+
+  const fileName = item[imageKey];
   if (!fileName) {
-    console.error('❌ Invalid X-ray file URL');
+    console.error('❌ Invalid file URL');
     return;
   }
 
   this.fileService.getfile(fileName).subscribe({
     next: (blob: Blob) => {
       const objectUrl = URL.createObjectURL(blob);
-      xray.xrayImage_blobUrl = objectUrl;
-      xray.showImage = true;
+      item.image_blobUrl = objectUrl;
+      item.showImage = true;
     },
     error: (err) => {
       console.error('❌ Error fetching file:', err);
-      xray.showImage = false;
+      item.showImage = false;
     },
   });
 }
@@ -362,7 +436,7 @@ export class PointOfCareTestComponent {
       troponinInterpretation: this.troponinInterpretation || 'Normal',
       troponinValue: this.troponinValue || 0,
       patientId: patientId,
-      name: this.troponinDoctorSign || 'Unknown Doctor',
+      // name: this.troponinDoctorSign || 'Unknown Doctor',
       designation: 'Doctor',
     };
 
@@ -398,17 +472,13 @@ export class PointOfCareTestComponent {
     const data = {
       patientId: patientId,
       proBnpValue: this.proBnpValue || null,
-      proBnpInterpretaion:
-        this.proBnpInterpretation === 'Positive' ? 'Abnormal' : 'Normal',
+      proBnpInterpretaion: this.proBnpInterpretation || '',
       dDimerValue: this.dDimerValue || null,
-      dDimerInterpretaion:
-        this.dDimerInterpretation === 'Positive' ? 'Abnormal' : 'Normal',
+      dDimerInterpretaion:this.dDimerInterpretation || '',
       crpValue: this.crpValue || null,
-      crpInterpretaion:
-        this.crpInterpretation === 'Positive' ? 'Abnormal' : 'Normal',
+      crpInterpretaion: this.crpInterpretation || '',
       esrValue: this.esrValue || null,
-      esrInterpretaion:
-        this.esrInterpretation === 'Positive' ? 'Abnormal' : 'Normal',
+      esrInterpretaion:this.esrInterpretation || '',
       submittedBy: '',
       designation: 'Doctor',
     };
@@ -469,7 +539,6 @@ export class PointOfCareTestComponent {
 
     this.pocService.addXray(xrayData).subscribe({
       next: (res:any) => {
-        console.log('X-ray submitted successfully', res),
         this.getXrayData(this.patientId);
       },
       error: (err) => console.error('Error submitting x-ray', err),

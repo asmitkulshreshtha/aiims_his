@@ -68,27 +68,6 @@
         >Guardian Name is required</mat-error
       >
     </mat-form-field>
-
-    <!-- Department -->
-    <mat-form-field appearance="outline">
-      <mat-label>Department</mat-label>
-      <mat-select formControlName="department">
-        <mat-option value="Cardiology">Cardiology</mat-option>
-        <mat-option value="Trauma & Emergency">Trauma & Emergency</mat-option>
-      </mat-select>
-      <mat-error *ngIf="patientForm.get('department')?.hasError('required')"
-        >Department is required</mat-error
-      >
-    </mat-form-field>
-
-    <!-- Room -->
-    <mat-form-field appearance="outline">
-      <mat-label>Room</mat-label>
-      <input matInput formControlName="room" />
-      <mat-error *ngIf="patientForm.get('room')?.hasError('required')"
-        >Room is required</mat-error
-      >
-    </mat-form-field>
   </div>
 
   <!-- Success/Error Message -->

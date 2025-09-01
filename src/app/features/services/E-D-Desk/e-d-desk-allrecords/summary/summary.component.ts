@@ -45,11 +45,13 @@ export class SummaryComponent {
   printPatientData() {
       const renameMap = {
         createdAt: 'creationDate',
-        name: 'patientName' 
+        name: 'patientName',
+        hemoglobin:'Hemoglobin Level',
     };
     this.patientData = this.removeAndRenameFields(this.patientData, renameMap);
+    console.log('patient data ',this.patientData)
     const reportContent =
-      this.patientReportService.generatePatientReportHtml(this.patientData) ??
+      this.patientReportService.generatePatientReportHtml(this.patientData,"http://localhost:8000/api/files") ??
       '';
     console.log('Generated Report Content:', reportContent);
     const printWindow = window.open('', '_blank');

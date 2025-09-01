@@ -22,20 +22,33 @@ import { DataStoreService } from '../../../../store/datastoreservice.service';
 })
 export class PatientDashboardComponent {
   patient: any;
-  displayedColumns: string[] = [
-    // 'id',
-    'date',
-    'time',
-    'status',
-    'spo2',
-    'hr',
-    'bp',
-    'rr',
-    'rbs',
-    'emergencyType',
-    'triage',
-    'triageNotes',
-  ];
+// component.ts
+displayedColumns: string[] = [
+  'date',
+  'time',
+  'status',
+  'spo2',
+  'pulse',
+  'sbp',
+  'dbp',
+  'rr',
+  'temp',
+  'emergencyType',
+  'triage',
+  // 'triageNotes',
+  // 'arrivalMode',
+  // 'referralStatus',
+  'complaints',
+  'submittedBy',
+  'designation',
+];
+
+getComplaints(complaints: any[]): string {
+  return complaints && complaints.length
+    ? complaints.map(c => `${c.complaint} (${c.duration})`).join(', ')
+    : '-';
+}
+
   patiendata: any;
   constructor(
     public router: Router,

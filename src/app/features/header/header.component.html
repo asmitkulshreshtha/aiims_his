@@ -11,11 +11,27 @@
       <span class="site-title">AIIMS Raipur</span>
       <div class="nav-links">
         <nav class="nav-links">
-          <button (click)="navigateTo('/patient-added')">
+          <button (click)="navigateTo('/patient-added')" *ngIf="role === 'r' || role === 'm'">
             Patient Registration
           </button>
-          <button (click)="navigateTo('/patient-list')">Patient List</button>
+           <button (click)="navigateTo('/triage-list')" *ngIf="role === 't' || role === 'm'">
+            Triage List
+          </button>
+          <!-- <button
+            (click)="navigateTo('/patient-list')"
+            *ngIf="role === 't' || role === 'm'"
+          >
+            Patient List
+          </button> -->
+          <button
+            (click)="navigateTo('/registration-list')"
+            *ngIf="role === 'r' || role === 'm'"
+          >
+            Registration List
+          </button>
+
           <button (click)="navigateTo('/service')">Services</button>
+          <button (click)="navigateTo('')">Logout</button>
         </nav>
       </div>
     </div>
@@ -27,6 +43,7 @@
         </button>
         <button (click)="navigateTo('/patient-list')">Patient List</button>
         <button (click)="navigateTo('/service')">Services</button>
+        <button (click)="navigateTo('')">Logout</button>
       </nav>
     </div>
   </div>

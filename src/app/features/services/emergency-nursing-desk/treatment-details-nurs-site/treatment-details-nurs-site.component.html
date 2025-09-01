@@ -1,0 +1,51 @@
+<!-- Patient Details -->
+<section class="section" *ngIf="patient">
+  <h3 class="sub-heading">Patient Details</h3>
+  <div class="grid-3">
+    <div><strong>Name:</strong> {{ patient?.name }}</div>
+    <div><strong>Guardian Name:</strong> {{ patient?.guardianName }}</div>
+    <div><strong>Age:</strong> {{ patient?.age }}</div>
+    <div><strong>Gender:</strong> {{ patient?.gender }}</div>
+    <div><strong>CR Number:</strong> {{ patient?.crNumber }}</div>
+    <div><strong>Department:</strong> {{ patient?.department }}</div>
+  </div>
+</section>
+
+<!-- Treatment History -->
+<section class="section" *ngIf="treatments.length > 0">
+  <h3 class="sub-heading">📋 Treatment History</h3>
+
+  <div *ngFor="let t of treatments" class="treatment-card">
+    <div class="entry-header">
+      <div><strong>Doctor:</strong> {{ t?.submitted_by }}</div>
+      <div><strong>Designation:</strong> {{ t?.designation }}</div>
+      <div><strong>Date:</strong> {{ t?.createdAt | date : "dd-MM-yyyy" }}</div>
+      <div>
+        <strong>🕒 Time:</strong> {{ t?.createdAt | date : "shortTime" }}
+      </div>
+        <mat-checkbox
+        [(ngModel)]="t.isChecked"
+        class="status-checkbox"
+        [ngClass]="t.isChecked ? 'green-check' : 'red-check'"
+      >
+      </mat-checkbox>
+        <mat-slide-toggle
+        [(ngModel)]="t.showDetails"
+        color="primary"
+        class="custom-slide-toggle"
+      >
+      </mat-slide-toggle>
+    </div>
+    <div class="card-body" *ngIf="t.showDetails">
+      <div class="grid-2"><strong>Drug Name:</strong> {{ t.drugName }}</div>
+      <div class="grid-2"><strong>Dose:</strong> {{ t.dose || "—" }}</div>
+      <div class="grid-2">
+        <strong>Frequency:</strong> {{ t.frequency || "—" }}
+      </div>
+      <div class="grid-2"><strong>Route:</strong> {{ t.route || "—" }}</div>
+      <div class="grid-2">
+        <strong>Instructions:</strong> {{ t.specialInstructions || "—" }}
+      </div>
+    </div>
+  </div>
+</section>

@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../../shared/material/material.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PrimaryAssessmentService } from '../../../../../api/primary-assessment.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-primary-assessmen',
@@ -12,14 +13,14 @@ import { PrimaryAssessmentService } from '../../../../../api/primary-assessment.
   styleUrl: './primary-assessmen.component.css',
 })
 export class PrimaryAssessmenComponent {
-  gross_added_sounds: string = 'none';
+  gross_added_sounds_Left: string = 'none';
   respiratory_effort: string = 'normal';
   airway_open_stable: string = '';
   rr: number | null = null;
   spo2: number | null = null;
   respEffortOther: string = '';
   air_entry: string = '';
-  grossSoundsOther: string = '';
+  grossSoundsOther_Left: string = '';
 
   pulse_rate: number | null = null;
   pulse_regular: string = '';
@@ -46,42 +47,49 @@ export class PrimaryAssessmenComponent {
   rash: string = '';
   cynosis: string = '';
   patientId: string = '';
-// assessmentExists: boolean = false;
-assessmentData: any = null;
+
+  // 🆕 Right side properties
+  gross_added_sounds_right: string = 'none';
+  grossSoundsOther_right: string = '';
+  assessmentData: any = null;
+  assessmentExists: boolean = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    public primaryAssessmentService: PrimaryAssessmentService
+    public primaryAssessmentService: PrimaryAssessmentService,
+    private _snackBar: MatSnackBar
   ) {}
 
-ngOnInit() {
-  const idFromRoute =
-    this.route?.snapshot?.paramMap?.get('id') ||
-    this.route?.parent?.snapshot?.paramMap?.get('id');
+  ngOnInit() {
+    const idFromRoute =
+      this.route?.snapshot?.paramMap?.get('id') ||
+      this.route?.parent?.snapshot?.paramMap?.get('id');
 
-  if (idFromRoute) {
-    this.patientId = idFromRoute;
-    console.log('✅ Patient ID:', this.patientId);
+    if (idFromRoute) {
+      this.patientId = idFromRoute;
+      console.log('✅ Patient ID:', this.patientId);
 
-    // ✅ Load assessment data
-    this.loadAssessmentData(Number(this.patientId));
-  } else {
-    console.error('❌ No patient ID in route');
-  }
-}
-
-loadAssessmentData(patientId: number) {
-  this.primaryAssessmentService.getAssessmentByPatientId(patientId).subscribe({
-    next: (res: any) => {
-      this.assessmentData = res?.data;
-      this.assessmentData.showDetails = true; 
-    },
-    error: (err) => {
-      console.error('❌ Error loading assessment data:', err);
+      // ✅ Load assessment data
+      this.loadAssessmentData(Number(this.patientId));
+    } else {
+      console.error('❌ No patient ID in route');
     }
-  });
-}
+  }
 
+  loadAssessmentData(patientId: number) {
+    this.primaryAssessmentService
+      .getAssessmentByPatientId(patientId)
+      .subscribe({
+        next: (res: any) => {
+          this.assessmentData = res?.data;
+          this.assessmentExists = true;
+          this.assessmentData.showDetails = true;
+        },
+        error: (err) => {
+          console.error('❌ Error loading assessment data:', err);
+        },
+      });
+  }
 
   calculateGcsTotal() {
     const e = typeof this.gcs_e === 'number' ? this.gcs_e : 0;
@@ -99,11 +107,31 @@ loadAssessmentData(patientId: number) {
   }
 
   onSave() {
-    if (!this.patientId || isNaN(Number(this.patientId))) {
-      console.error('❌ Invalid patientId:', this.patientId);
+    if (this.assessmentExists) {
+      this._snackBar.open(
+        '⚠️ Assessment already exists for this patient.',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['warning-snackbar'],
+        }
+      );
       return;
     }
 
+    if (!this.patientId || isNaN(Number(this.patientId))) {
+      this._snackBar.open('❌ Invalid patient ID.', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      return;
+    }
+
+    // 👇 Parse BP
+    const [rightSbp, rightDbp] = this.bp_right_arm
+      .split('/')
+      .map((v) => v.trim());
+    const [leftSbp, leftDbp] = this.bp_left_arm.split('/').map((v) => v.trim());
     const data = {
       patientId: Number(this.patientId),
       airway_open_stable: this.airway_open_stable,
@@ -112,7 +140,8 @@ loadAssessmentData(patientId: number) {
       respiratory_effort: this.respiratory_effort,
       air_entry: this.air_entry,
       breathing_other: this.respEffortOther,
-      gross_added_sounds: this.gross_added_sounds,
+      gross_added_sounds_Left: this.gross_added_sounds_Left,
+      gross_added_sounds_right: this.gross_added_sounds_right,
       pulse_rate: this.pulse_rate,
       pulse_regular: this.pulse_regular,
       crt_seconds: this.crt_seconds?.toString(),
@@ -144,7 +173,8 @@ loadAssessmentData(patientId: number) {
       'spo2',
       'respiratory_effort',
       'air_entry',
-      'gross_added_sounds',
+      'gross_added_sounds_Left',
+      'gross_added_sounds_right',
       'pulse_rate',
       'pulse_regular',
       'crt_seconds',
@@ -181,15 +211,19 @@ loadAssessmentData(patientId: number) {
     console.log('📤 Sending data to API:', data);
     this.primaryAssessmentService.createAssessment(data).subscribe({
       next: (response: any) => {
-            this.loadAssessmentData(Number(this.patientId));
-        console.log('✅ Data successfully saved to backend:', response);
+        this.assessmentExists = true; // ✅ mark saved
+        this._snackBar.open('✅ Assessment successfully saved.', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+        this.loadAssessmentData(Number(this.patientId));
       },
+
       error: (error: any) => {
         console.error('❌ Error saving data:', error);
       },
     });
   }
-
 
   onCancel() {
     if (this.patientId) {
@@ -199,14 +233,16 @@ loadAssessmentData(patientId: number) {
     }
   }
   onReset() {
-    this.gross_added_sounds = 'none';
+    this.gross_added_sounds_Left = 'none';
+    this.gross_added_sounds_right = 'none';
     this.respiratory_effort = 'normal';
     this.airway_open_stable = '';
     this.rr = null;
     this.spo2 = null;
     this.respEffortOther = '';
     this.air_entry = '';
-    this.grossSoundsOther = '';
+    this.grossSoundsOther_Left = '';
+    this.grossSoundsOther_right = '';
     this.pulse_rate = null;
     this.pulse_regular = '';
     this.crt_seconds = null;

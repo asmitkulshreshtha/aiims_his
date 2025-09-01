@@ -4,6 +4,13 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
+      import('./website/home-page/home-page.component').then(
+        (m) => m.HomePageComponent
+      ),
+  },
+    {
+    path: 'login',
+    loadComponent: () =>
       import('./features/auth/login/login.component').then(
         (m) => m.LoginComponent
       ),
@@ -37,13 +44,20 @@ export const routes: Routes = [
       ).then((m) => m.PatientAddedComponent),
   },
   {
-    path: 'patient-details',
+    path: ':deskType/patient-details',
     loadComponent: () =>
       import(
         './features/services/E-D-Desk/patient-details/patient-details.component'
       ).then((m) => m.PatientDetailsComponent),
   },
   {
+    path: ':deskType/patient-details/:id',
+    loadComponent: () =>
+      import(
+        './features/services/entry-desk/triage-entry-desk/triage-entry-desk.component'
+      ).then((m) => m.TriageEntryDeskComponent),
+  },
+    {
     path: 'patient-details/:id',
     loadComponent: () =>
       import(
@@ -59,7 +73,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'patient-dashboard/:id',
+    path: ':deskType/patient-dashboard/:id',
     loadComponent: () =>
       import('./features/maincontenar/maincontenar.component').then(
         (m) => m.MaincontenarComponent
@@ -137,13 +151,62 @@ export const routes: Routes = [
             './features/services/E-D-Desk/e-d-desk-allrecords/treatment-details/treatment-details.component'
           ).then((m) => m.TreatmentDetailsComponent),
       },
+   {
+        path: 'vitals-recording',
+        loadComponent: () =>
+          import(
+            './features/services/emergency-nursing-desk/vitals-recording/vitals-recording.component'
+          ).then((m) => m.VitalsRecordingComponent),
+      },
+    {
+        path: 'treatment-details-nurs-site',
+        loadComponent: () =>
+          import(
+            './features/services/emergency-nursing-desk/treatment-details-nurs-site/treatment-details-nurs-site.component'
+          ).then((m) => m.TreatmentDetailsNursSiteComponent),
+      },
+         {
+        path: 'nurse-handover-notes',
+        loadComponent: () =>
+          import(
+            './features/services/emergency-nursing-desk/nurse-handover-notes/nurse-handover-notes.component'
+          ).then((m) => m.NurseHandoverNotesComponent),
+      },
+           {
+        path: 'Intake-output',
+        loadComponent: () =>
+          import(
+            './features/services/emergency-nursing-desk/intake-output/intake-output.component'
+          ).then((m) => m.IntakeOutputComponent),
+      },
+            {
+        path: 'ed-consultation-record',
+        loadComponent: () =>
+          import(
+            './features/services/E-D-Desk/e-d-desk-allrecords/ed-consultation-record/ed-consultation-record.component'
+          ).then((m) => m.EDConsultationRecordComponent),
+      },
     ],
   },
-  {
-    path: 'side-header',
+    {
+    path: 'registration-list',
     loadComponent: () =>
-      import('./features/side-header/side-header.component').then(
-        (m) => m.SideHeaderComponent
-      ),
+      import(
+        './features/services/Registration-desk/registration-list/registration-list.component'
+      ).then((m) => m.RegistrationListComponent),
+  },
+    {
+    path: 'triage-list',
+    loadComponent: () =>
+      import(
+        './features/services/entry-desk/triage-list/triage-list.component'
+      ).then((m) => m.TriageListComponent),
+  },
+      {
+    path: 'triage-entry-desk/:id',
+    loadComponent: () =>
+      import(
+        './features/services/entry-desk/triage-entry-desk/triage-entry-desk.component'
+      ).then((m) => m.TriageEntryDeskComponent),
   },
 ];

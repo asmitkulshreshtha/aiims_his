@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TemplateService } from '../../../../../api/template.service';
 import { AuthService } from '../../../../../api/auth.service';
 import { PatientService } from '../../../../../api/patient.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-doctor-notes',
@@ -76,11 +77,12 @@ export class DoctorNotesComponent implements OnInit {
   ct_advised = false;
   mri_advised = false;
   constructor(
-    private router: Router,
+    // private router: Router,
     private route: ActivatedRoute,
     public templateService: TemplateService,
     public authService: AuthService,
-    public patientService: PatientService
+    public patientService: PatientService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -97,69 +99,74 @@ export class DoctorNotesComponent implements OnInit {
 
     this.loadData();
   }
+  loadData() {
+    this.isLoading = true;
 
-  // loadData() {
-  //   this.isLoading = true;
+    this.templateService.getemergencycare(this.patientId).subscribe({
+      next: (data: any) => (this.emergencyNotes = data.data),
+      error: (err: any) => {
+        console.error('Emergency fetch error:', err);
+        if (err.status === 404) this.emergencyNotes = [];
+      },
+      complete: () => (this.isLoading = false),
+    });
 
-  //   this.templateService?.getemergencycare(this.patientId)?.subscribe({
-  //     next: (data: any) => (this.emergencyNotes = data?.data),
-  //     error: (err: any) => console.error('Emergency fetch error:', err),
-  //     complete: () => (this.isLoading = false),
-  //   });
+    this.templateService.getprogressNotes(this.patientId).subscribe({
+      next: (data: any) => (this.progressNotes = data.data),
+      error: (err: any) => {
+        console.error('Progress fetch error:', err);
+        if (err.status === 404) this.progressNotes = [];
+      },
+    });
 
-  //   this.templateService?.getprogressNotes(this.patientId)?.subscribe({
-  //     next: (data: any) => (this.progressNotes = data?.data),
-  //     error: (err: any) => console.error('Progress fetch error:', err),
-  //   });
+    this.templateService.gettraumaTemplate(this.patientId).subscribe({
+      next: (data: any) => (this.traumaNotes = data.data),
+      error: (err: any) => {
+        console.error('Trauma fetch error:', err);
+        if (err.status === 404) this.traumaNotes = [];
+      },
+    });
 
-  //   this.templateService?.gettraumaTemplate(this.patientId)?.subscribe({
-  //     next: (data: any) => (this.traumaNotes = data?.data),
-  //     error: (err: any) => console.error('Trauma fetch error:', err),
-  //   });
+    this.patientService.getPatientById(this.patientId).subscribe({
+      next: (data: any) => (this.patient = data),
+      error: (err: any) => console.error('Patient fetch error:', err),
+    });
+  }
 
-  //   this.patientService?.getPatientById(this.patientId)?.subscribe({
-  //     next: (data: any) => (this.patient = data),
-  //     error: (err: any) => console.error('Patient fetch error:', err),
+  //  Save Emergency Notes
+  // onSaveEmergency() {
+  //   const user = this.authService.getCurrentUserFromToken();
+  //   const data = {
+  //     patientId: this.patientId,
+  //     chief_complains: this.chief_complains,
+  //     history_of_present_illness: this.history_of_present_illness,
+  //     review_of_symptoms: this.review_of_symptoms,
+  //     progression_of_symptoms: this.progression_of_symptoms,
+  //     why_today: this.why_today,
+  //     general_physical_examination: this.general_physical_examination,
+  //     systemic_examination: this.systemic_examination,
+  //     relevant_investigation_findings: this.relevant_investigation_findings,
+  //     provisional_dx_differentials: this.provisional_dx_differentials,
+  //     emergency_further_management_plan: this.emergency_further_management_plan,
+  //     submitted_by: user?.user || 'Unknown',
+  //     designation: user?.designation || 'N/A',
+  //     showDetails: false,
+  //   };
+  //   console.log('Saving emergency note:', data);
+  //   this.templateService.emergencycareData(data).subscribe({
+  //     next: (res: any) => {
+  //       const savedNote = res.data;
+  //       savedNote.showDetails = false;
+  //       this.emergencyNotes.unshift(savedNote);
+  //       console.log('✅ Emergency note saved & added to list');
+  //     },
+  //     error: (err: any) => console.error('Emergency save error:', err),
   //   });
   // }
 
-  loadData() {
-  this.isLoading = true;
-
-  this.templateService.getemergencycare(this.patientId).subscribe({
-    next: (data: any) => (this.emergencyNotes = data.data),
-    error: (err: any) => {
-      console.error('Emergency fetch error:', err);
-      if (err.status === 404) this.emergencyNotes = [];
-    },
-    complete: () => (this.isLoading = false),
-  });
-
-  this.templateService.getprogressNotes(this.patientId).subscribe({
-    next: (data: any) => (this.progressNotes = data.data),
-    error: (err: any) => {
-      console.error('Progress fetch error:', err);
-      if (err.status === 404) this.progressNotes = [];
-    },
-  });
-
-  this.templateService.gettraumaTemplate(this.patientId).subscribe({
-    next: (data: any) => (this.traumaNotes = data.data),
-    error: (err: any) => {
-      console.error('Trauma fetch error:', err);
-      if (err.status === 404) this.traumaNotes = [];
-    },
-  });
-
-  this.patientService.getPatientById(this.patientId).subscribe({
-    next: (data: any) => (this.patient = data),
-    error: (err: any) => console.error('Patient fetch error:', err),
-  });
-}
-
-  //  Save Emergency Notes
   onSaveEmergency() {
     const user = this.authService.getCurrentUserFromToken();
+
     const data = {
       patientId: this.patientId,
       chief_complains: this.chief_complains,
@@ -177,19 +184,60 @@ export class DoctorNotesComponent implements OnInit {
       showDetails: false,
     };
 
+    // ✅ Check if at least one field has value
+    const hasAnyValue = Object.keys(data).some(
+      (key) =>
+        key !== 'patientId' &&
+        key !== 'submitted_by' &&
+        key !== 'designation' &&
+        key !== 'showDetails' &&
+        (data as any)[key] &&
+        (data as any)[key].toString().trim() !== ''
+    );
+
+    if (!hasAnyValue) {
+      this.snackBar.open(
+        '⚠️ Please fill at least one field before saving.',
+        'Close',
+        {
+          duration: 4000,
+          panelClass: ['error-snackbar'],
+        }
+      );
+      return;
+    }
+
+    console.log('Saving emergency note:', data);
     this.templateService.emergencycareData(data).subscribe({
       next: (res: any) => {
         const savedNote = res.data;
-        savedNote.showDetails = false; // for toggle in UI
+        savedNote.showDetails = false;
         this.emergencyNotes.unshift(savedNote);
+
+        this.snackBar.open('✅ Emergency note saved successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+
         console.log('✅ Emergency note saved & added to list');
       },
-      error: (err: any) => console.error('Emergency save error:', err),
+      error: (err: any) => {
+        console.error('❌ Emergency save error:', err);
+        this.snackBar.open(
+          '❌ Failed to save emergency note. Try again.',
+          'Close',
+          {
+            duration: 4000,
+            panelClass: ['error-snackbar'],
+          }
+        );
+      },
     });
   }
-  //  Save Progress Notes
+
   onSaveProgressNote() {
     const user = this.authService.getCurrentUserFromToken();
+
     const note = {
       patientId: this.patientId,
       doctor_name: user?.user || 'Unknown',
@@ -209,30 +257,68 @@ export class DoctorNotesComponent implements OnInit {
       progress_further_management_plan: this.progress_further_management_plan,
     };
 
+    // ✅ Check if at least one field has value
+    const hasAnyValue = Object.keys(note).some(
+      (key) =>
+        key !== 'patientId' &&
+        key !== 'doctor_name' &&
+        key !== 'designation' &&
+        key !== 'date' &&
+        key !== 'time' &&
+        (note as any)[key] &&
+        (note as any)[key].toString().trim() !== ''
+    );
+
+    if (!hasAnyValue) {
+      this.snackBar.open(
+        '⚠️ Please fill at least one field before saving progress note.',
+        'Close',
+        {
+          duration: 4000,
+          panelClass: ['error-snackbar'],
+        }
+      );
+      return;
+    }
+
     this.templateService.progressNoteseData(note).subscribe({
       next: (res: any) => {
         const savedNote = res.data;
 
         if (Array.isArray(savedNote)) {
-          // Agar server ek pura array bhejta hai
           this.progressNotes = savedNote.map((n) => ({
             ...n,
             showDetails: false,
           }));
         } else {
-          // Agar server ek hi note bhejta hai
           savedNote.showDetails = false;
           this.progressNotes.unshift(savedNote);
         }
 
+        this.snackBar.open('✅ Progress note saved successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+
         console.log('✅ Progress note saved & added to list');
       },
-      error: (err: any) => console.error('Progress save error:', err),
+      error: (err: any) => {
+        console.error('Progress save error:', err);
+        this.snackBar.open(
+          '❌ Failed to save progress note. Try again.',
+          'Close',
+          {
+            duration: 4000,
+            panelClass: ['error-snackbar'],
+          }
+        );
+      },
     });
   }
-  //  Save Trauma Notes
+
   onSaveTraumaNote() {
     const user = this.authService.getCurrentUserFromToken();
+
     const note = {
       patientId: this.patientId,
       aho: this.aho,
@@ -264,17 +350,57 @@ export class DoctorNotesComponent implements OnInit {
       showDetails: false,
     };
 
+    const hasAnyValue = Object.keys(note).some(
+      (key) =>
+        ![
+          'patientId',
+          'doctor_name',
+          'designation',
+          'date',
+          'time',
+          'showDetails',
+        ].includes(key) &&
+        (note as any)[key] &&
+        (note as any)[key].toString().trim() !== ''
+    );
+
+    if (!hasAnyValue) {
+      this.snackBar.open(
+        '⚠️ Please fill at least one field before saving trauma note.',
+        'Close',
+        {
+          duration: 4000,
+          panelClass: ['error-snackbar'],
+        }
+      );
+      return;
+    }
+
     this.templateService.traumaTemplateData(note).subscribe({
       next: (res: any) => {
-        // ✅ Server se fresh data aayega with _id / createdAt etc.
         const savedNote = res.data;
-        savedNote.showDetails = false; // toggle ke liye zaruri hai
+        savedNote.showDetails = false;
 
-        this.traumaNotes.unshift(savedNote); // naya top par aaye
+        this.traumaNotes.unshift(savedNote);
+
+        this.snackBar.open('✅ Trauma note saved successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
 
         console.log('✅ Trauma saved & added to list');
       },
-      error: (err: any) => console.error('Trauma save error:', err),
+      error: (err: any) => {
+        console.error('Trauma save error:', err);
+        this.snackBar.open(
+          '❌ Failed to save trauma note. Try again.',
+          'Close',
+          {
+            duration: 4000,
+            panelClass: ['error-snackbar'],
+          }
+        );
+      },
     });
   }
   getSelectedInvestigations(): string[] {

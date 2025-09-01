@@ -144,3 +144,9 @@
   border-radius: 8px;
   box-shadow: 0 0 15px #fff;
 }
+.transfer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
