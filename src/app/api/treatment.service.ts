@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TreatmentService {
-  private saveUrl = 'http://localhost:8000/api/treatment/save-treatment';
-  private getUrl = 'http://localhost:8000/api/treatment/get-treatment';
+  private baseUrl = 'http://localhost:8000/api/treatment';
 
   constructor(private http: HttpClient) {}
 
@@ -18,11 +17,25 @@ export class TreatmentService {
     });
   }
 
+  // ---- Doctor Treatment ----
   saveTreatment(data: any) {
-    return this.http.post(this.saveUrl, data, { headers: this.getHeaders() });
+    return this.http.post(`${this.baseUrl}/save-treatment`, data, { headers: this.getHeaders() });
   }
 
   getTreatment(patientId: number) {
-    return this.http.get(`${this.getUrl}/${patientId}`, { headers: this.getHeaders() });
+    let url = `${this.baseUrl}/get-treatment/${patientId}`;
+    // if (name) url += `?name=${encodeURIComponent(name)}`;
+    return this.http.get(url, { headers: this.getHeaders() });
+  }
+
+  // ---- Nursing Treatment ----
+  saveTreatmentNursing(data: any) {
+    return this.http.post(`${this.baseUrl}/save-treatment-nursing`, data, { headers: this.getHeaders() });
+  }
+
+  getTreatmentNursing(patientId: number) {
+    let url = `${this.baseUrl}/get-treatment-nursing/${patientId}`;
+    // if (name) url += `?name=${encodeURIComponent(name)}`;
+    return this.http.get(url, { headers: this.getHeaders() });
   }
 }

@@ -7,7 +7,7 @@
     <div class="grid-3">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="pocusDate" [(ngModel)]="date" />
+        <input matInput [matDatepicker]="pocusDate" [(ngModel)]="date" [matDatepickerFilter]="dateFilter" />
         <mat-datepicker-toggle
           matSuffix
           [for]="pocusDate"
@@ -33,12 +33,6 @@
       </mat-form-field>
     </div>
 
-    <!-- <div class="grid-1">
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Doctor Sign</mat-label>
-        <input matInput type="text" [(ngModel)]="doctorSign" />
-      </mat-form-field>
-    </div> -->
     <div class="allSaveButton">
       <button mat-raised-button color="primary" (click)="savePocus(patientId)">
         💾 Save POCUS
@@ -56,7 +50,7 @@
     <div class="grid-3">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="ecgDatePicker" [(ngModel)]="ecgDate" />
+        <input matInput [matDatepicker]="ecgDatePicker" [(ngModel)]="ecgDate"  [matDatepickerFilter]="dateFilter"/>
         <mat-datepicker-toggle
           matSuffix
           [for]="ecgDatePicker"
@@ -75,11 +69,6 @@
         <mat-label>Findings</mat-label>
         <textarea matInput rows="3" [(ngModel)]="ecgFindings"></textarea>
       </mat-form-field>
-
-      <!-- <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Doctor Sign</mat-label>
-        <input matInput type="text" [(ngModel)]="ecgDoctorSign" />
-      </mat-form-field> -->
     </div>
 
     <div class="grid-1">
@@ -117,6 +106,7 @@
           matInput
           [matDatepicker]="bloodGasDatePicker"
           [(ngModel)]="bloodGasDate"
+          [matDatepickerFilter]="dateFilter"
         />
         <mat-datepicker-toggle
           matSuffix
@@ -138,139 +128,122 @@
         </mat-select>
       </mat-form-field>
     </div>
-<div class="Allergy-form">
-  <div class="Allergy-fields">
-    <!-- <mat-form-field appearance="outline" class="form-field">
-      <mat-label>pH</mat-label>
-      <input matInput name="ph" type="number" [(ngModel)]="ph" />
-    </mat-form-field> -->
-    <mat-form-field appearance="outline" class="form-field">
-  <mat-label>pH</mat-label>
-  <input 
-    matInput 
-    name="ph" 
-    type="number" 
-    [(ngModel)]="ph" 
-    #phCtrl="ngModel"
-    min="0.14" 
-    max="14.14" />
-    
-  <!-- <mat-error *ngIf="phCtrl.hasError('required')">
-    pH is required
-  </mat-error> -->
-  <mat-error *ngIf="phCtrl.hasError('min') || phCtrl.hasError('max')">
-    pH must be between 0.14 and 14.14
-  </mat-error>
-</mat-form-field>
+    <div class="Allergy-form">
+      <div class="Allergy-fields">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>pH</mat-label>
+          <input
+            matInput
+            name="ph"
+            type="number"
+            [(ngModel)]="ph"
+            #phCtrl="ngModel"
+            min="0.14"
+            max="14.14"
+          />
 
-    <!-- <mat-form-field appearance="outline" class="form-field">
-      <mat-label>PCO₂</mat-label>
-      <input matInput name="pco2" type="number" [(ngModel)]="pco2" />
-    </mat-form-field> -->
-    <mat-form-field appearance="outline" class="form-field">
-  <mat-label>PCO₂</mat-label>
-  <input 
-    matInput 
-    name="pco2" 
-    type="number" 
-    [(ngModel)]="pco2" 
-    #pco2Ctrl="ngModel" 
-    min="0" 
-    max="100" 
-  />
-  <mat-error *ngIf="pco2Ctrl.hasError('min') || pco2Ctrl.hasError('max')">
-    PCO₂ must be between 0 and 100 mmHg
-  </mat-error>
-</mat-form-field>
+          <mat-error *ngIf="phCtrl.hasError('min') || phCtrl.hasError('max')">
+            pH must be between 0.14 and 14.14
+          </mat-error>
+        </mat-form-field>
 
-    <!-- <mat-form-field appearance="outline" class="form-field">
-      <mat-label>HCO₃</mat-label>
-      <input matInput name="hco3" type="number" [(ngModel)]="hco3" />
-    </mat-form-field> -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>PCO₂</mat-label>
+          <input
+            matInput
+            name="pco2"
+            type="number"
+            [(ngModel)]="pco2"
+            #pco2Ctrl="ngModel"
+            min="0"
+            max="100"
+          />
+          <mat-error
+            *ngIf="pco2Ctrl.hasError('min') || pco2Ctrl.hasError('max')"
+          >
+            PCO₂ must be between 0 and 100 mmHg
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-  <mat-label>HCO₃</mat-label>
-  <input 
-    matInput 
-    name="hco3" 
-    type="number" 
-    [(ngModel)]="hco3" 
-    #hco3Model="ngModel"
-    min="10"
-    max="45"
-  />
-  <!-- <mat-error *ngIf="hco3Model.errors?.['required']">
-    HCO₃ is required
-  </mat-error> -->
-  <mat-error *ngIf="hco3Model.errors?.['min']">
-    HCO₃ must be ≥ 10
-  </mat-error>
-  <mat-error *ngIf="hco3Model.errors?.['max']">
-    HCO₃ must be ≤ 45
-  </mat-error>
-</mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>HCO₃</mat-label>
+          <input
+            matInput
+            name="hco3"
+            type="number"
+            [(ngModel)]="hco3"
+            #hco3Model="ngModel"
+            min="10"
+            max="45"
+          />
+          <mat-error *ngIf="hco3Model.errors?.['min']">
+            HCO₃ must be ≥ 10
+          </mat-error>
+          <mat-error *ngIf="hco3Model.errors?.['max']">
+            HCO₃ must be ≤ 45
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>BE</mat-label>
-      <input matInput name="be" type="number" [(ngModel)]="be" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>HCT</mat-label>
-      <input matInput name="hct" type="number" [(ngModel)]="hct" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>HB</mat-label>
-      <input matInput name="hb" type="number" [(ngModel)]="hb" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>SO₂</mat-label>
-      <input matInput [(ngModel)]="so2" name="so2" type="number" />
-    </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>BE</mat-label>
+          <input matInput name="be" type="number" [(ngModel)]="be" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>HCT</mat-label>
+          <input matInput name="hct" type="number" [(ngModel)]="hct" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>HB</mat-label>
+          <input matInput name="hb" type="number" [(ngModel)]="hb" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>SO₂</mat-label>
+          <input matInput [(ngModel)]="so2" name="so2" type="number" />
+        </mat-form-field>
 
-          <mat-form-field appearance="outline" class="form-field">
-      <mat-label>LAC</mat-label>
-      <input matInput [(ngModel)]="lac" name="lac" type="number" />
-    </mat-form-field>
-  </div>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>LAC</mat-label>
+          <input matInput [(ngModel)]="lac" name="lac" type="number" />
+        </mat-form-field>
+      </div>
 
-  <div class="Allergy-fields">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>CO[HB]</mat-label>
-      <input matInput [(ngModel)]="cohb" name="cohb" type="number" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>MCHB</mat-label>
-      <input matInput [(ngModel)]="mchb" name="mchb" type="number" />
-    </mat-form-field>
+      <div class="Allergy-fields">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>CO[HB]</mat-label>
+          <input matInput [(ngModel)]="cohb" name="cohb" type="number" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Met(HB)</mat-label>
+          <input matInput [(ngModel)]="mchb" name="mchb" type="number" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Na⁺</mat-label>
-      <input matInput name="na" type="number" [(ngModel)]="na" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>K⁺</mat-label>
-      <input matInput name="k" type="number" [(ngModel)]="k" />
-    </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Na⁺</mat-label>
+          <input matInput name="na" type="number" [(ngModel)]="na" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>K⁺</mat-label>
+          <input matInput name="k" type="number" [(ngModel)]="k" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>CA</mat-label>
-      <input matInput [(ngModel)]="ca" name="ca" type="number" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>MOSM</mat-label>
-      <input matInput [(ngModel)]="mosm" name="mosm" type="number" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>GLU</mat-label>
-      <input matInput [(ngModel)]="glu" name="glu" type="number" />
-    </mat-form-field>
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Other</mat-label>
-        <input matInput [(ngModel)]="bloodGasOther" />
-      </mat-form-field>
-  </div>
-
-</div>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Ca++</mat-label>
+          <input matInput [(ngModel)]="ca" name="ca" type="number" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>MOSM</mat-label>
+          <input matInput [(ngModel)]="mosm" name="mosm" type="number" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>GLU</mat-label>
+          <input matInput [(ngModel)]="glu" name="glu" type="number" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Other</mat-label>
+          <input matInput [(ngModel)]="bloodGasOther" />
+        </mat-form-field>
+      </div>
+    </div>
     <div class="grid-1">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Interpretation</mat-label>
@@ -298,7 +271,11 @@
       </div>
     </div>
     <div class="allSaveButton">
-      <button mat-raised-button color="primary" (click)="saveBloodGas(patientId)">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="saveBloodGas(patientId)"
+      >
         💾 Save Blood Gas
       </button>
     </div>
@@ -318,6 +295,7 @@
           matInput
           [matDatepicker]="troponinDatePicker"
           [(ngModel)]="troponinDate"
+          [matDatepickerFilter]="dateFilter"
         />
         <mat-datepicker-toggle
           matSuffix
@@ -360,13 +338,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- <div class="grid-1">
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Doctor Sign</mat-label>
-        <input matInput type="text" [(ngModel)]="troponinDoctorSign" />
-      </mat-form-field>
-    </div> -->
-
     <div class="allSaveButton">
       <button
         mat-raised-button
@@ -392,6 +363,7 @@
           matInput
           [matDatepicker]="otherDatePicker"
           [(ngModel)]="otherDate"
+          [matDatepickerFilter]="dateFilter"
         />
         <mat-datepicker-toggle
           matSuffix
@@ -455,7 +427,11 @@
       </mat-radio-group>
     </div>
     <div class="allSaveButton">
-      <button mat-raised-button color="accent" (click)="saveOtherTest(patientId)">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="saveOtherTest(patientId)"
+      >
         Save Other Test
       </button>
     </div>
@@ -500,11 +476,11 @@
       alt="Preview"
       style="max-height: 200px; margin: 10px 0"
     />
-   <div class="allSaveButton">
-     <button mat-raised-button color="accent" (click)="submitXray()">
-       Submit X-ray
-     </button>
-   </div>
+    <div class="allSaveButton">
+      <button mat-raised-button color="accent" (click)="submitXray()">
+        Submit X-ray
+      </button>
+    </div>
   </div>
 </div>
 
@@ -536,7 +512,7 @@
       <label for="ctScanImage">Upload Image*</label>
       <input type="file" id="ctScanImage" (change)="onCTFileSelected($event)" />
     </div>
-   
+
     <div class="allSaveButton">
       <button mat-raised-button color="primary" (click)="submitCTScan()">
         Submit CT Scan
@@ -660,7 +636,7 @@
       <div *ngIf="gas.submittedBy">
         <strong>Doctor Name:</strong> {{ gas.submittedBy }}
       </div>
-         <div>
+      <div>
         <strong *ngIf="gas.designation">Designation:</strong>
         {{ gas.designation }}
       </div>
@@ -680,37 +656,69 @@
     </div>
 
     <table class="mat-elevation-z2 full-width-table" *ngIf="gas.showDetails">
-      <tr *ngIf="gas.bloodGasType">
-        <th>Type</th>
-        <td>{{ gas.bloodGasType }}</td>
-      </tr>
       <tr *ngIf="gas.ph">
         <th>pH</th>
         <td>{{ gas.ph }}</td>
       </tr>
-      <tr *ngIf="gas.pco2">
+      <tr *ngIf="gas.cohb">
+        <th>COHb</th>
+        <td>{{ gas.cohb }}</td>
+      </tr>
+            <tr *ngIf="gas.pco2">
         <th>PCO₂</th>
         <td>{{ gas.pco2 }}</td>
       </tr>
-      <tr *ngIf="gas.po2">
-        <th>PO₂</th>
-        <td>{{ gas.po2 }}</td>
+      <tr *ngIf="gas.mchb">
+        <th>MCHb</th>
+        <td>{{ gas.mchb }}</td>
       </tr>
       <tr *ngIf="gas.hco3">
         <th>HCO₃</th>
         <td>{{ gas.hco3 }}</td>
       </tr>
-      <tr *ngIf="gas.na">
+       <tr *ngIf="gas.na">
         <th>Na⁺</th>
         <td>{{ gas.na }}</td>
       </tr>
+      <tr *ngIf="gas.be">
+        <th>BE</th>
+        <td>{{ gas.be }}</td>
+      </tr>
       <tr *ngIf="gas.k">
-        <th>K⁺</th>
+        <th>K</th>
         <td>{{ gas.k }}</td>
       </tr>
-      <tr *ngIf="gas.cl">
-        <th>Cl⁻</th>
-        <td>{{ gas.cl }}</td>
+      <tr *ngIf="gas.hct">
+        <th>HCT</th>
+        <td>{{ gas.hct }}</td>
+      </tr>
+      <tr *ngIf="gas.ca">
+        <th>Ca</th>
+        <td>{{ gas.ca }}</td>
+      </tr>
+      <tr *ngIf="gas.hb">
+        <th>HB</th>
+        <td>{{ gas.hb }}</td>
+      </tr>
+      <tr *ngIf="gas.mosm">
+        <th>MOSM</th>
+        <td>{{ gas.mosm }}</td>
+      </tr>
+      <tr *ngIf="gas.so2">
+        <th>SO₂</th>
+        <td>{{ gas.so2 }}</td>
+      </tr>
+      <tr *ngIf="gas.glu">
+        <th>GLU</th>
+        <td>{{ gas.glu }}</td>
+      </tr>
+      <tr *ngIf="gas.lac">
+        <th>LAC</th>
+        <td>{{ gas.lac }}</td>
+      </tr>
+      <tr *ngIf="gas.bloodGasType">
+        <th>Type</th>
+        <td>{{ gas.bloodGasType }}</td>
       </tr>
       <tr *ngIf="gas.bloodGasOther">
         <th>Other</th>
@@ -759,7 +767,7 @@
       <div *ngIf="troponin.submittedBy">
         <strong>Doctor:</strong> {{ troponin.submittedBy }}
       </div>
-         <div>
+      <div>
         <strong *ngIf="troponin.designation">Designation:</strong>
         {{ troponin.designation }}
       </div>
@@ -783,11 +791,11 @@
     >
       <tr *ngIf="troponin.testType">
         <th>Test Type</th>
-        <td>{{ troponin.testType}}</td>
+        <td>{{ troponin.testType }}</td>
       </tr>
       <tr *ngIf="troponin.troponinType">
         <th>Troponin Type</th>
-        <td>{{ troponin.troponinType}}</td>
+        <td>{{ troponin.troponinType }}</td>
       </tr>
       <tr *ngIf="troponin.troponinValue">
         <th>Value</th>
@@ -809,7 +817,7 @@
       <div *ngIf="other.submittedBy">
         <strong>Doctor Name:</strong> {{ other.submittedBy || "-" }}
       </div>
-         <div>
+      <div>
         <strong *ngIf="other.designation">Designation:</strong>
         {{ other.designation }}
       </div>
@@ -828,27 +836,23 @@
     </div>
 
     <table class="mat-elevation-z2 full-width-table" *ngIf="other.showDetails">
-      <!-- <tr *ngIf="other.proBnpValue || other.proBnpInterpretaion">
+      <tr *ngIf="other.proBnpValue || other.proBnpInterpretaion">
         <th>pro BNP</th>
         <td>
-          {{ other.proBnpValue}} ({{
-            other.proBnpInterpretaion
-          }})
+          {{ other.proBnpValue }}
+          <span *ngIf="other.proBnpInterpretaion"
+            >({{ other.proBnpInterpretaion }})</span
+          >
         </td>
-      </tr> -->
-      <tr *ngIf="other.proBnpValue || other.proBnpInterpretaion">
-  <th>pro BNP</th>
-  <td>
-    {{ other.proBnpValue }}
-    <span *ngIf="other.proBnpInterpretaion">({{ other.proBnpInterpretaion }})</span>
-  </td>
-</tr>
+      </tr>
 
-      <tr *ngIf="other.dDimerValue || other.dDimerInterpretaion"> 
+      <tr *ngIf="other.dDimerValue || other.dDimerInterpretaion">
         <th>D-Dimer</th>
         <td>
-          {{ other.dDimerValue }}  
-          <span *ngIf="other.dDimerInterpretaion">({{ other.dDimerInterpretaion }})</span>
+          {{ other.dDimerValue }}
+          <span *ngIf="other.dDimerInterpretaion"
+            >({{ other.dDimerInterpretaion }})</span
+          >
           <!-- ({{
             other.dDimerInterpretaion
           }}) -->
@@ -857,16 +861,20 @@
       <tr *ngIf="other.crpValue || other.crpInterpretaion">
         <th>CRP</th>
         <td>
-          {{ other.crpValue}} 
-          <span *ngIf="other.crpInterpretaion"> ({{ other.crpInterpretaion}})</span>
+          {{ other.crpValue }}
+          <span *ngIf="other.crpInterpretaion">
+            ({{ other.crpInterpretaion }})</span
+          >
           <!-- ({{ other.crpInterpretaion}}) -->
         </td>
       </tr>
       <tr *ngIf="other.esrValue || other.esrInterpretaion">
         <th>ESR</th>
         <td>
-          {{ other.esrValue}} 
-          <span *ngIf="other.esrInterpretaion"> ({{ other.esrInterpretaion}})</span>
+          {{ other.esrValue }}
+          <span *ngIf="other.esrInterpretaion">
+            ({{ other.esrInterpretaion }})</span
+          >
           <!-- ({{ other.esrInterpretaion}}) -->
         </td>
       </tr>
@@ -882,7 +890,7 @@
       <div *ngIf="xray.submittedBy">
         <strong>Doctor:</strong> {{ xray.submittedBy || "-" }}
       </div>
-         <div>
+      <div>
         <strong *ngIf="xray.designation">Designation:</strong>
         {{ xray.designation }}
       </div>
@@ -903,11 +911,11 @@
     <table class="mat-elevation-z2 full-width-table" *ngIf="xray.showDetails">
       <tr *ngIf="xray.xrayType">
         <th>X-ray Type</th>
-        <td>{{ xray.xrayType}}</td>
+        <td>{{ xray.xrayType }}</td>
       </tr>
       <tr *ngIf="xray.xrayFindings">
         <th>Findings</th>
-        <td>{{ xray.xrayFindings}}</td>
+        <td>{{ xray.xrayFindings }}</td>
       </tr>
       <tr *ngIf="xray.xrayImage_url">
         <th>Image</th>
@@ -938,7 +946,7 @@
       <div *ngIf="ct.submittedBy">
         <strong>Doctor:</strong> {{ ct.submittedBy }}
       </div>
-         <div>
+      <div>
         <strong *ngIf="ct.designation">Designation:</strong>
         {{ ct.designation }}
       </div>

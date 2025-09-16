@@ -1,18 +1,15 @@
 
-mat-card {
-  padding: 15px;
-}
-
 h3 {
   color: #2a3f54;
   font-size: 20px;
   margin-bottom: 16px;
 }
 
-.form-row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
+.form-row , .save-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
 
 mat-form-field {
@@ -23,12 +20,12 @@ mat-form-field {
 .full-width {
   width: 100%;
 }
-.section {
-  margin-top: 32px;
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
+.section , .lft-card{
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f4f3f6;
+    margin-bottom: 10px;
 }
 .form-grid {
   display: grid;
@@ -52,17 +49,31 @@ mat-form-field {
   gap: 12px;
   margin-top: 12px;
 }
-
-.cbc-item {
-  background: #fafafa;
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+.vitals-container{
+    display: grid;
+    /* justify-content: center; */
+    align-items: center;
 }
 .entry-header{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+.sub-heading {
+    color: #2a3f54;
+    font-size: 20px;
+    text-align: center;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.allfildes-container{
+  display: grid;
+}
+::ng-deep .section .mat-mdc-form-field-error{
+  width: 1000px;
 }

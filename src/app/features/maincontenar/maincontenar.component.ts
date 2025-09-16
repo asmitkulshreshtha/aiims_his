@@ -19,24 +19,6 @@ deskType!: string;
   constructor(private route: ActivatedRoute, private router: Router) {}
 
  ngOnInit() {
-  // if (this.router){
-  //   this.router.events
-  //     .pipe(filter(event => event instanceof NavigationEnd))
-  //     .subscribe(() => {
-  //       let activeRoute = this.route;
-
-  //       // Go down to the deepest activated route
-  //       while (activeRoute.firstChild) {
-  //         activeRoute = activeRoute.firstChild;
-  //       }
-
-  //       // Now we are at the route with the parameters
-  //       activeRoute.paramMap.subscribe(params => {
-  //         this.deskType = params.get('deskType') || '';
-  //         console.log('Desk Type:', this.deskType);
-  //       });
-  //     });
-  // }
    if (this.route) {
    this.route.paramMap.subscribe(params => {
     this.deskType = params.get('deskType') || '';

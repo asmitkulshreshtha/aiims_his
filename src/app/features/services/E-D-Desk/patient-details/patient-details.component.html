@@ -2,7 +2,7 @@
 <div class="top-bar">
   <div class="summary"></div>
 
-  <div class="header-section">
+  <div class="header-section" *ngIf="designation === 'Doctor'">
     <div class="header-with-logo">
       <img
         src="../../../assets/aiimslogo.jpg"
@@ -14,11 +14,25 @@
     <div class="header-container">
       <h2 class="page-title">🩺 Digital Doctor’s Desk</h2>
       <h3 class="sub-title">
-        Welcome, <span class="doctor-name">Dr {{ submittedBy }}</span>
+        Welcome, <span class="doctor-name">Dr {{ userName }}</span>
       </h3>
     </div>
   </div>
-
+     <div class="header-section" *ngIf="designation === 'Nursing-Staff'">
+    <div class="header-with-logo">
+      <img
+        src="../../../assets/aiimslogo.jpg"
+        style="width: 100px"
+        alt="AIIMS Raipur HIS Banner"
+        class="image_container"
+      />
+    </div>
+    <div class="header-container">
+      <h2 class="page-title">💊 Nursing Desk</h2>
+      <h3 class="sub-title"><span class="doctor-name">{{ userName }}</span>
+      </h3>
+    </div>
+  </div>
   <div class="shift-info">
     <p><strong class="label">Shift:</strong> Morning/Evening/Night</p>
     <p><strong class="label">Triage officer:</strong> (Name)</p>
@@ -45,7 +59,7 @@
           <th>Initial Triage</th>
           <th>1st assessment</th>
           <th>Disposition</th>
-          <th>Actions</th>
+          <th *ngIf="designation != 'Nursing-Staff' ">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -93,7 +107,7 @@
             </span>
           </td>
 
-          <td class="action-icons">
+          <td class="action-icons" *ngIf="designation != 'Nursing-Staff' ">
             <!-- Edit -->
             <button
               mat-icon-button

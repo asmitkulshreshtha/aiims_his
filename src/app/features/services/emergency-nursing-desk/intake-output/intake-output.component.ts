@@ -56,7 +56,7 @@ export class IntakeOutputComponent {
     outDate: '',
     outTime: '',
     outParameter: '',
-    routeOut: '',
+    // routeOut: '',
     volumeOut: '',
     remarksOut: '',
   };
@@ -107,7 +107,7 @@ saveDetails(form: any) {
     inTime: this.intakeData.inTime,
 
     outParameter: this.outputData.outParameter,
-    routeOut: this.outputData.routeOut,
+    // routeOut: this.outputData.routeOut,
     volumeOut: this.outputData.volumeOut,
     remarksOut: this.outputData.remarksOut,
     outDate: this.outputData.outDate,
@@ -140,4 +140,10 @@ saveDetails(form: any) {
       error: (err) => console.error(err),
     });
   }
+dateFilter = (d: Date | null): boolean => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return !d ? false : d >= today;
+};
+
 }

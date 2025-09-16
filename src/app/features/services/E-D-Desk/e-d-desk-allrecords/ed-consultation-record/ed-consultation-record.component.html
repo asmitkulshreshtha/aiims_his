@@ -2,86 +2,125 @@
   <h3 class="sub-heading">ED Consultation Record</h3>
 
   <div class="form-grid">
-    <div class="form-row">
-        <!-- Call Given To -->
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label>Call Given To</mat-label>
-          <mat-select [(ngModel)]="callGivenTo" name="callGivenTo">
-            <mat-option *ngFor="let person of callGivenOptions" [value]="person">
-              {{ person }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-    
-        <!-- Call Responded At -->
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label>Call Responded At</mat-label>
-          <input matInput type="datetime-local" [(ngModel)]="callRespondedAt" name="callRespondedAt" />
-        </mat-form-field>
-    
-        <!-- Consultant Name -->
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label>Consultant/Sr/Jr Name</mat-label>
-          <input matInput [(ngModel)]="consultantName" name="consultantName" />
-        </mat-form-field>
-    
-        <!-- Department -->
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label>Department</mat-label>
-          <mat-select [(ngModel)]="department" name="department">
-            <mat-option *ngFor="let dept of departments" [value]="dept">
-              {{ dept }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-    
-        <!-- Call Seen At -->
-        <mat-form-field appearance="outline" class="form-field">
-          <mat-label>Call Seen At (Date/Time)</mat-label>
-          <input matInput type="datetime-local" [(ngModel)]="callSeenAt" name="callSeenAt" />
-        </mat-form-field>
+    <div>
+      <!-- Department -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Department</mat-label>
+        <mat-select [(ngModel)]="department" name="department">
+          <mat-option *ngFor="let dept of departments" [value]="dept">
+            {{ dept }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Call Responded At -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Call Responded At</mat-label>
+        <input matInput type="datetime-local" [(ngModel)]="callRespondedAt" name="callRespondedAt" />
+      </mat-form-field>
+  
+      <!-- Consultant Name -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Consultant/Sr/Jr Name</mat-label>
+        <input matInput [(ngModel)]="consultantName" name="consultantName" />
+      </mat-form-field>
     </div>
 
-    <!-- Disposition Plan -->
-    <div class="disposition-box">
-      <h4>Disposition Plan After Consultation</h4>
-      <mat-checkbox [(ngModel)]="admitting" name="admitting">Admitting</mat-checkbox>
-      <mat-checkbox [(ngModel)]="noBedsAvailable" name="noBedsAvailable">No Beds Available</mat-checkbox>
-      <mat-checkbox [(ngModel)]="observation" name="observation">Observation</mat-checkbox>
-      <mat-checkbox [(ngModel)]="crossReferral" name="crossReferral">Cross Referral</mat-checkbox>
-      <mat-checkbox [(ngModel)]="willReview" name="willReview">Will Review Again</mat-checkbox>
-      <mat-checkbox [(ngModel)]="discharge" name="discharge">Discharge</mat-checkbox>
-    </div>
-
-    <!-- Routes (from notes: IV, oral, per rectal, through RT, SC, etc.) -->
-    <div class="routes-box">
-      <h4>Route of Administration</h4>
-      <mat-checkbox [(ngModel)]="iv" name="iv">I/V</mat-checkbox>
-      <mat-checkbox [(ngModel)]="oral" name="oral">Oral</mat-checkbox>
-      <mat-checkbox [(ngModel)]="pr" name="pr">Per Rectal</mat-checkbox>
-      <mat-checkbox [(ngModel)]="rt" name="rt">Through RT</mat-checkbox>
-      <mat-checkbox [(ngModel)]="id" name="id">I/D</mat-checkbox>
-      <mat-checkbox [(ngModel)]="sc" name="sc">S/C</mat-checkbox>
-    </div>
-
-    <!-- Frequencies (stat, OD, BD, TDS, QID) -->
-    <div class="frequency-box">
-      <h4>Frequency</h4>
-      <mat-checkbox [(ngModel)]="stat" name="stat">Stat</mat-checkbox>
-      <mat-checkbox [(ngModel)]="od" name="od">OD</mat-checkbox>
-      <mat-checkbox [(ngModel)]="bd" name="bd">BD</mat-checkbox>
-      <mat-checkbox [(ngModel)]="tds" name="tds">TDS</mat-checkbox>
-      <mat-checkbox [(ngModel)]="qid" name="qid">QID</mat-checkbox>
-    </div>
- <div>
-     <!-- Special Instructions -->
-     <mat-form-field appearance="outline" class="form-field full-width">
-       <mat-label>Special Instructions</mat-label>
-       <textarea matInput rows="3" [(ngModel)]="specialInstructions" name="specialInstructions"></textarea>
+   <div>
+     <!-- Call Given To -->
+     <mat-form-field appearance="outline" class="form-field">
+       <mat-label>Call Given To</mat-label>
+       <mat-select [(ngModel)]="callGivenTo" name="callGivenTo">
+         <mat-option *ngFor="let person of callGivenOptions" [value]="person">
+           {{ person }}
+         </mat-option>
+       </mat-select>
      </mat-form-field>
- </div>
+ 
+     <!-- Call Seen At -->
+     <mat-form-field appearance="outline" class="form-field">
+       <mat-label>Call Seen At</mat-label>
+       <input matInput type="datetime-local" [(ngModel)]="callSeenAt" name="callSeenAt" />
+     </mat-form-field>
+ 
+     <!-- Disposition Plan -->
+     <mat-form-field appearance="outline" style="width: 100%;">
+       <mat-label>Disposition Plan</mat-label>
+       <mat-select [(ngModel)]="dispositionPlan" name="dispositionPlan">
+         <mat-option value="">Select Plan</mat-option>
+         <mat-option value="Admitting">Admitting</mat-option>
+         <mat-option value="No Beds Available">No Beds Available</mat-option>
+         <mat-option value="Observation">Observation</mat-option>
+         <mat-option value="Cross Referral">Cross Referral</mat-option>
+         <mat-option value="Will Review Again">Will Review Again</mat-option>
+         <mat-option value="Discharge">Discharge</mat-option>
+       </mat-select>
+     </mat-form-field>
+   </div>
   </div>
-<div class="button-container">
+
+  <!-- Upload File -->
+  <div class="upload-box">
+    <h4>Upload Document/Report</h4>
+    <input type="file" (change)="onFileSelected($event)" />
+    <p *ngIf="consultationImage">Selected File: {{ consultationImage.name }}</p>
+  </div>
+
+  <!-- Save Button -->
+  <div class="button-container">
     <button mat-raised-button color="primary" (click)="saveConsultation()">Save</button>
-</div>
+  </div>
 </section>
+
+<!-- Saved Consultations -->
+<section *ngIf="consultations.length > 0">
+  <h3>Saved Consultations</h3>
+
+  <div *ngFor="let rec of consultations" class="lft-card">
+    <!-- Card Header -->
+    <div class="entry-header">
+      <div><strong>Doctor:</strong> {{ rec.consultantName }}</div>
+      <div><strong>Submitted By:</strong> {{ rec.submittedBy }}</div>
+      <div><strong>Designation:</strong> {{ rec.designation }}</div>
+      <div>
+        <strong>Date:</strong> {{ rec.createdAt | date: "dd-MM-yyyy" }}
+      </div>
+      <div><strong>Time:</strong> {{ rec.createdAt | date: "shortTime" }}</div>
+      <mat-slide-toggle
+        [(ngModel)]="rec.showDetails"
+        color="primary"
+        class="custom-slide-toggle"
+      ></mat-slide-toggle>
+    </div>
+
+    <!-- Details Section -->
+    <div *ngIf="rec.showDetails" class="cbc-grid">
+      <!-- Consultation Details -->
+      <div class="cbc-item">
+        <h4>Consultation Details</h4>
+        <div class="form-row">
+          <p><strong>Department:</strong> {{ rec.department }}</p>
+          <p><strong>Call Given To:</strong> {{ rec.callGivenTo }}</p>
+          <p><strong>Call Seen At:</strong> {{ rec.callSeenAt || 'N/A' }}</p>
+          <p><strong>Disposition Plan:</strong> {{ rec.dispositionPlan }}</p>
+        </div>
+      </div>
+
+      <!-- Image Section -->
+      <div class="cbc-item" *ngIf="rec.consultationImage_url">
+        <h4>Consultation Report</h4>
+        <img
+          [src]="rec.consultationImage_url"
+          alt="Consultation File"
+          width="200"
+          style="margin-top:8px; border-radius:8px; border:1px solid #ccc;"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #noData>
+  <p>No consultations found.</p>
+</ng-template>
+

@@ -55,19 +55,46 @@
       </mat-form-field>
     </div>
     <div class="treatment-section">
-      <mat-form-field appearance="outline" class="form-field">
+      <!-- <mat-form-field appearance="outline" class="form-field">
         <mat-label>Route</mat-label>
         <input matInput [(ngModel)]="treatmentData.route" name="route" />
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <mat-form-field appearance="outline" class="form-field">
+      <mat-form-field appearance="outline" class="form-field" style="width: 100%;">
+  <mat-label>Route</mat-label>
+  <mat-select [(ngModel)]="treatmentData.route" name="route">
+    <mat-option value="">Select Route</mat-option>
+    <mat-option value="IV">I/V</mat-option>
+    <mat-option value="IM">I/M</mat-option>
+    <mat-option value="Oral">Oral</mat-option>
+    <mat-option value="PR">Per Rectal</mat-option>
+    <mat-option value="RT">Through RT</mat-option>
+    <mat-option value="ID">I/D</mat-option>
+    <mat-option value="SC">S/C</mat-option>
+  </mat-select>
+</mat-form-field>
+
+      <!-- <mat-form-field appearance="outline" class="form-field">
         <mat-label>Frequency</mat-label>
         <input
           matInput
           [(ngModel)]="treatmentData.frequency"
           name="frequency"
         />
-      </mat-form-field>
+      </mat-form-field> -->
+      <mat-form-field appearance="outline" class="form-field" style="width: 100%;">
+  <mat-label>Frequency</mat-label>
+  <mat-select [(ngModel)]="treatmentData.frequency" name="frequency">
+    <mat-option value="">Select Frequency </mat-option>
+    <mat-option value="Stat">Stat</mat-option>
+    <mat-option value="SOS">SOS</mat-option>
+    <mat-option value="OD">OD</mat-option>
+    <mat-option value="ORD">ORD</mat-option>
+    <mat-option value="TDS">TDS</mat-option>
+    <mat-option value="QID">QID</mat-option>
+  </mat-select>
+</mat-form-field>
+
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Prescribed at</mat-label>
         <input
@@ -79,23 +106,6 @@
         />
       </mat-form-field>
     </div>
-    
-    <!-- <div class="treatment-section">
-        <mat-form-field appearance="outline" class="form-field full-width">
-        <mat-label>Prescribed by</mat-label>
-        <textarea
-          matInput
-          rows="2"
-          [(ngModel)]="treatmentData.specialInstructions"
-          name="specialInstructions"
-        ></textarea>
-      </mat-form-field>
-    </div> -->
-    <!-- <div class="grid-2">
-    </div>
-
-    <div class="grid-2">
-    </div> -->
     <div class="form-actions">
       <button mat-raised-button color="primary" type="submit">
         💾 Save Treatment
@@ -130,9 +140,6 @@
         <strong>Frequency:</strong> {{ t.frequency}}
       </div>
       <div class="grid-2"><strong>Route:</strong> {{ t.route}}</div>
-      <!-- <div class="grid-2">
-        <strong>Instructions:</strong> {{ t.specialInstructions}}
-      </div> -->
       <div><strong>Prescribed by:</strong> {{ t?.submitted_by }}</div>
     </div>
   </div>

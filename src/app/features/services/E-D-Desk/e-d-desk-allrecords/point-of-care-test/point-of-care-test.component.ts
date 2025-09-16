@@ -54,19 +54,16 @@ bloodGasType: string = '';
 
 ph: string = '';
 pco2: string = '';
-po2: string = '';
 hco3: string = '';
 be: string = '';
 hct: string = ''; 
 hb: string = ''; 
 so2: string = '';  
 cohb: string = ''; 
-hgb: string = '';   
 mchb: string = ''; 
 na: string = '';   
 k: string = '';   
 ca: string = ''; 
-cl: string = ''; 
 mosm: string = ''; 
 glu: string = ''; 
 lac: string = ''; 
@@ -191,33 +188,6 @@ bloodGasImagePreview: string | null = null;
     }
   }
 
-  // Function to handle image upload for ECG
-  // savePocus(patientId: number) {
-  //   const data = {
-  //     patientId: patientId,
-  //     protocol: this.protocol,
-  //     findings: this.findings,
-  //     submittedBy: 'Phantom Manence',
-  //     designation: 'Doctor',
-  //   };
-
-  //   this.pocService.savePocus(data).subscribe({
-  //     next: (res: any) => {
-  //       console.log('✅ POCUS saved successfully', res);
-  //       alert('POCUS data saved successfully.');
-
-  //       this.loadPocusData();
-
-  //       this.protocol = '';
-  //       this.findings = '';
-  //     },
-  //     error: (err) => {
-  //       console.error('❌ Failed to save POCUS:', err);
-  //       alert('Failed to save POCUS data.');
-  //     },
-  //   });
-  // }
-
    savePocus(patientId: number) {
     // ✅ Validation check
     if (!this.protocol?.trim() && !this.findings?.trim()) {
@@ -297,7 +267,6 @@ bloodGasImagePreview: string | null = null;
 
     const formData = new FormData();
     formData.append('patientId', patientId.toString());
-    // formData.append('name', this.ecgDoctorSign || 'Unknown Doctor');
     formData.append('ecgFindings', this.ecgFindings);
     formData.append('ecgImage', this.ecgImageFile);
 
@@ -309,7 +278,6 @@ bloodGasImagePreview: string | null = null;
 
         // Reset
         this.ecgFindings = '';
-        // this.ecgDoctorSign = '';
         this.ecgImagePreview = null;
         this.ecgImageFile = null;
       },
@@ -344,26 +312,34 @@ bloodGasImagePreview: string | null = null;
 
     const formData = new FormData();
     formData.append('patientId', this.patientId.toString());
-    formData.append('sample', this.bloodGasType || '');
-    formData.append('ph', this.ph || '');
-    formData.append('pco2', this.pco2 || '');
-    formData.append('po2', this.po2 || '');
-    formData.append('hco3', this.hco3 || '');
-    formData.append('na', this.na || '');
-    formData.append('k', this.k || '');
-    formData.append('cl', this.cl || '');
+     formData.append('bloodGasType', this.bloodGasType || '');
+     formData.append('ph', this.ph || '');
+     formData.append('cohb', this.cohb || '');
+     formData.append('pco2', this.pco2 || '');
+     formData.append('mchb', this.mchb || '');
+     formData.append('hco3', this.hco3 || '');
+     formData.append('na', this.na || '');
+     formData.append('be', this.be || '');
+     formData.append('k', this.k || '');
+     formData.append('hct', this.hct || '');
+     formData.append('ca', this.ca || '');
+     formData.append('hb', this.hb || '');
+     formData.append('mosm', this.mosm || '');
+     formData.append('so2', this.so2 || '');
+     formData.append('glu', this.glu || '');
+     formData.append('lac', this.lac || '');
     formData.append('bloodGasOther', this.bloodGasOther || '');
     formData.append(
       'bloodGasInterpretation',
       this.bloodGasInterpretation || ''
     );
-    formData.append('submittedBy', 'yamini verma');
-    formData.append('designation', 'Doctor');
+    // formData.append('submittedBy');
+    // formData.append('designation', 'Doctor');
 
     if (this.bloodGasImageFile) {
       formData.append('bloodGasImage', this.bloodGasImageFile);
     }
-
+   console.log('Submitting Blood Gas FormData:', formData);
     this.pocService.saveBloodGas(formData).subscribe({
       next: (res) => {
         this.loadBloodGasData();
@@ -564,7 +540,7 @@ submitCTScan() {
     return;
   }
   const ctScanFormData = {
-    patientId: this.patientId, // Ensure `patientId` is set in your component
+    patientId: this.patientId,
     ctType: this.ctType || '',
     ctFindings: this.ctFindings || '',
     ctScanList: this.ctScanList || [],
@@ -655,5 +631,10 @@ getXrayData(patientId: number): void {
     return '';
   }
 }
+dateFilter = (d: Date | null): boolean => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return !d ? false : d >= today;
+};
 
 }

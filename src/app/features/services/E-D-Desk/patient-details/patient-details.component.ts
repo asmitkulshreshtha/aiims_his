@@ -4,6 +4,7 @@ import { PatientService } from '../../../../api/patient.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderComponent } from '../../../header/header.component';
 import { MaterialModule } from '../../../../shared/material/material.module';
+import { AuthService } from '../../../../api/auth.service';
 
 @Component({
   selector: 'app-patient-details',
@@ -20,16 +21,38 @@ export class PatientDetailsComponent implements OnInit {
   fullResponse: any;
   submittedBy = '';
   deskType!: string;
+  userName = '';
+  designation = '';
   constructor(
     public patientService: PatientService,
     public router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
     this.getPatients();
     this.deskType = this.route.snapshot.paramMap.get('deskType')!;
     console.log('Desk Type:', this.deskType);
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      try {
+        const payload = token.split('.')[1];
+        const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+        const decodedPayload = JSON.parse(
+          decodeURIComponent(escape(atob(base64)))
+        );
+        console.log('Decoded Payload:', decodedPayload);
+
+        this.userName = decodedPayload.user;
+        this.designation = decodedPayload.designation;
+        console.log('User Name:', this.userName);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    } else {
+      console.warn('Token not found in localStorage');
+    }
   }
 
   getPatients() {
@@ -106,10 +129,16 @@ export class PatientDetailsComponent implements OnInit {
 
   viewDetails(patient: any) {
     console.log('Navigating to patient details:', patient.id);
-    const triage = this.getLatestTriage(patient.patientTriage)
+    const triage = this.getLatestTriage(patient.patientTriage);
     if (triage === 'Pending') {
-     return
+      return;
     }
+    // const triageCategory = this.getAssessmentStatus(patient.primaryAssessment);
+    // console.log('Triage Category:', triageCategory);
+    // if (this.deskType === 'nursing-desk' && triageCategory === 'Pending') {
+    //   console.log('Triage Category:', triageCategory);
+    //   return;
+    // }
     this.router.navigate([
       '/' + this.deskType + '/patient-dashboard',
       patient.id,

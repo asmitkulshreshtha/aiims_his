@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PatientReportService {
+  generatePatientReportHtml(data: any, baseUrl: string) {
+    console.log('Data to generate report:', data);
+    const patientName = data?.patientDetails?.patientName || 'Unknown';
 
-     generatePatientReportHtml(data: any, baseUrl: string) {
-    const patientName = data?.patientDetails?.name || 'Unknown';
-
-    // Define fields that contain image data
     const imageFields = ['xrayImage', 'ecgImage', 'bloodGasImage', 'lamaConsentDocument'];
+
     let html = `
       <!DOCTYPE html>
       <html lang="en">
@@ -18,72 +18,35 @@ export class PatientReportService {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Patient Report - ${patientName}</title>        
         <style>
-          body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
-            color: #333;
-          }
-          h1, h2, h3 {
-            color: #2c3e50;
-          }
-          h1 {
-            text-align: center;
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 10px;
-          }
-          h2 {
-            margin-top: 20px;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-          }
-          th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-          }
-          th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-          }
-          .section {
-            margin-bottom: 30px;
-          }
-          @media print {
-            body {
-              margin: 0;
-              font-size: 12pt;
-            }
-            .no-print {
-              display: none;
-            }
-          }
+          body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; color: #333; }
+          h1, h2 { color: #2c3e50; }
+          h1 { text-align: center; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+          table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+          th { background-color: #f2f2f2; font-weight: bold; }
+          .section { margin-bottom: 25px; }
+          .section img { width: 100%; height: auto; margin-top: 10px; margin-bottom: 20px; }
+          @media print { body { margin: 0; font-size: 12pt; } .no-print { display: none; } }
         </style>
       </head>
       <body>
       <h1>Patient Report</h1>
     `;
 
-    // Helper function to format keys (unchanged)
-    const formatKey = (key: string): string => {
-      return key
-    };
+    // Helper: Format Key
+    const formatKey = (key: string): string =>
+      key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-    // Helper function to render a single object as a table
+    // Render object
     const renderObject = (obj: any, title: string): string => {
       if (!obj || typeof obj !== 'object') return '';
       let tableHtml = `<div class="section"><h2>${title}</h2><table><tr><th>Field</th><th>Value</th></tr>`;
       for (const [key, value] of Object.entries(obj)) {
         if (value !== null && value !== undefined && !Array.isArray(value) && typeof value !== 'object') {
           if (imageFields.includes(key)) {
-            // Render image fields as <img> tags
-            // tableHtml += `<tr><td>${formatKey(key)}</td><td><img src="${baseUrl}/${value}" alt="${formatKey(key)}" style="max-width: 200px;"/></td></tr>`;
-            tableHtml += `<img src="${baseUrl}/${value}" alt="${formatKey(key)}" style="width: 100vw; height: auto;"/>`;
+            // image below field
+            tableHtml += `</table><img src="${baseUrl}/${value}" alt="${formatKey(key)}"><table>`;
           } else {
-            // Render non-image fields as text
             tableHtml += `<tr><td>${formatKey(key)}</td><td>${value}</td></tr>`;
           }
         }
@@ -92,104 +55,66 @@ export class PatientReportService {
       return tableHtml;
     };
 
-    // Helper function to render an array of objects as a table
+    // Render array
     const renderArray = (arr: any[], title: string): string => {
       if (!arr || arr.length === 0) return '';
-      let tableHtml = `<div class="section"><h2>${title}</h2><table><tr>`;
-     
-      // Get headers from the first object, excluding specific fields
-      const headers = Object.keys(arr[0]).filter(key =>
-        key !== 'patient_id' && key !== 'createdAt' && key !== 'updatedAt' &&
-        !Array.isArray(arr[0][key]) && typeof arr[0][key] !== 'object'
-      );
-      headers.forEach(header => {
-        if (imageFields.includes(header)) {
-          // Skip image fields in headers
-          return;
-        }
-        tableHtml += `<th>${formatKey(header)}</th>`;
-      });
-      tableHtml += '</tr>';
-
-      // Render rows
+      let tableHtml = `<div class="section"><h2>${title}</h2>`;
       arr.forEach(item => {
-        tableHtml += '<tr>';
+        tableHtml += `<table><tr>`;
+        const headers = Object.keys(item).filter(
+          key => !Array.isArray(item[key]) && typeof item[key] !== 'object'
+        );
+        tableHtml += `<th>Field</th><th>Value</th></tr>`;
         headers.forEach(header => {
-          const value = item[header] !== null && item[header] !== undefined ? item[header] : '-';
-          if (imageFields.includes(header)) {
-            // Render image fields as <img> tags
-            // tableHtml += `<td><img src="${baseUrl}/${value}" alt="${formatKey(header)}" style="max-width: 200px;"/></td>`;
-               tableHtml += `<img src="${baseUrl}/${value}" alt="${formatKey(header)}" style="width: 100vw; height: auto;"/>`;
-
+          const value = item[header] ?? '-';
+          if (imageFields.includes(header) && value) {
+            tableHtml += `</table><img src="${baseUrl}/${value}" alt="${formatKey(header)}"><table>`;
           } else {
-            // Render non-image fields as text
-            tableHtml += `<td>${value}</td>`;
+            tableHtml += `<tr><td>${formatKey(header)}</td><td>${value}</td></tr>`;
           }
         });
-        tableHtml += '</tr>';
+        tableHtml += `</table>`;
       });
-      tableHtml += '</table></div>';
+      tableHtml += '</div>';
       return tableHtml;
     };
 
-    // Render all sections
-    if (data?.patientDetails) {
-      html += renderObject(data?.patientDetails, 'Patient Details');
+    // ✅ Add all sections here
+    if (data?.patientDetails) html += renderObject(data.patientDetails, 'Patient Details');
+    if (data?.triageDetails) html += renderArray(data.triageDetails, 'Triage Details');
+    if (data?.primaryAssesment) html += renderObject(data.primaryAssesment, 'Primary Assessment');
+    if (data?.generalEmergencyCare) html += renderObject(data.generalEmergencyCare[0], 'General Emergency Care');
+
+    if (data?.traumaTemplateImage) {
+      html += `<div class="section"><h2>Trauma Template</h2><img src="${baseUrl}/${data.traumaTemplateImage}" alt="Trauma Template"></div>`;
+    } else if (data?.traumaTemplates?.[0]?.image) {
+      html += `<div class="section"><h2>Trauma Template</h2><img src="${baseUrl}/${data.traumaTemplates[0].image}" alt="Trauma Template"></div>`;
+    } else if (data?.traumaTemplates?.[0]) {
+      html += renderObject(data.traumaTemplates[0], 'Trauma Templates');
     }
-    if (data?.triageDetails) {
-      html += renderArray(data?.triageDetails, 'Triage Details');
-    }
-    if (data?.primaryAssesment) {
-      html += renderObject(data?.primaryAssesment, 'Primary Assessment');
-    }
-    if (data?.generalEmergencyCare) {
-      html += renderObject(data?.generalEmergencyCare[0], 'General Emergency Care');
-    }
-    if (data?.traumaTemplates) {
-      html += renderObject(data?.traumaTemplates[0], 'Trauma Templates');
-    }
-    if (data?.progressNotes) {
-      html += renderObject(data?.progressNotes[0], 'Progress Notes');
-    }
-    if (data?.otherTests) {
-      html += renderArray(data?.otherTests, 'Other Tests');
-    }
-    if (data?.ctScan) {
-      html += renderArray(data?.ctScan, 'CT Scans');
-    }
-    if (data?.xray) {
-      html += renderArray(data?.xray, 'X-rays');
-    }
-    if (data?.pocus) {
-      html += renderArray(data?.pocus, 'POCUS');
-    }
-    if (data?.ecg) {
-      html += renderArray(data?.ecg, 'ECG');
-    }
-    if (data?.bloodGas) {
-      html += renderArray(data?.bloodGas, 'Blood Gas');
-    }
-    if (data?.troponin) {
-      html += renderArray(data?.troponin, 'Troponin');
-    }
-    // Render additional sections if data exists
-    if (data?.dischargeSummary) {
-      html += renderObject(data?.dischargeSummary, 'Discharge Summary');
-    }
-    if (data?.transferOut) {
-      html += renderObject(data?.transferOut, 'Transfer Out');
-    }
-    if (data?.lamaConsent) {
-      html += renderObject(data?.lamaConsent, 'Lama Consent');
-    }
-     if (data?.cbc) {
-      html += renderArray(data?.cbc, 'Complete Blood Count');
-    }
-    html += `
-      <div class="footer">Prepared by: Yamini Verma</div>
-      </body>
-      </html>
-    `;
+
+    if (data?.progressNotes) html += renderArray(data.progressNotes, 'Progress Notes');
+    if (data?.otherTests) html += renderArray(data.otherTests, 'Other Tests');
+
+    // ✅ Xray, ECG, Blood Gas section images inside section
+    if (data?.xray?.length) html += renderArray(data.xray, 'X-Ray');
+    if (data?.ecg?.length) html += renderArray(data.ecg, 'ECG');
+    if (data?.bloodGas?.length) html += renderArray(data.bloodGas, 'Blood Gas');
+
+    if (data?.cbc) html += renderArray(data.cbc, 'CBC Test');
+    if (data?.pocus) html += renderArray(data.pocus, 'POCUS');
+    if (data?.troponin) html += renderArray(data.troponin, 'Troponin Test');
+    if (data?.lft) html += renderArray(data.lft, 'LFT');
+    if (data?.rft) html += renderArray(data.rft, 'RFT');
+    if (data?.treatment) html += renderArray(data.treatment, 'Treatment');
+    if (data?.urineTest) html += renderArray(data.urineTest, 'Urine Test');
+    if (data?.coagulation) html += renderArray(data.coagulation, 'Coagulation Test');
+    if (data?.treatmentNursing) html += renderArray(data.treatmentNursing, 'Treatment Nursing');
+    if (data?.vitalRecording) html += renderArray(data.vitalRecording, 'Vital Recording');
+    if (data?.inOut?.length) html += renderObject(data.inOut[0], 'In/Out Records');
+    if (data?.handoverNotes?.length) html += renderObject(data.handoverNotes[0], 'Handover Notes');
+
+    html += `<div class="footer">Prepared by: Yamini Verma</div></body></html>`;
     return html;
   }
 }

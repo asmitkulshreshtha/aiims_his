@@ -6,7 +6,6 @@
     <div><strong>Age:</strong> {{ patient?.age }}</div>
     <div><strong>Gender:</strong> {{ patient?.gender }}</div>
     <div><strong>CR Number:</strong> {{ patient?.crNumber }}</div>
-    <div><strong>Department:</strong> {{ patient?.department }}</div>
   </div>
 </section>
 
@@ -233,7 +232,6 @@
   <div class="cbc-form">
     <h3 class="sub-heading">Urine Test</h3>
     <div class="cbc-grid">
-
       <!-- Ketones -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Ketones</mat-label>
@@ -257,13 +255,8 @@
       <!-- Urine Culture -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Urine Culture</mat-label>
-        <input
-          matInput
-          [(ngModel)]="urineCulture"
-          name="urineCulture"
-        />
+        <input matInput [(ngModel)]="urineCulture" name="urineCulture" />
       </mat-form-field>
-
     </div>
 
     <button mat-raised-button color="primary" (click)="saveUrineOrder()">
@@ -464,18 +457,18 @@
     </div>
     <div class="flex-container" *ngIf="urine.showDetails">
       <div *ngIf="urine.ketones">
-        <strong>Ketones:</strong> {{urine.ketones}}
+        <strong>Ketones:</strong> {{ urine.ketones }}
       </div>
       <div *ngIf="urine.nitrites">
-        <strong>Nitrites :</strong> {{ urine.nitrites}}
+        <strong>Nitrites :</strong> {{ urine.nitrites }}
       </div>
       <div *ngIf="urine.urineCulture">
-        <strong>Urine Culture :</strong> {{ urine.urineCulture}}
+        <strong>Urine Culture :</strong> {{ urine.urineCulture }}
       </div>
     </div>
   </div>
 </section>
- 
+
 <!-- Coagulation Test Records -->
 <section *ngIf="coagulationRecords.length > 0" class="section">
   <h3 class="sub-heading">Coagulation Records</h3>
@@ -500,12 +493,6 @@
       <div class="cbc-item"><strong>PT/INR:</strong> {{ record.ptinr }}</div>
       <div class="cbc-item"><strong>APTTT:</strong> {{ record.apttt }}</div>
       <div class="cbc-item"><strong>D-Dimer:</strong> {{ record.dDimer }}</div>
-      <!-- <div class="cbc-item">
-        <strong>Date:</strong> {{ record.createdAt | date : "dd-MM-yyyy" }}
-      </div>
-      <div class="cbc-item">
-        <strong>Time:</strong> {{ record.createdAt | date : "shortTime" }}
-      </div> -->
     </div>
   </div>
 </section>

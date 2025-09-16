@@ -21,7 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatOptionModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { MatListModule } from '@angular/material/list'
 @NgModule({
     imports: [
         CommonModule,
@@ -70,6 +70,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatSnackBarModule,
         MatOptionModule,
         MatSlideToggleModule,
+        MatListModule
     ]
 })
 export class MaterialModule { }

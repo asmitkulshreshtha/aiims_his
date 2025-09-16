@@ -1,13 +1,13 @@
 .section {
-  margin-top: 32px;
+  margin-top: 15px;
   padding: 20px;
   border-radius: 12px;
   background: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
 }
 .section:hover {
-  box-shadow: 0px 6px 16px rgba(0,0,0,0.12);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 .card-title {
@@ -49,20 +49,17 @@ button[mat-raised-button] mat-icon {
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 18px;
+  justify-content: center;
 }
 
 .entry-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #f8f9fa;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: #333;
+  gap: 0.7rem;
+  justify-content: space-between;
 }
 
 .lft-card {
@@ -70,12 +67,12 @@ button[mat-raised-button] mat-icon {
   border-radius: 12px;
   margin-bottom: 20px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .lft-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 ::ng-deep .custom-slide-toggle {
@@ -91,24 +88,23 @@ button[mat-raised-button] mat-icon {
 
 .cbc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-  margin-top: 14px;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 10px;
 }
 
 .cbc-item {
   background: #fdfdfd;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 12px 14px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.cbc-item h4 {
+.cbc-item h4 , .cbc-label{
   margin: 0 0 6px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  color: #1976d2;
+  color: #3e4759;
 }
 
 .cbc-item p {

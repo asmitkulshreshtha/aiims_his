@@ -59,12 +59,9 @@ export class InvestigationOrderComponent {
   k: number | null = null;
   cl: number | null = null;
   uricAcid: number | null = null;
-  // Urine Routine fields
-  // urineDipstick: number | null = null;
-  // urineRoutineMicroscopy: number | null = null;
   ketones: string = '';
-nitrites: string = '';
-urineCulture: string = '';
+  nitrites: string = '';
+  urineCulture: string = '';
   // Coagulation Test fields
   ptinr: number | null = null;
   apttt: number | null = null;
@@ -121,36 +118,80 @@ urineCulture: string = '';
     });
   }
 
+  // saveCbcOrder() {
+  //   const user = this.authService.getCurrentUserFromToken();
+  //   const body = {
+  //     hemoglobin: Number(this.hemoglobin),
+  //     hct: Number(this.hct),
+  //     mcv: Number(this.mcv),
+  //     rdwcv: Number(this.rdwcv),
+  //     tlc: Number(this.tlc),
+  //     neutrophils: Number(this.neutrophils),
+  //     lymphocytes: Number(this.lymphocytes),
+  //     monocytes: Number(this.monocytes),
+  //     eosinophils: Number(this.eosinophils),
+  //     basophil: Number(this.basophil),
+  //     plateletCount: Number(this.plateletCount),
+  //     patientId: this.patientId,
+  //     submitted_by: user?.user || 'Unknown',
+  //     designation: user?.designation || 'N/A',
+  //   };
+
+  //   console.log('Saving CBC order:', body);
+
+  //   this.investigationService.saveCbc(body).subscribe({
+  //     next: (res: any) => {
+  //       console.log('CBC saved successfully:', res.data);
+  //       this.loadCbc(this.patientId);
+  //       console.log('All CBC records so far:', this.cbcRecords);
+  //     },
+  //     error: (err: any) => console.error('Error saving CBC', err),
+  //   });
+  // }
+
   saveCbcOrder() {
-    const user = this.authService.getCurrentUserFromToken();
-    const body = {
-      hemoglobin: Number(this.hemoglobin),
-      hct: Number(this.hct),
-      mcv: Number(this.mcv),
-      rdwcv: Number(this.rdwcv),
-      tlc: Number(this.tlc),
-      neutrophils: Number(this.neutrophils),
-      lymphocytes: Number(this.lymphocytes),
-      monocytes: Number(this.monocytes),
-      eosinophils: Number(this.eosinophils),
-      basophil: Number(this.basophil),
-      plateletCount: Number(this.plateletCount),
-      patientId: this.patientId,
-      submitted_by: user?.user || 'Unknown',
-      designation: user?.designation || 'N/A',
-    };
+  const user = this.authService.getCurrentUserFromToken();
+  const body = {
+    hemoglobin: Number(this.hemoglobin),
+    hct: Number(this.hct),
+    mcv: Number(this.mcv),
+    rdwcv: Number(this.rdwcv),
+    tlc: Number(this.tlc),
+    neutrophils: Number(this.neutrophils),
+    lymphocytes: Number(this.lymphocytes),
+    monocytes: Number(this.monocytes),
+    eosinophils: Number(this.eosinophils),
+    basophil: Number(this.basophil),
+    plateletCount: Number(this.plateletCount),
+    patientId: this.patientId,
+    submitted_by: user?.user || 'Unknown',
+    designation: user?.designation || 'N/A',
+  };
 
-    console.log('Saving CBC order:', body);
+  console.log('Saving CBC order:', body);
 
-    this.investigationService.saveCbc(body).subscribe({
-      next: (res: any) => {
-        console.log('CBC saved successfully:', res.data);
-        this.loadCbc(this.patientId); // Refresh records after save
-        console.log('All CBC records so far:', this.cbcRecords);
-      },
-      error: (err: any) => console.error('Error saving CBC', err),
-    });
-  }
+  this.investigationService.saveCbc(body).subscribe({
+    next: (res: any) => {
+      console.log('CBC saved successfully:', res.data);
+      this.loadCbc(this.patientId);
+
+      // ✅ Snackbar success message
+      this.snackBar.open('✅ CBC saved successfully!', 'Close', {
+        duration: 3000,
+        panelClass: ['success-snackbar'], // Optional custom CSS
+      });
+    },
+    error: (err: any) => {
+      console.error('Error saving CBC', err);
+
+      // ❌ Snackbar error message
+      this.snackBar.open('❌ Failed to save CBC. Try again.', 'Close', {
+        duration: 4000,
+        panelClass: ['error-snackbar'],
+      });
+    },
+  });
+}
 
   // Save LFT
   saveLftOrder() {
@@ -235,48 +276,52 @@ urineCulture: string = '';
     });
   }
 
-saveUrineOrder() {
-  if (!this.ketones && !this.nitrites && !this.urineCulture) {
-    this.snackBar.open('❌ Please fill at least one field before saving.', 'Close', {
-      duration: 3000,
-      panelClass: ['snackbar-error'],
+  saveUrineOrder() {
+    if (!this.ketones && !this.nitrites && !this.urineCulture) {
+      this.snackBar.open(
+        '❌ Please fill at least one field before saving.',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        }
+      );
+      return;
+    }
+
+    const urineBody = {
+      ketones: this.ketones,
+      nitrites: this.nitrites,
+      urineCulture: this.urineCulture,
+      patientId: this.patientId,
+    };
+
+    console.log('Saving Urine order:', urineBody);
+
+    this.investigationService.saveUrine(urineBody).subscribe({
+      next: (res) => {
+        console.log('✅ Urine test saved:', res);
+        this.snackBar.open('Urine Test Saved Successfully ✅', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+        });
+
+        this.ketones = '';
+        this.nitrites = '';
+        this.urineCulture = '';
+
+        this.getUrineRecords(this.patientId);
+      },
+      error: (err) => {
+        console.error('❌ Error saving urine test:', err);
+
+        this.snackBar.open('Failed to Save Urine Test ❌', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
+      },
     });
-    return; 
   }
-
-  const urineBody = {
-    ketones: this.ketones,
-    nitrites: this.nitrites,
-    urineCulture: this.urineCulture,
-    patientId: this.patientId,
-  };
-
-  console.log('Saving Urine order:', urineBody);
-
-  this.investigationService.saveUrine(urineBody).subscribe({
-    next: (res) => {
-      console.log('✅ Urine test saved:', res);
-      this.snackBar.open('Urine Test Saved Successfully ✅', 'Close', {
-        duration: 3000,
-        panelClass: ['snackbar-success'],
-      });
-
-      this.ketones = '';
-      this.nitrites = '';
-      this.urineCulture = '';
-
-      this.getUrineRecords(this.patientId);
-    },
-    error: (err) => {
-      console.error('❌ Error saving urine test:', err);
-
-      this.snackBar.open('Failed to Save Urine Test ❌', 'Close', {
-        duration: 3000,
-        panelClass: ['snackbar-error'],
-      });
-    },
-  });
-}
 
   // Records fetch karne ka method
   getUrineRecords(patientId: number) {
@@ -296,34 +341,16 @@ saveUrineOrder() {
       },
     });
   }
-
-  // saveCoagulationOrder() {
-  //   const coagulationBody = {
-  //     ptinr: this.ptinr,
-  //     apttt: this.apttt,
-  //     dDimer: this.dDimer, 
-  //     patientId: this.patientId,
-  //   };
-
-  //   console.log('Saving Coagulation order:', coagulationBody);
-
-  //   this.investigationService.saveCoagulation(coagulationBody).subscribe({
-  //     next: (res) => {
-  //       console.log('Coagulation saved:', res);
-  //       this.getCoagulationRecords(this.patientId);
-  //     },
-  //     error: (err) => {
-  //       console.error('Error saving Coagulation:', err);
-  //     },
-  //   });
-  // }
-
-    saveCoagulationOrder() {
+  saveCoagulationOrder() {
     if (!this.ptinr && !this.apttt && !this.dDimer) {
-      this.snackBar.open('Please enter at least one field before saving.', 'Close', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
+      this.snackBar.open(
+        'Please enter at least one field before saving.',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        }
+      );
       return;
     }
 
@@ -338,7 +365,7 @@ saveUrineOrder() {
       next: (res) => {
         this.snackBar.open('Coagulation test saved successfully!', 'Close', {
           duration: 3000,
-          panelClass: ['success-snackbar']
+          panelClass: ['success-snackbar'],
         });
         this.getCoagulationRecords(this.patientId);
 
@@ -351,7 +378,7 @@ saveUrineOrder() {
         console.error('Error saving Coagulation:', err);
         this.snackBar.open('Error saving Coagulation test!', 'Close', {
           duration: 3000,
-          panelClass: ['error-snackbar']
+          panelClass: ['error-snackbar'],
         });
       },
     });

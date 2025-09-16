@@ -47,13 +47,6 @@
   color: #333;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-
-/* .grid-3{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 10px;
-} */
 .user-header{
       display: flex;
     justify-content: space-around;
@@ -83,6 +76,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  justify-content: center;
 }
 
 .lungs-image {
@@ -166,4 +160,14 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.Disability-section .form-field{
+  width: 200px;
+}
+.gcs-heading{
+      color: #444;
+    text-align: center;
+    font-size: 1rem;
+    margin: 15px;
 }

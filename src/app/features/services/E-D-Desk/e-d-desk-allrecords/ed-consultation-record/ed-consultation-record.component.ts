@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../../../shared/material/material.module';
 import { FormsModule } from '@angular/forms';
+import { EdConsultationService } from '../../../../../api/ed-consultation.service';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../../../api/auth.service';
 
 @Component({
   selector: 'app-ed-consultation-record',
@@ -9,85 +12,98 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './ed-consultation-record.component.css'
 })
 export class EDConsultationRecordComponent {
- callGivenOptions = ['Sr Consultant', 'Jr Doctor', 'Nurse'];
-  callGivenTo = '';
-  callRespondedAt = '';
-  consultantName = '';
-  department = '';
-  callSeenAt = '';
-  specialInstructions = '';
+  // ✅ Backend fields
+  patientId!: number;
+  department: string = '';
+  callRespondedAt: string = '';
+  consultantName: string = '';
+  callGivenTo: string = '';
+  callSeenAt: string = '';
+  dispositionPlan: string = '';
+  consultationImage: File | null = null;
+  submittedBy: string = '';
+  designation: string = '';
 
-  // Disposition checkboxes
-  admitting = false;
-  noBedsAvailable = false;
-  observation = false;
-  crossReferral = false;
-  willReview = false;
-  discharge = false;
+  // ✅ Store fetched consultations
+  consultations: any[] = [];
+
+  // Dropdown data
+  callGivenOptions = ['Jr', 'Sr', 'Faculty'];
   departments = [
-    'Anaesthesiology',
-    'Burns and Plastic Surgery',
-    'Cardio Thoracic Surgery',
-    'Cardiology',
-    'Clinical Hematology',
-    'Dentistry',
-    'Dermatology',
-    'Endocrinology And Metabolism',
-    'ENT Otorhinolaryngology',
-    'Gastroenterology',
-    'General Medicine',
-    'General Surgery',
-    'Medical Oncology'
+    'Anaesthesiology', 'Cardiology', 'Dermatology', 'Neurology',
+    'Psychiatry', 'Radiology', 'Surgery', 'Urology'
   ];
-  // Route checkboxes
-  iv = false;
-  oral = false;
-  pr = false;
-  rt = false;
-  id = false;
-  sc = false;
 
-  // Frequency checkboxes
-  stat = false;
-  od = false;
-  bd = false;
-  tds = false;
-  qid = false;
+  constructor(
+    private consultationService: EdConsultationService,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    const idParam =
+      this.route?.snapshot?.paramMap.get('id') ||
+      this.route?.parent?.snapshot?.paramMap.get('id');
+
+    this.patientId = idParam ? +idParam : NaN;
+    console.log('✅ Patient ID from route:', this.patientId);
+
+    const user = this.authService.getCurrentUserFromToken();
+    this.submittedBy = user?.user || 'Current User';
+    this.designation = user?.designation || 'Doctor';
+
+    // 🔹 Get old consultation records
+    this.getConsultations();
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.consultationImage = file;
+      console.log('📂 File Selected:', file.name);
+    }
+  }
 
   saveConsultation() {
     const body = {
-      callGivenTo: this.callGivenTo,
+      patientId: this.patientId,
+      department: this.department,
       callRespondedAt: this.callRespondedAt,
       consultantName: this.consultantName,
-      department: this.department,
+      callGivenTo: this.callGivenTo,
       callSeenAt: this.callSeenAt,
-      disposition: {
-        admitting: this.admitting,
-        noBedsAvailable: this.noBedsAvailable,
-        observation: this.observation,
-        crossReferral: this.crossReferral,
-        willReview: this.willReview,
-        discharge: this.discharge,
-      },
-      routes: {
-        iv: this.iv,
-        oral: this.oral,
-        pr: this.pr,
-        rt: this.rt,
-        id: this.id,
-        sc: this.sc,
-      },
-      frequency: {
-        stat: this.stat,
-        od: this.od,
-        bd: this.bd,
-        tds: this.tds,
-        qid: this.qid,
-      },
-      specialInstructions: this.specialInstructions,
+      dispositionPlan: this.dispositionPlan,
+      submittedBy: this.submittedBy,
+      designation: this.designation
     };
 
-    console.log('Saving Consultation Record:', body);
-    alert('Consultation Saved Successfully!');
+    this.consultationService
+      .saveConsultation(body, this.consultationImage || undefined)
+      .subscribe({
+        next: (res: any) => {
+          console.log('✅ Consultation Saved:', res);
+          alert('Consultation Saved Successfully!');
+          this.getConsultations(); 
+        },
+        error: (err: any) => {
+          console.error('❌ Error Saving Consultation:', err);
+        }
+      });
   }
+
+ getConsultations() {
+  if (!this.patientId) return;
+
+  this.consultationService.getConsultationByPatientId(this.patientId.toString())
+    .subscribe({
+      next: (res: any) => {
+        console.log('📋 Consultations API Response:', res);
+        this.consultations = res?.data || [];  
+      },
+      error: (err: any) => {
+        console.error('❌ Error fetching consultations:', err);
+      }
+    });
+}
+
 }

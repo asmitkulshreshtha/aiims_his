@@ -29,7 +29,7 @@ export class NurseHandoverNotesComponent {
 
   patientId!: number;
   patient: any = null;
-  handoverRecords: any[] = [];  // 👈 yahan list store hogi
+  handoverRecords: any[] = []; 
 
   constructor(
     private route: ActivatedRoute,
@@ -59,12 +59,18 @@ export class NurseHandoverNotesComponent {
   }
 
 saveHandover() {
-  const payload = { ...this.handover, patientId: this.patientId };
+const payload = { 
+  ...this.handover, 
+  patientId: this.patientId, 
+  date: this.handover.date ? new Date(this.handover.date).toISOString() : null 
+};
+
   console.log("📌 Save Payload:", payload); 
 
   this.nurseHandoverNotesService.createHandover(payload).subscribe({
     next: (res) => {
       console.log("✅ Save Response:", res);
+       res.data.createdAt = this.handover.date;
       alert('✅ Handover notes saved successfully!');
       this.getHandoverNotes(); 
     },
@@ -78,7 +84,7 @@ getHandoverNotes() {
   this.nurseHandoverNotesService.getHandoverByPatient(this.patientId).subscribe({
     next: (res: any) => {
       console.log("📥 Full API Response:", res);
-
+    
       // 👇 abhi res.data me array hai
       this.handoverRecords = res.data || [];
 
@@ -87,5 +93,12 @@ getHandoverNotes() {
     error: (err) => console.error('❌ Fetch error:', err),
   });
 }
+
+dateFilter = (d: Date | null): boolean => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return !d ? false : d >= today;
+};
+
 
 }

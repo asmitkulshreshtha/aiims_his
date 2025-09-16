@@ -122,19 +122,18 @@
 
         <!-- Center Image -->
         <div class="lungs-image">
-          <img
-            src="../../../assets/lungsImage.png"
-            alt="AIIMS Logo"
-            class="brand-logo"
-          />
-
-          <div class="form-field air-entry">
+             <div class="form-field air-entry">
             <label><strong>Air Entry:</strong></label>
             <mat-radio-group class="radio-group" [(ngModel)]="air_entry">
               <mat-radio-button value="equal">Equal</mat-radio-button>
               <mat-radio-button value="unequal">Unequal</mat-radio-button>
             </mat-radio-group>
           </div>
+          <img
+            src="../../../assets/lungsImage.png"
+            alt="AIIMS Logo"
+            class="brand-logo"
+          />
         </div>
 
         <!-- Right Section -->
@@ -255,11 +254,11 @@
           <mat-label>BP Right Arm (SBP/DBP)</mat-label>
           <input
             matInput
-            placeholder="e.g. 120/80"
+            placeholder="e.g. 300/200"
             [(ngModel)]="bp_right_arm"
             name="bpRightArm"
             required
-            pattern="^[0-9]{2,3}\/[0-9]{2,3}$"
+             pattern="^(0|[0-9]{2,3})\/(0|[0-9]{2,3})$"
             #bpRightArm="ngModel"
           />
           <mat-error *ngIf="bpRightArm.hasError('required')">
@@ -275,7 +274,7 @@
           <mat-label>BP Left Arm (SBP/DBP)</mat-label>
           <input
             matInput
-            placeholder="e.g. 118/76"
+            placeholder="e.g. 300/200"
             [(ngModel)]="bp_left_arm"
             name="bpLeftArm"
             required
@@ -316,48 +315,54 @@
   <section class="section">
     <h3 class="sub-heading">D - Disability</h3>
 
-    <div class="Disability-section">
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>E</mat-label>
-        <mat-select [(ngModel)]="gcs_e" (selectionChange)="calculateGcsTotal()">
-          <mat-option [value]="null">Select Value</mat-option>
-          <mat-option *ngFor="let val of [1, 2, 3, 4]" [value]="val">{{
-            val
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <!-- <div class="Disability-section"> -->
+      <h5 class="gcs-heading">Glasgow Coma Scale</h5>
+      <div class="Disability-section">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>E</mat-label>
+          <mat-select [(ngModel)]="gcs_e" (selectionChange)="calculateGcsTotal()">
+            <mat-option [value]="null">Select Value</mat-option>
+            <mat-option *ngFor="let val of [1, 2, 3, 4]" [value]="val">{{
+              val
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>V</mat-label>
+          <mat-select [(ngModel)]="gcs_v" (selectionChange)="calculateGcsTotal()">
+            <mat-option [value]="null">Select Value</mat-option>
+            <mat-option *ngFor="let val of [1, 2, 3, 4, 5]" [value]="val">{{
+              val
+            }}</mat-option>
+            <mat-option value="T">T</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>M</mat-label>
+          <mat-select [(ngModel)]="gcs_m" (selectionChange)="calculateGcsTotal()">
+            <mat-option [value]="null">Select Value</mat-option>
+            <mat-option *ngFor="let val of [1, 2, 3, 4, 5, 6]" [value]="val">{{
+              val
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>V</mat-label>
-        <mat-select [(ngModel)]="gcs_v" (selectionChange)="calculateGcsTotal()">
-          <mat-option [value]="null">Select Value</mat-option>
-          <mat-option *ngFor="let val of [1, 2, 3, 4, 5]" [value]="val">{{
-            val
-          }}</mat-option>
-          <mat-option value="T">T</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="Disability-section">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>GCS Values</mat-label>
+          <input
+            matInput
+            [value]="gcs_total"
+            placeholder="GCS Values"
+            readonly
+          />
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>M</mat-label>
-        <mat-select [(ngModel)]="gcs_m" (selectionChange)="calculateGcsTotal()">
-          <mat-option [value]="null">Select Value</mat-option>
-          <mat-option *ngFor="let val of [1, 2, 3, 4, 5, 6]" [value]="val">{{
-            val
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Total</mat-label>
-        <input
-          matInput
-          [value]="gcs_total"
-          placeholder="Select GCS Values"
-          readonly
-        />
-      </mat-form-field>
-    </div>
+      </div>
+    <!-- </div> -->
 
     <div class="grid-3">
       <div>
@@ -485,18 +490,18 @@
           [(ngModel)]="temperature_f"
           name="temperature_f"
           required
-          min="95"
-          max="107"
+          min="80"
+          max="120"
           #tempCtrl="ngModel"
         />
         <mat-error *ngIf="tempCtrl.errors?.['required']">
           Temperature is required
         </mat-error>
         <mat-error *ngIf="tempCtrl.errors?.['min']">
-          Value must be ≥ 95°F
+          Value must be ≥ 80°F
         </mat-error>
         <mat-error *ngIf="tempCtrl.errors?.['max']">
-          Value must be ≤ 107°F
+          Value must be ≤ 120°F
         </mat-error>
       </mat-form-field>
 
@@ -522,7 +527,7 @@
     <!-- Other -->
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Other</mat-label>
-      <input matInput type="text" [(ngModel)]="assessment_other" />
+      <textarea matInput type="text" [(ngModel)]="assessment_other"></textarea>
     </mat-form-field>
 
     <!-- Action Buttons -->

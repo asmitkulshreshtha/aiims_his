@@ -294,12 +294,12 @@
   <div class="grid-2" *ngIf="aho === 'Others'">
     <mat-form-field appearance="outline" class="form-field">
       <mat-label>Place of Event</mat-label>
-      <input
+      <textarea
         matInput
         type="text"
         [(ngModel)]="place_of_event"
         name="place_of_event"
-      />
+      ></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="form-field">
@@ -330,27 +330,27 @@
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>Mechanism of Injury</mat-label>
-    <input
+    <textarea
       matInput
       type="text"
       [(ngModel)]="mechanism_of_injury"
       name="mechanism_of_injury"
-    />
+    ></textarea>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>MLC No.</mat-label>
-    <input matInput type="text" [(ngModel)]="mlc_no" name="mlc_no" />
+    <textarea matInput type="text" [(ngModel)]="mlc_no" name="mlc_no" ></textarea>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>Presenting Complaints</mat-label>
-    <input
+    <textarea
       matInput
       type="text"
       [(ngModel)]="presenting_complaints"
       name="presenting_complaints"
-    />
+    ></textarea>
   </mat-form-field>
 
   <!-- Yes/No Radios -->
@@ -401,48 +401,77 @@
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>Injury Identified: Head to Toe</mat-label>
-    <input
+    <textarea
       matInput
       type="text"
       [(ngModel)]="injury_identified"
       name="injury_identified"
-    />
+    ></textarea>
   </mat-form-field>
 
   <!-- Additional Fields -->
-  <mat-form-field appearance="outline" class="form-field">
+  <!-- <mat-form-field appearance="outline" class="form-field">
     <mat-label>History of Allergy</mat-label>
-    <input
+    <textarea
       matInput
       type="text"
       [(ngModel)]="allergy_history"
       name="allergy_history"
-    />
-  </mat-form-field>
+    ></textarea>
+  </mat-form-field> -->
 
-  <mat-form-field appearance="outline" class="form-field">
-    <mat-label>Medication History</mat-label>
-    <input
-      matInput
-      type="text"
-      [(ngModel)]="medication_history"
-      name="medication_history"
-    />
-  </mat-form-field>
+<mat-form-field appearance="outline" class="form-field">
+  <mat-label>History of Allergy</mat-label>
+  <mat-select [(ngModel)]="hasAllergy" name="hasAllergy">
+    <mat-option value="Yes">Yes</mat-option>
+    <mat-option value="No">No</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field *ngIf="hasAllergy === 'Yes'" appearance="outline" class="form-field">
+  <mat-label>Allergy Details</mat-label>
+  <textarea
+    matInput
+    [(ngModel)]="allergy_history"
+    name="allergy_history"
+    placeholder="Enter allergy details"
+  ></textarea>
+</mat-form-field>
+
+
+ <!-- Medication History Select -->
+<mat-form-field appearance="outline" class="form-field">
+  <mat-label>Medication History</mat-label>
+  <mat-select [(ngModel)]="hasMedicationHistory" name="hasMedicationHistory">
+    <mat-option value="Yes">Yes</mat-option>
+    <mat-option value="No">No</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field *ngIf="hasMedicationHistory === 'Yes'" appearance="outline" class="form-field">
+  <mat-label>Medication Details</mat-label>
+  <textarea
+    matInput
+    [(ngModel)]="medication_history"
+    name="medication_history"
+    placeholder="Enter medication history"
+  ></textarea>
+</mat-form-field>
+
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>Past History / Comorbidity</mat-label>
-    <input
+    <textarea
       matInput
       type="text"
       [(ngModel)]="past_history"
       name="past_history"
-    />
+    ></textarea>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>If Female: LMP</mat-label>
-    <input matInput type="text" [(ngModel)]="lmp" name="lmp" />
+    <textarea matInput type="text" [(ngModel)]="lmp" name="lmp" ></textarea>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="form-field">
@@ -456,22 +485,22 @@
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>Last Meal</mat-label>
-    <input matInput type="text" [(ngModel)]="last_meal" name="last_meal" />
+    <textarea matInput type="text" [(ngModel)]="last_meal" name="last_meal" ></textarea>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="form-field">
     <mat-label>Any treatment received before coming to AIIMS</mat-label>
-    <input
+    <textarea
       matInput
       type="text"
       [(ngModel)]="prior_treatment"
       name="prior_treatment"
-    />
+    ></textarea>
   </mat-form-field>
 
   <!-- Investigation Section -->
-  <h4 class="sub-heading" style="margin-top: 1rem">Investigation Advised</h4>
-  <div class="grid-2">
+  <!-- <h4 class="sub-heading" style="margin-top: 1rem">Investigation Advised</h4> -->
+  <!-- <div class="grid-2">
     <mat-checkbox [(ngModel)]="xray_advised" name="xray_advised"
       >X-rays</mat-checkbox
     >
@@ -481,7 +510,7 @@
     <mat-checkbox [(ngModel)]="mri_advised" name="mri_advised"
       >MRI</mat-checkbox
     >
-  </div>
+  </div> -->
 
   <mat-form-field
     appearance="outline"
@@ -768,7 +797,7 @@
       </tr>
       <tr *ngIf="note?.past_history">
         <th>Past History</th>
-        <td>{{ note".past_history }}</td>
+        <td>{{ note?.past_history }}</td>
       </tr>
       <tr *ngIf="note?.lmp">
         <th>LMP</th>

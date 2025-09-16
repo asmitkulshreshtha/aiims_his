@@ -6,16 +6,11 @@
     <div><strong>Age:</strong> {{ patient?.age }}</div>
     <div><strong>Gender:</strong> {{ patient?.gender }}</div>
     <div><strong>CR Number:</strong> {{ patient?.crNumber }}</div>
-    <div><strong>Department:</strong> {{ patient?.department }}</div>
   </div>
 </section>
 
 <section class="section">
-  <mat-card-header>
-    <mat-icon class="header-icon">handover</mat-icon>
-    <h3 class="card-title">Nurse Handover Notes</h3>
-  </mat-card-header>
-
+  <h3 class="card-title">Nurse Handover Notes</h3>
   <mat-card-content>
     <div class="form-grid">
       <!-- Date -->
@@ -26,6 +21,7 @@
           [matDatepicker]="picker"
           [(ngModel)]="handover.date"
           name="date"
+          [matDatepickerFilter]="dateFilter"
           required
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -45,79 +41,77 @@
         <mat-label>Handover To</mat-label>
         <input matInput [(ngModel)]="handover.handoverTo" name="handoverTo" />
       </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Investigation Details</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="handover.investigationDetails"
-          name="investigationDetails"
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Pending Investigations</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="handover.pendingInvestigations"
-          name="pendingInvestigations"
-        />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Pending Treatment</mat-label>
-        <input
-          matInput
-          type="text"
-          [(ngModel)]="handover.pendingTreatment"
-          name="pendingTreatment"
-        />
-      </mat-form-field>
     </div>
-    <div class="form-grid">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Vital Details</mat-label>
-        <textarea
-          matInput
-          rows="3"
-          [(ngModel)]="handover.vitalDetails"
-          name="vitalDetails"
-        ></textarea>
-      </mat-form-field>
-    
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Medication Details</mat-label>
-        <textarea
-          matInput
-          type="text"
-          [(ngModel)]="handover.medicationDetails"
-          name="medicationDetails"> </textarea>
-      </mat-form-field>
-    </div>
-    <!-- All Notes Fields -->
-    <div class="form-grid">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Transfer Notes</mat-label>
-        <textarea
-          matInput
-          rows="3"
-          [(ngModel)]="handover.transferNotes"
-          name="transferNotes"
-        ></textarea>
-      </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Handover Notes</mat-label>
-        <textarea
-          matInput
-          rows="3"
-          [(ngModel)]="handover.handoverNotes"
-          name="handoverNotes"
-        ></textarea>
-      </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Investigation Details</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="handover.investigationDetails"
+        name="investigationDetails"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Pending Investigations</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="handover.pendingInvestigations"
+        name="pendingInvestigations"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Pending Treatment</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="handover.pendingTreatment"
+        name="pendingTreatment"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Vital Details</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        [(ngModel)]="handover.vitalDetails"
+        name="vitalDetails"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Medication Details</mat-label>
+      <textarea
+        matInput
+        type="text"
+        [(ngModel)]="handover.medicationDetails"
+        name="medicationDetails"
+      >
+      </textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Transfer Notes</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        [(ngModel)]="handover.transferNotes"
+        name="transferNotes"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Handover Notes</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        [(ngModel)]="handover.handoverNotes"
+        name="handoverNotes"
+      ></textarea>
+    </mat-form-field>
   </mat-card-content>
 
   <div class="form-actions">
@@ -135,11 +129,17 @@
   <div *ngFor="let rec of handoverRecords" class="lft-card">
     <!-- Card Header -->
     <div class="entry-header">
-      <div><strong>{{ rec.designation }} Name:</strong>{{ rec.submittedBy }}</div>
+      <div>
+        <strong>{{ rec.designation }} Name:</strong>{{ rec.submittedBy }}
+      </div>
       <div><strong>Handover To:</strong> {{ rec.handoverTo }}</div>
-      <div><strong>Shift:</strong> {{ rec.shift }} </div>
-      <div><strong>Date:</strong> {{ rec.createdAt | date : "dd-MM-yyyy" }}</div>
+      <div><strong>Shift:</strong> {{ rec.shift }}</div>
+    <div>
+  <strong>Date:</strong> {{ rec.date | date: 'dd-MM-yyyy' }}
+</div>
       <div><strong>Time:</strong> {{ rec.createdAt | date : "shortTime" }}</div>
+
+
       <mat-slide-toggle
         [(ngModel)]="rec.showDetails"
         color="primary"
@@ -149,46 +149,45 @@
 
     <!-- Details Section -->
     <div *ngIf="rec.showDetails" class="cbc-grid">
-      <!-- Vital Details -->
-      <div class="cbc-item" *ngIf="rec.vitalDetails">
-        <h4>Vital Details</h4>
-        <p>{{ rec.vitalDetails }}</p>
-      </div>
-
       <!-- Investigation Details -->
       <div class="cbc-item" *ngIf="rec.investigationDetails">
-        <h4>Investigation Details</h4>
-        <p>{{ rec.investigationDetails }}</p>
-      </div>
-
-      <!-- Medication Details -->
-      <div class="cbc-item" *ngIf="rec.medicationDetails">
-        <h4>Medication Details</h4>
-        <p>{{ rec.medicationDetails }}</p>
+        <strong class="cbc-label">Investigation Details:</strong>
+        {{ rec.investigationDetails }}
       </div>
 
       <!-- Pending Investigations -->
       <div class="cbc-item" *ngIf="rec.pendingInvestigations">
-        <h4>Pending Investigations</h4>
-        <p>{{ rec.pendingInvestigations }}</p>
+        <strong class="cbc-label">Pending Investigations:</strong
+        >{{ rec.pendingInvestigations }}
       </div>
 
       <!-- Pending Treatment -->
       <div class="cbc-item" *ngIf="rec.pendingTreatment">
-        <h4>Pending Treatment</h4>
-        <p>{{ rec.pendingTreatment }}</p>
+        <strong class="cbc-label">Pending Treatment:</strong>
+        {{ rec.pendingTreatment }}
+      </div>
+
+      <!-- Vital Details -->
+      <div class="cbc-item" *ngIf="rec.vitalDetails">
+        <strong class="cbc-label">Vital Details:</strong> {{ rec.vitalDetails }}
+      </div>
+
+      <!-- Medication Details -->
+      <div class="cbc-item" *ngIf="rec.medicationDetails">
+        <strong class="cbc-label">Medication Details:</strong>
+        {{ rec.medicationDetails }}
       </div>
 
       <!-- Transfer Notes -->
       <div class="cbc-item" *ngIf="rec.transferNotes">
-        <h4>Transfer Notes</h4>
-        <p>{{ rec.transferNotes }}</p>
+        <strong class="cbc-label">Transfer Notes:</strong>
+        {{ rec.transferNotes }}
       </div>
 
       <!-- Handover Notes -->
       <div class="cbc-item" *ngIf="rec.handoverNotes">
-        <h4>Handover Notes</h4>
-        <p>{{ rec.handoverNotes }}</p>
+        <strong class="cbc-label">Handover Notes:</strong>
+        {{ rec.handoverNotes }}
       </div>
     </div>
   </div>

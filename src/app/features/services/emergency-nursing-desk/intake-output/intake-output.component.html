@@ -1,7 +1,7 @@
 <!-- Patient Details -->
 <section class="section" *ngIf="patient">
   <h3 class="sub-heading">Patient Details</h3>
-  <div class="grid-3">
+  <div class="patient-details">
     <div><strong>Name:</strong> {{ patient?.name }}</div>
     <div><strong>Guardian Name:</strong> {{ patient?.guardianName }}</div>
     <div><strong>Age:</strong> {{ patient?.age }}</div>
@@ -42,6 +42,7 @@
               [matDatepicker]="intakeDate"
               [(ngModel)]="intakeData.inDate"
               name="inDate"
+              [matDatepickerFilter]="dateFilter"
               required
             />
             <mat-datepicker-toggle matSuffix [for]="intakeDate"></mat-datepicker-toggle>
@@ -110,6 +111,7 @@
               [matDatepicker]="outputDate"
               [(ngModel)]="outputData.outDate"
               name="outDate"
+              [matDatepickerFilter]="dateFilter"
               required
             />
             <mat-datepicker-toggle matSuffix [for]="outputDate"></mat-datepicker-toggle>
@@ -137,11 +139,11 @@
             <mat-error *ngIf="ioForm.submitted && !outputData.outParameter">Parameter is required</mat-error>
           </mat-form-field>
   
-          <mat-form-field appearance="outline">
+          <!-- <mat-form-field appearance="outline">
             <mat-label>Route</mat-label>
             <input matInput [(ngModel)]="outputData.routeOut" name="routeOut" required />
             <mat-error *ngIf="ioForm.submitted && !outputData.routeOut">Route is required</mat-error>
-          </mat-form-field>
+          </mat-form-field> -->
         </div>
        <div class="form-row">
          <mat-form-field appearance="outline">
@@ -230,7 +232,7 @@
           <p *ngIf="rec.volumeOut">
             <strong>Volume:</strong> {{ rec.volumeOut }} ml
           </p>
-          <p *ngIf="rec.routeOut"><strong>Route:</strong> {{ rec.routeOut }}</p>
+          <!-- <p *ngIf="rec.routeOut"><strong>Route:</strong> {{ rec.routeOut }}</p> -->
           <p *ngIf="rec.remarksOut">
             <strong>Remarks:</strong> {{ rec.remarksOut }}
           </p>

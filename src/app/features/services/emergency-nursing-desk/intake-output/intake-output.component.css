@@ -129,3 +129,8 @@ button[mat-raised-button] {
 ::ng-deep .mdc-switch--selected .mdc-switch__icon {
   fill: #1976d2 !important;
 }
+.patient-details{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
