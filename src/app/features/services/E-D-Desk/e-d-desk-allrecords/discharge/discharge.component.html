@@ -20,6 +20,7 @@
       <mat-option value="transfer">Transfer Out Slip</mat-option>
       <mat-option value="discharge">Discharge Summary</mat-option>
       <mat-option value="lama">LAMA consent</mat-option>
+      <mat-option value ="Admission">Admission</mat-option>
     </mat-select>
   </mat-form-field>
 </section>
@@ -327,6 +328,61 @@
   />
 </section>
 
+<!-- Admission -->
+<section class="section" *ngIf="selectedTemplate === 'Admission'">
+  <h3 class="sub-heading">Admission Form</h3>
+
+  <div class="grid-3 gap-3">
+    <!-- Patient Name -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Name of the Patient</mat-label>
+      <input matInput [(ngModel)]="Admission.name" readonly />
+    </mat-form-field>
+
+    <!-- Age -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Age</mat-label>
+      <input matInput [(ngModel)]="Admission.age" readonly />
+    </mat-form-field>
+
+    <!-- Sex -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Sex</mat-label>
+      <input matInput [(ngModel)]="Admission.sex" readonly />
+    </mat-form-field>
+  </div>
+
+  <!-- Guardian Name -->
+  <mat-form-field appearance="outline" class="form-field full-width">
+    <mat-label>Father’s/Husband Name</mat-label>
+    <input matInput [(ngModel)]="Admission.guardian_name" readonly />
+  </mat-form-field>
+
+  <!-- Address -->
+  <mat-form-field appearance="outline" class="form-field full-width">
+    <mat-label>Address</mat-label>
+    <textarea matInput [(ngModel)]="Admission.address" readonly></textarea>
+  </mat-form-field>
+
+    <!-- Ward/Room No. -->
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Ward/Room No.</mat-label>
+    <input matInput name="ward" [(ngModel)]="Admission.ward" />
+  </mat-form-field>
+
+  <!-- Admission Upload -->
+  <label for="admissionUpload"><strong>Upload Admission Document : </strong></label>
+  <input
+    type="file"
+    id="admissionUpload"
+    (change)="onAdmissionFileSelected($event)"
+    accept="image/*,application/pdf"
+  />
+
+
+</section>
+
+
 <!-- multipal button -->
 <section class="section" *ngIf="selectedTemplate">
   <div class="button-groupallbtn">
@@ -354,6 +410,15 @@
       color="primary"
       (click)="onSaveLamaConsent()"
       *ngIf="selectedTemplate === 'lama'"
+    >
+      Save
+    </button>
+    <!-- Admission -->
+     <button
+      mat-raised-button
+      color="primary"
+      (click)="onSaveAdmission()"
+      *ngIf="selectedTemplate === 'Admission'"
     >
       Save
     </button>
@@ -531,6 +596,55 @@
               alt="LAMA Document"
               class="ecg-thumbnail"
               (click)="openFullScreen(lama.image_blobUrl)"
+            />
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+
+<!-- Admission Consent View -->
+<section class="section" *ngIf="admissions && admissions.length > 0">
+  <h3 class="sub-heading">Admission Consents</h3>
+
+  <div class="doctor-entry" *ngFor="let admission of admissions">
+    <div class="grid-3 user-header">
+      <div><strong>Doctor Name:</strong> {{ admission.submittedBy }}</div>
+      <div><strong>Designation:</strong> {{ admission.designation }}</div>
+      <div>
+        <strong>Date:</strong> {{ admission.createdAt | date : "dd-MM-yyyy" }}
+      </div>
+      <div>
+        <strong>Time:</strong> {{ admission.createdAt | date : "shortTime" }}
+      </div>
+
+      <mat-slide-toggle
+        [(ngModel)]="admission.showDetails"
+        color="primary"
+        class="custom-slide-toggle"
+      >
+      </mat-slide-toggle>
+    </div>
+
+    <table
+      class="mat-elevation-z2 full-width-table"
+      *ngIf="admission.showDetails"
+    >
+      <tr *ngIf="admission.wardConsentDocument">
+        <th>Ward Consent</th>
+        <td>
+          <button mat-button (click)="toggleImage(admission, 'wardConsentDocument')">
+            {{ admission.showImage ? "Hide Image" : "Show Image" }}
+          </button>
+
+          <div *ngIf="admission.showImage">
+            <img
+              [src]="admission.wardConsentDocument_url"
+              alt="Ward Document"
+              class="ecg-thumbnail"
+              (click)="openFullScreen(admission.wardConsentDocument_url)"
             />
           </div>
         </td>

@@ -2,7 +2,7 @@
 <div class="top-bar">
   <div class="summary"></div>
 
-  <div class="header-section" *ngIf="designation === 'Doctor'">
+  <div class="header-section" >
     <div class="header-with-logo">
       <img
         src="../../../assets/aiimslogo.jpg"
@@ -107,7 +107,7 @@
             </span>
           </td>
 
-          <td class="action-icons" *ngIf="designation != 'Nursing-Staff' ">
+          <td class="action-icons" *ngIf="designation != 'Doctor' ">
             <!-- Edit -->
             <button
               mat-icon-button

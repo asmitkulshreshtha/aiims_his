@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../../shared/material/material.module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './point-of-care-test.component.css',
 })
 export class PointOfCareTestComponent {
+  @ViewChild('fileInput') fileInput!: ElementRef;
   // Toggle state
   activeSection: string | null = null;
   filesurl: string = '';
@@ -48,30 +49,29 @@ export class PointOfCareTestComponent {
   // bloodGasImagePreview: string | null = null;
 
   // Blood Gas
-bloodGasDate: Date | null = null;
-bloodGasTime: string = '';
-bloodGasType: string = '';
+  bloodGasDate: Date | null = null;
+  bloodGasTime: string = '';
+  bloodGasType: string = '';
 
-ph: string = '';
-pco2: string = '';
-hco3: string = '';
-be: string = '';
-hct: string = ''; 
-hb: string = ''; 
-so2: string = '';  
-cohb: string = ''; 
-mchb: string = ''; 
-na: string = '';   
-k: string = '';   
-ca: string = ''; 
-mosm: string = ''; 
-glu: string = ''; 
-lac: string = ''; 
+  ph: string = '';
+  pco2: string = '';
+  hco3: string = '';
+  be: string = '';
+  hct: string = '';
+  hb: string = '';
+  so2: string = '';
+  cohb: string = '';
+  mchb: string = '';
+  na: string = '';
+  k: string = '';
+  ca: string = '';
+  mosm: string = '';
+  glu: string = '';
+  lac: string = '';
 
-bloodGasOther: string = '';
-bloodGasInterpretation: string = '';
-bloodGasImagePreview: string | null = null;
-
+  bloodGasOther: string = '';
+  bloodGasInterpretation: string = '';
+  bloodGasImagePreview: string | null = null;
 
   // Troponin
   troponinDate: Date | null = null;
@@ -188,7 +188,7 @@ bloodGasImagePreview: string | null = null;
     }
   }
 
-   savePocus(patientId: number) {
+  savePocus(patientId: number) {
     // ✅ Validation check
     if (!this.protocol?.trim() && !this.findings?.trim()) {
       this.snackBar.open(
@@ -272,8 +272,10 @@ bloodGasImagePreview: string | null = null;
 
     this.pocService.saveEcg(formData).subscribe({
       next: (res: any) => {
-        console.log('✅ ECG saved', res);
-        alert('ECG data saved successfully.');
+        this.snackBar.open('ECG data saved successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
         this.loadEcgData();
 
         // Reset
@@ -282,8 +284,10 @@ bloodGasImagePreview: string | null = null;
         this.ecgImageFile = null;
       },
       error: (err) => {
-        console.error('❌ ECG save failed', err);
-        alert('Failed to save ECG data.');
+        this.snackBar.open('Failed to save ECG data.', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
       },
     });
   }
@@ -305,29 +309,31 @@ bloodGasImagePreview: string | null = null;
   }
   // Function to handle image upload for ECG
   saveBloodGas(patientId: number) {
-    if (!this.bloodGasImageFile) {
-      alert('Please upload a Blood Gas image');
-      return;
-    }
+    // if (!this.bloodGasImageFile) {
+    //   this.snackBar.open('Please upload a Blood Gas image', 'Close', {
+    //     duration: 3000,
+    //     panelClass: ['snackbar-error'],
+    //   });
+    // }
 
     const formData = new FormData();
     formData.append('patientId', this.patientId.toString());
-     formData.append('bloodGasType', this.bloodGasType || '');
-     formData.append('ph', this.ph || '');
-     formData.append('cohb', this.cohb || '');
-     formData.append('pco2', this.pco2 || '');
-     formData.append('mchb', this.mchb || '');
-     formData.append('hco3', this.hco3 || '');
-     formData.append('na', this.na || '');
-     formData.append('be', this.be || '');
-     formData.append('k', this.k || '');
-     formData.append('hct', this.hct || '');
-     formData.append('ca', this.ca || '');
-     formData.append('hb', this.hb || '');
-     formData.append('mosm', this.mosm || '');
-     formData.append('so2', this.so2 || '');
-     formData.append('glu', this.glu || '');
-     formData.append('lac', this.lac || '');
+    formData.append('bloodGasType', this.bloodGasType || '');
+    formData.append('ph', this.ph || '');
+    formData.append('cohb', this.cohb || '');
+    formData.append('pco2', this.pco2 || '');
+    formData.append('mchb', this.mchb || '');
+    formData.append('hco3', this.hco3 || '');
+    formData.append('na', this.na || '');
+    formData.append('be', this.be || '');
+    formData.append('k', this.k || '');
+    formData.append('hct', this.hct || '');
+    formData.append('ca', this.ca || '');
+    formData.append('hb', this.hb || '');
+    formData.append('mosm', this.mosm || '');
+    formData.append('so2', this.so2 || '');
+    formData.append('glu', this.glu || '');
+    formData.append('lac', this.lac || '');
     formData.append('bloodGasOther', this.bloodGasOther || '');
     formData.append(
       'bloodGasInterpretation',
@@ -339,16 +345,20 @@ bloodGasImagePreview: string | null = null;
     if (this.bloodGasImageFile) {
       formData.append('bloodGasImage', this.bloodGasImageFile);
     }
-   console.log('Submitting Blood Gas FormData:', formData);
+    console.log('Submitting Blood Gas FormData:', formData);
     this.pocService.saveBloodGas(formData).subscribe({
       next: (res) => {
         this.loadBloodGasData();
-        console.log('✅ Blood Gas saved', res);
-        alert('Blood Gas data saved successfully.');
+        this.snackBar.open('Blood Gas data saved successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
       },
       error: (err) => {
-        console.error('❌ Blood Gas save failed', err);
-        alert('Failed to save Blood Gas data.');
+        this.snackBar.open('Failed to save Blood Gas data.', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
       },
     });
   }
@@ -368,37 +378,37 @@ bloodGasImagePreview: string | null = null;
       },
     });
   }
-toggleImage(item: any, imageKey: string) {
-  if (item.showImage) {
-    item.showImage = false;
-    return;
-  }
-
-  if (item.image_blobUrl) {
-    item.showImage = true;
-    return;
-  }
-
-  console.log('Fetching image for:', item);
-
-  const fileName = item[imageKey];
-  if (!fileName) {
-    console.error('❌ Invalid file URL');
-    return;
-  }
-
-  this.fileService.getfile(fileName).subscribe({
-    next: (blob: Blob) => {
-      const objectUrl = URL.createObjectURL(blob);
-      item.image_blobUrl = objectUrl;
-      item.showImage = true;
-    },
-    error: (err) => {
-      console.error('❌ Error fetching file:', err);
+  toggleImage(item: any, imageKey: string) {
+    if (item.showImage) {
       item.showImage = false;
-    },
-  });
-}
+      return;
+    }
+
+    if (item.image_blobUrl) {
+      item.showImage = true;
+      return;
+    }
+
+    console.log('Fetching image for:', item);
+
+    const fileName = item[imageKey];
+    if (!fileName) {
+      console.error('❌ Invalid file URL');
+      return;
+    }
+
+    this.fileService.getfile(fileName).subscribe({
+      next: (blob: Blob) => {
+        const objectUrl = URL.createObjectURL(blob);
+        item.image_blobUrl = objectUrl;
+        item.showImage = true;
+      },
+      error: (err) => {
+        console.error('❌ Error fetching file:', err);
+        item.showImage = false;
+      },
+    });
+  }
 
   // Function to handle image upload for ECG
   saveTroponin(patientId: number) {
@@ -412,19 +422,22 @@ toggleImage(item: any, imageKey: string) {
       troponinInterpretation: this.troponinInterpretation || 'Normal',
       troponinValue: this.troponinValue || 0,
       patientId: patientId,
-      // name: this.troponinDoctorSign || 'Unknown Doctor',
       designation: 'Doctor',
     };
 
     this.pocService.saveTroponin(data).subscribe({
       next: (res) => {
         this.loadTroponinData(patientId);
-        console.log('✅ Troponin saved', res);
-        alert('Troponin data saved successfully.');
+        this.snackBar.open('Troponin data saved successfully.', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
       },
       error: (err) => {
-        console.error('❌ Troponin save failed', err);
-        alert('Failed to save Troponin data.');
+        this.snackBar.open('Failed to save Troponin data', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
       },
     });
   }
@@ -445,16 +458,38 @@ toggleImage(item: any, imageKey: string) {
 
   // Function to load Other Test
   saveOtherTest(patientId: number) {
+    const isAnyFieldFilled =
+      this.proBnpValue ||
+      this.proBnpInterpretation ||
+      this.dDimerValue ||
+      this.dDimerInterpretation ||
+      this.crpValue ||
+      this.crpInterpretation ||
+      this.esrValue ||
+      this.esrInterpretation;
+
+    if (!isAnyFieldFilled) {
+      this.snackBar.open(
+        'Please fill at least one field before saving!',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        }
+      );
+      return;
+    }
+
     const data = {
       patientId: patientId,
       proBnpValue: this.proBnpValue || null,
       proBnpInterpretaion: this.proBnpInterpretation || '',
       dDimerValue: this.dDimerValue || null,
-      dDimerInterpretaion:this.dDimerInterpretation || '',
+      dDimerInterpretaion: this.dDimerInterpretation || '',
       crpValue: this.crpValue || null,
       crpInterpretaion: this.crpInterpretation || '',
       esrValue: this.esrValue || null,
-      esrInterpretaion:this.esrInterpretation || '',
+      esrInterpretaion: this.esrInterpretation || '',
       submittedBy: '',
       designation: 'Doctor',
     };
@@ -462,12 +497,16 @@ toggleImage(item: any, imageKey: string) {
     this.pocService.saveOtherTest(data).subscribe({
       next: (res) => {
         this.loadOtherTestData(patientId);
-        console.log('✅ Other test saved', res);
-        alert('Other test saved successfully.');
+        this.snackBar.open('Other test saved successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+        });
       },
       error: (err) => {
-        console.error('❌ Save failed', err);
-        alert('Failed to save other test.');
+        this.snackBar.open('Failed to save other test', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
       },
     });
   }
@@ -503,6 +542,10 @@ toggleImage(item: any, imageKey: string) {
   submitXray(): void {
     if (!this.selectedFile || !this.patientId || !this.xrayType) {
       console.error('Missing required fields!');
+      this.snackBar.open('Please fill all required fields!', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-error'],
+      });
       return;
     }
 
@@ -514,17 +557,35 @@ toggleImage(item: any, imageKey: string) {
     };
 
     this.pocService.addXray(xrayData).subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         this.getXrayData(this.patientId);
+
+        this.snackBar.open('X-Ray submitted successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+        });
+        // ✅ Reset inputs
+        this.xrayType = '';
+        this.xrayFindings = '';
+        this.selectedFile = null;
+        this.previewUrl = null;
+        this.fileInput.nativeElement.value = '';
       },
-      error: (err) => console.error('Error submitting x-ray', err),
+      error: (err) => {
+        console.error('Error submitting x-ray', err);
+
+        this.snackBar.open('Failed to submit X-Ray. Try again!', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
+      },
     });
   }
 
   onCTFileSelected(event: any) {
-     const file = event.target.files[0];
+    const file = event.target.files[0];
     if (file) {
-       this.ctScanImage = file;
+      this.ctScanImage = file;
       console.log('Selected CT Scan Image:', this.ctScanImage);
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -533,40 +594,61 @@ toggleImage(item: any, imageKey: string) {
       reader.readAsDataURL(file);
     }
   }
+  submitCTScan() {
+    if (!this.ctScanImage || !this.patientId || !this.ctType) {
+      console.error('Missing required fields for CT Scan!');
+      this.snackBar.open(
+        'Please fill all required fields for CT Scan!',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        }
+      );
+      return;
+    }
 
-submitCTScan() {
-  if (!this.ctScanImage || !this.patientId || !this.ctType) {
-    console.error('Missing required fields for CT Scan!');
-    return;
+    const ctScanFormData = {
+      patientId: this.patientId,
+      ctType: this.ctType || '',
+      ctFindings: this.ctFindings || '',
+      ctScanList: this.ctScanList || [],
+      ctTypes: this.ctTypes || [],
+      xrayDataList: this.xrayDataList || [],
+      ctScanImage: this.ctScanImage,
+    };
+
+    console.log('CT Scan Form Data:', ctScanFormData);
+
+    this.pocService.submitCTScan(ctScanFormData).subscribe({
+      next: (res: any) => {
+        this.loadCtScanData(this.patientId);
+
+        this.snackBar.open('CT Scan submitted successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success'],
+        });
+
+        this.ctType = '';
+        this.ctFindings = '';
+        this.ctScanImage = null;
+      },
+      error: (err) => {
+        console.error('Error submitting CT scan data:', err);
+
+        this.snackBar.open('Failed to submit CT Scan. Try again!', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        });
+      },
+    });
   }
-  const ctScanFormData = {
-    patientId: this.patientId,
-    ctType: this.ctType || '',
-    ctFindings: this.ctFindings || '',
-    ctScanList: this.ctScanList || [],
-    ctTypes: this.ctTypes || [],
-    xrayDataList: this.xrayDataList || [],
-    ctScanImage: this.ctScanImage,
-  };
-  console.log('CT Scan Form Data:', ctScanFormData);
-  this.pocService.submitCTScan(ctScanFormData).subscribe({
-    next: (res: any) => {
-      this.loadCtScanData(this.patientId);
-    },
-    error: (err) => {
-      console.error('Error submitting CT scan data:', err);
-    },
-  });
-}
-
 
   loadCtScanData(patientId: number) {
     this.pocService.getCtScanData(patientId).subscribe({
-      
-      
       next: (res: any) => {
         console.log('CT Scan Data:', res);
-        const data = (res.data) ? res.data : [];
+        const data = res.data ? res.data : [];
         this.ctScanList = data.map((item: any) => ({
           ...item,
           showDetails: false,
@@ -589,52 +671,48 @@ submitCTScan() {
     this.fullscreenImageUrl = null;
   }
 
-getXrayData(patientId: number): void {
+  getXrayData(patientId: number): void {
+    this.pocService.getXrayData(patientId).subscribe({
+      next: (res: any) => {
+        console.log('✔️ Raw X-ray response:', res);
 
-  this.pocService.getXrayData(patientId).subscribe({
-    next: (res: any) => {
-      console.log('✔️ Raw X-ray response:', res);
-
-      const xrayArray = (res.data) ? res.data : [];
-      console.log('✔️ Processed X-ray data:', typeof(xrayArray) ,xrayArray ) ;
-      if( xrayArray.length > 0) {
-        console.warn('❗ No X-ray data found for patient:', patientId);
-        this.xrayDataList = xrayArray.map((x:any) => ({
-          
-          ...x,
-          showImage: false,
-          xrayImage_blobUrl: x.xrayImage_url //  use direct URL
-        }));
-        console.log('✔️ X-ray item:', this.xrayDataList)
-      }
-    },
-    error: (err: any) => {
-      console.error('❌ Error fetching x-ray data', err);
-    }
-  });
-}
-
-
- createBlobUrl(base64Data: string): string {
-  if (!base64Data) return '';
-  try {
-    const byteCharacters = atob(base64Data);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: 'image/jpeg' });
-    return URL.createObjectURL(blob);
-  } catch (error) {
-    console.error('Invalid base64 image:', error);
-    return '';
+        const xrayArray = res.data ? res.data : [];
+        console.log('✔️ Processed X-ray data:', typeof xrayArray, xrayArray);
+        if (xrayArray.length > 0) {
+          console.warn('❗ No X-ray data found for patient:', patientId);
+          this.xrayDataList = xrayArray.map((x: any) => ({
+            ...x,
+            showImage: false,
+            xrayImage_blobUrl: x.xrayImage_url, //  use direct URL
+          }));
+          console.log('✔️ X-ray item:', this.xrayDataList);
+        }
+      },
+      error: (err: any) => {
+        console.error('❌ Error fetching x-ray data', err);
+      },
+    });
   }
-}
-dateFilter = (d: Date | null): boolean => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return !d ? false : d >= today;
-};
 
+  createBlobUrl(base64Data: string): string {
+    if (!base64Data) return '';
+    try {
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' });
+      return URL.createObjectURL(blob);
+    } catch (error) {
+      console.error('Invalid base64 image:', error);
+      return '';
+    }
+  }
+  dateFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return !d ? false : d >= today;
+  };
 }

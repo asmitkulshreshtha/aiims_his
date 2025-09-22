@@ -84,7 +84,7 @@ export class LoginComponent {
 
       let role = 'u';
       if (designation === 'Admin') role = 'a';
-      else if (designation === 'Master') role = 'm';
+      else if (designation === 'Faculty') role = 'f';
       else if (designation === 'Nursing-Staff') role = 'n';
       else if (designation === 'Doctor') role = 'd';
       else if (designation === 'Registration-desk') role = 'r';

@@ -21,7 +21,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field">
-        <mat-label>orgn/Protocol</mat-label>
+        <mat-label>Organ/Protocol</mat-label>
         <input matInput type="text" [(ngModel)]="protocol" />
       </mat-form-field>
     </div>
@@ -264,7 +264,7 @@
         id="bloodGasImage"
         (change)="onBloodGasImageUpload($event)"
         accept="image/*"
-        required
+        
       />
       <div *ngIf="bloodGasImagePreview" class="image-preview">
         <img [src]="bloodGasImagePreview" alt="Blood Gas Preview" />

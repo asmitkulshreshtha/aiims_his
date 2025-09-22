@@ -182,7 +182,7 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
-              <mat-label>Temp (°C)</mat-label>
+              <mat-label>Temp (°F)</mat-label>
               <input matInput formControlName="temp" type="number" />
               <mat-error *ngIf="triageForm.get('temp')?.hasError('required')">
                 Temperature is required

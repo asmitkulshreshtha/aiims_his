@@ -7,6 +7,7 @@ import { AuthService } from '../../../../../api/auth.service';
 import { PatientService } from '../../../../../api/patient.service';
 import { Console } from 'console';
 import { FileService } from '../../../../../api/file.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-discharge',
   standalone: true,
@@ -72,13 +73,32 @@ export class DischargeComponent {
   lamaFile: File | null = null;
   lamaConsents: any[] = [];
 
+  Admission = {
+  name: '',
+  age: '',
+  sex: '',
+  guardian_name: '',
+  address: '',
+  ward: '',
+  image_blobUrl: '',
+  showImage: false,
+wardConsentDocument: '',
+  showDetails: false,
+  createdAt: '',
+  updatedAt: '',
+  submittedBy: '',
+  designation: '',
+  wardConsentDocument_url: '',
+};
+  AdmissionFile: File | null = null;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     public templateService: TemplateService,
     public authService: AuthService,
     public patientService: PatientService,
-    private fileService: FileService
+    private fileService: FileService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -107,7 +127,7 @@ export class DischargeComponent {
         this.copyPatientDetailsTo(this.transfer);
         this.copyPatientDetailsTo(this.discharge);
         this.copyPatientDetailsTo(this.lama);
-
+        this.copyPatientDetailsTo(this.Admission);
         this.isLoading = false;
       },
       error: (err: any) => {
@@ -119,6 +139,7 @@ export class DischargeComponent {
     this.getDischargeSummaries();
     this.getTransferSlips();
     this.getLamaConsent(this.patientId);
+    this.getAdmission(this.patientId);
   }
 
   copyPatientDetailsTo(target: any) {
@@ -315,4 +336,70 @@ export class DischargeComponent {
   get spo2Num(): number {
     return Number(this.discharge?.spo2);
   }
+onSaveAdmission() {
+  console.log('Saving Admission Consent for patient ID:', this.patientId);
+
+  const formData = new FormData();
+  formData.append('patientId', this.patientId.toString());
+  formData.append('name', this.Admission.name);
+  formData.append('age', this.Admission.age);
+  formData.append('sex', this.Admission.sex);
+  formData.append('guardian_name', this.Admission.guardian_name);
+  formData.append('address', this.Admission.address);
+  formData.append('ward', this.Admission.ward);
+
+  if (this.AdmissionFile) {
+    formData.append('AdmissionConsentDocument', this.AdmissionFile);
+  }
+
+  this.templateService.saveAdmission(formData).subscribe({
+    next: (res: any) => {
+      console.log('✅ Admission Consent saved:', res);
+
+      this.snackBar.open('Admission Consent saved successfully!', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+      });
+
+      this.getAdmission(this.patientId);
+    },
+    error: (err: any) => {
+      console.error('❌ Error saving Admission Consent:', err);
+
+      this.snackBar.open('Failed to save Admission Consent!', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+      });
+    },
+  });
+}
+
+onAdmissionFileSelected(event: any) {
+  this.AdmissionFile = event.target.files[0];
+  console.log('Admission file selected:', this.AdmissionFile);
+}
+
+
+admissions: any[] = [];
+
+getAdmission(patientId: number = this.patientId) {
+  this.templateService.getAdmission(this.patientId).subscribe({
+    next: (res: any) => {
+      console.log('📦 admission API response:', res);
+      if (res.data && res.data.length > 0) {
+        this.admissions = res.data.map((item: any) => ({
+          ...item,
+          showDetails: false,
+          showImage: false
+        }));
+      }
+    },
+    error: (err: any) => {
+      console.error('❌ Error fetching Admission Consent:', err);
+    },
+  });
+}
+
 }

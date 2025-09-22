@@ -121,3 +121,42 @@
   gap: 1.2rem;
   margin-bottom: 20px;
 }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.date-time-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.upload-box {
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.lft-card {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+}
+
+.entry-header {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}

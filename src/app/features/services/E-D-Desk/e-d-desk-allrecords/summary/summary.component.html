@@ -1,3 +1,36 @@
-<div class="summary-container">
-    <button (click)="printPatientData()">🖨️ Print / Save </button>
+<!-- <div class="summary-container">
+  <div class="controls-section" *ngIf="!showPreview">
+    <h2>Patient Report Generator</h2>
+    <p>Click the button below to generate a comprehensive patient report with selectable sections.</p>
+    <div class="action-buttons">
+      <button class="btn btn-primary btn-lg" (click)="generatePreview()">
+        <i class="icon">📄</i> Generate Report Preview
+      </button>
+    </div>
+  </div>
+
+  <div class="preview-section" *ngIf="showPreview">
+    <div class="preview-controls no-print">
+      <div class="controls-row">
+        <button class="btn btn-secondary" (click)="showPreview = false">
+          <i class="icon">←</i> Back to Start
+        </button>
+        <button class="btn btn-success btn-lg" (click)="printReport()">
+          <i class="icon">🖨️</i> Print Full Report
+        </button>
+      </div>
+      <div class="info-text">
+        <p><strong>Instructions:</strong> Use the checkboxes on each section to include/exclude them from printing. Unchecked sections will be struck through and excluded from the final print.</p>
+      </div>
+    </div>
+   
+    <div class="report-container">
+      <div class="report-content" [innerHTML]="reportContent"></div>
+    </div>
+  </div>
+</div> -->
+<div class="summary-btn">
+    <button class="btn btn-success btn-lg" (click)="printReport()">
+            <i class="icon">🖨️</i> Print Full Report
+    </button>
 </div>

@@ -13,12 +13,31 @@
         </mat-select>
       </mat-form-field>
 
-      <!-- Call Responded At -->
-      <mat-form-field appearance="outline" class="form-field">
-        <mat-label>Call Responded At</mat-label>
-        <input matInput type="datetime-local" [(ngModel)]="callRespondedAt" name="callRespondedAt" />
-      </mat-form-field>
-  
+      <!-- Call Given Date + Time -->
+      <div class="date-time-row">
+        <!-- Date -->
+        <mat-form-field appearance="outline">
+          <mat-label>Call Given Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [(ngModel)]="callDate"
+            name="callDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Time -->
+        <mat-form-field appearance="outline">
+          <mat-label>Call Given Time</mat-label>
+          <input matInput type="time" [(ngModel)]="callTime" name="callTime" />
+        </mat-form-field>
+      </div>
+
       <!-- Consultant Name -->
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Consultant/Sr/Jr Name</mat-label>
@@ -26,49 +45,73 @@
       </mat-form-field>
     </div>
 
-   <div>
-     <!-- Call Given To -->
-     <mat-form-field appearance="outline" class="form-field">
-       <mat-label>Call Given To</mat-label>
-       <mat-select [(ngModel)]="callGivenTo" name="callGivenTo">
-         <mat-option *ngFor="let person of callGivenOptions" [value]="person">
-           {{ person }}
-         </mat-option>
-       </mat-select>
-     </mat-form-field>
- 
-     <!-- Call Seen At -->
-     <mat-form-field appearance="outline" class="form-field">
-       <mat-label>Call Seen At</mat-label>
-       <input matInput type="datetime-local" [(ngModel)]="callSeenAt" name="callSeenAt" />
-     </mat-form-field>
- 
-     <!-- Disposition Plan -->
-     <mat-form-field appearance="outline" style="width: 100%;">
-       <mat-label>Disposition Plan</mat-label>
-       <mat-select [(ngModel)]="dispositionPlan" name="dispositionPlan">
-         <mat-option value="">Select Plan</mat-option>
-         <mat-option value="Admitting">Admitting</mat-option>
-         <mat-option value="No Beds Available">No Beds Available</mat-option>
-         <mat-option value="Observation">Observation</mat-option>
-         <mat-option value="Cross Referral">Cross Referral</mat-option>
-         <mat-option value="Will Review Again">Will Review Again</mat-option>
-         <mat-option value="Discharge">Discharge</mat-option>
-       </mat-select>
-     </mat-form-field>
-   </div>
+    <div>
+      <!-- Call Given To -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Call Given To</mat-label>
+        <mat-select [(ngModel)]="callGivenTo" name="callGivenTo">
+          <mat-option *ngFor="let person of callGivenOptions" [value]="person">
+            {{ person }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Call Seen At Date + Time -->
+      <div class="date-time-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Call Seen Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="seenPicker"
+            [(ngModel)]="callSeenDate"
+            name="callSeenDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="seenPicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #seenPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Call Seen Time</mat-label>
+          <input
+            matInput
+            type="time"
+            [(ngModel)]="callSeenTime"
+            name="callSeenTime"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Disposition Plan -->
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Disposition Plan</mat-label>
+        <mat-select [(ngModel)]="dispositionPlan" name="dispositionPlan">
+          <mat-option value="">Select Plan</mat-option>
+          <mat-option value="Admitting">Admitting</mat-option>
+          <mat-option value="No Beds Available">No Beds Available</mat-option>
+          <mat-option value="Observation">Observation</mat-option>
+          <mat-option value="Cross Referral">Cross Referral</mat-option>
+          <mat-option value="Will Review Again">Will Review Again</mat-option>
+          <mat-option value="Discharge">Discharge</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 
   <!-- Upload File -->
   <div class="upload-box">
     <h4>Upload Document/Report</h4>
-    <input type="file" (change)="onFileSelected($event)" />
+    <input type="file" (change)="onFileSelected($event)" #fileInput />
     <p *ngIf="consultationImage">Selected File: {{ consultationImage.name }}</p>
   </div>
 
   <!-- Save Button -->
   <div class="button-container">
-    <button mat-raised-button color="primary" (click)="saveConsultation()">Save</button>
+    <button mat-raised-button color="primary" (click)="saveConsultation()">
+      Save
+    </button>
   </div>
 </section>
 
@@ -83,9 +126,9 @@
       <div><strong>Submitted By:</strong> {{ rec.submittedBy }}</div>
       <div><strong>Designation:</strong> {{ rec.designation }}</div>
       <div>
-        <strong>Date:</strong> {{ rec.createdAt | date: "dd-MM-yyyy" }}
+        <strong>Date:</strong> {{ rec.createdAt | date : "dd-MM-yyyy" }}
       </div>
-      <div><strong>Time:</strong> {{ rec.createdAt | date: "shortTime" }}</div>
+      <div><strong>Time:</strong> {{ rec.createdAt | date : "shortTime" }}</div>
       <mat-slide-toggle
         [(ngModel)]="rec.showDetails"
         color="primary"
@@ -101,7 +144,14 @@
         <div class="form-row">
           <p><strong>Department:</strong> {{ rec.department }}</p>
           <p><strong>Call Given To:</strong> {{ rec.callGivenTo }}</p>
-          <p><strong>Call Seen At:</strong> {{ rec.callSeenAt || 'N/A' }}</p>
+          <p>
+            <strong>Call Seen At:</strong>
+            {{
+              rec.callSeenAt
+                ? (rec.callSeenAt | date : "yyyy-MM-dd HH:mm:ss")
+                : "N/A"
+            }}
+          </p>
           <p><strong>Disposition Plan:</strong> {{ rec.dispositionPlan }}</p>
         </div>
       </div>
@@ -113,7 +163,7 @@
           [src]="rec.consultationImage_url"
           alt="Consultation File"
           width="200"
-          style="margin-top:8px; border-radius:8px; border:1px solid #ccc;"
+          style="margin-top: 8px; border-radius: 8px; border: 1px solid #ccc"
         />
       </div>
     </div>
@@ -123,4 +173,3 @@
 <ng-template #noData>
   <p>No consultations found.</p>
 </ng-template>
-
