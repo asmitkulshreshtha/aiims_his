@@ -17,12 +17,6 @@
            <button (click)="navigateTo('/triage-list')" *ngIf="role === 't' || role === 'f'">
             Triage List
           </button>
-          <!-- <button
-            (click)="navigateTo('/patient-list')"
-            *ngIf="role === 't' || role === 'm'"
-          >
-            Patient List
-          </button> -->
           <button
             (click)="navigateTo('/registration-list')"
             *ngIf="role === 'r' || role === 'f'"

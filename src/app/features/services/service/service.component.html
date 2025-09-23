@@ -37,7 +37,10 @@
       <p>Quick and hassle-free patient registration.</p>
       <a [routerLink]="['/patient-added']"><button>View</button></a>
     </div>
-    <div class="service-card" *ngIf="role === 't' || role === 'n' || role === 'f'">
+    <div
+      class="service-card"
+      *ngIf="role === 't' || role === 'n' || role === 'f'"
+    >
       <div class="icon-placeholder">🏥</div>
       <h3>Triage Entry Desk</h3>
       <p>First point of contact for emergency cases.</p>

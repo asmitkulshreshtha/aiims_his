@@ -117,81 +117,49 @@ export class InvestigationOrderComponent {
       error: (err) => console.error('Error fetching CBC data', err),
     });
   }
-
-  // saveCbcOrder() {
-  //   const user = this.authService.getCurrentUserFromToken();
-  //   const body = {
-  //     hemoglobin: Number(this.hemoglobin),
-  //     hct: Number(this.hct),
-  //     mcv: Number(this.mcv),
-  //     rdwcv: Number(this.rdwcv),
-  //     tlc: Number(this.tlc),
-  //     neutrophils: Number(this.neutrophils),
-  //     lymphocytes: Number(this.lymphocytes),
-  //     monocytes: Number(this.monocytes),
-  //     eosinophils: Number(this.eosinophils),
-  //     basophil: Number(this.basophil),
-  //     plateletCount: Number(this.plateletCount),
-  //     patientId: this.patientId,
-  //     submitted_by: user?.user || 'Unknown',
-  //     designation: user?.designation || 'N/A',
-  //   };
-
-  //   console.log('Saving CBC order:', body);
-
-  //   this.investigationService.saveCbc(body).subscribe({
-  //     next: (res: any) => {
-  //       console.log('CBC saved successfully:', res.data);
-  //       this.loadCbc(this.patientId);
-  //       console.log('All CBC records so far:', this.cbcRecords);
-  //     },
-  //     error: (err: any) => console.error('Error saving CBC', err),
-  //   });
-  // }
-
   saveCbcOrder() {
-  const user = this.authService.getCurrentUserFromToken();
-  const body = {
-    hemoglobin: Number(this.hemoglobin),
-    hct: Number(this.hct),
-    mcv: Number(this.mcv),
-    rdwcv: Number(this.rdwcv),
-    tlc: Number(this.tlc),
-    neutrophils: Number(this.neutrophils),
-    lymphocytes: Number(this.lymphocytes),
-    monocytes: Number(this.monocytes),
-    eosinophils: Number(this.eosinophils),
-    basophil: Number(this.basophil),
-    plateletCount: Number(this.plateletCount),
-    patientId: this.patientId,
-    submitted_by: user?.user || 'Unknown',
-    designation: user?.designation || 'N/A',
-  };
+    const user = this.authService.getCurrentUserFromToken();
+    const body = {
+      hemoglobin: Number(this.hemoglobin),
+      hct: Number(this.hct),
+      mcv: Number(this.mcv),
+      rdwcv: Number(this.rdwcv),
+      tlc: Number(this.tlc),
+      neutrophils: Number(this.neutrophils),
+      lymphocytes: Number(this.lymphocytes),
+      monocytes: Number(this.monocytes),
+      eosinophils: Number(this.eosinophils),
+      basophil: Number(this.basophil),
+      plateletCount: Number(this.plateletCount),
+      patientId: this.patientId,
+      submitted_by: user?.user || 'Unknown',
+      designation: user?.designation || 'N/A',
+    };
 
-  console.log('Saving CBC order:', body);
+    console.log('Saving CBC order:', body);
 
-  this.investigationService.saveCbc(body).subscribe({
-    next: (res: any) => {
-      console.log('CBC saved successfully:', res.data);
-      this.loadCbc(this.patientId);
+    this.investigationService.saveCbc(body).subscribe({
+      next: (res: any) => {
+        console.log('CBC saved successfully:', res.data);
+        this.loadCbc(this.patientId);
 
-      // ✅ Snackbar success message
-      this.snackBar.open('✅ CBC saved successfully!', 'Close', {
-        duration: 3000,
-        panelClass: ['success-snackbar'], // Optional custom CSS
-      });
-    },
-    error: (err: any) => {
-      console.error('Error saving CBC', err);
+        // ✅ Snackbar success message
+        this.snackBar.open('✅ CBC saved successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'], // Optional custom CSS
+        });
+      },
+      error: (err: any) => {
+        console.error('Error saving CBC', err);
 
-      // ❌ Snackbar error message
-      this.snackBar.open('❌ Failed to save CBC. Try again.', 'Close', {
-        duration: 4000,
-        panelClass: ['error-snackbar'],
-      });
-    },
-  });
-}
+        // ❌ Snackbar error message
+        this.snackBar.open('❌ Failed to save CBC. Try again.', 'Close', {
+          duration: 4000,
+          panelClass: ['error-snackbar'],
+        });
+      },
+    });
+  }
 
   // Save LFT
   saveLftOrder() {

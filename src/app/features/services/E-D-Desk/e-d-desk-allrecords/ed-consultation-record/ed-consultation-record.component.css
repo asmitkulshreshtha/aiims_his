@@ -62,12 +62,13 @@
   border-radius: 12px;
   margin-bottom: 18px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #ddd;
 }
 .lft-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 .entry-header {
   display: flex;
@@ -102,7 +103,7 @@
   border: 1px solid #eee;
   border-radius: 10px;
   padding: 14px 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 .cbc-item h4 {
   margin: 0 0 10px;
@@ -114,12 +115,6 @@
   margin: 0 0 6px;
   font-size: 14px;
   color: #555;
-}
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.2rem;
-  margin-bottom: 20px;
 }
 .form-grid {
   display: grid;
@@ -138,25 +133,4 @@
   padding: 12px;
   border: 1px dashed #ccc;
   border-radius: 8px;
-}
-
-.button-container {
-  margin-top: 20px;
-}
-
-.lft-card {
-  background: #f9f9f9;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 12px;
-  border: 1px solid #ddd;
-}
-
-.entry-header {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  font-size: 14px;
-  margin-bottom: 8px;
 }

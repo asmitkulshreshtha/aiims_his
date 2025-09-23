@@ -73,11 +73,8 @@ export class DoctorNotesComponent implements OnInit {
   last_meal = '';
   prior_treatment = '';
   treatment_plan = '';
-   hasAllergy: string = 'no';
-   hasMedicationHistory: string = 'no';
-  // xray_advised = false;
-  // ct_advised = false;
-  // mri_advised = false;
+  hasAllergy: string = 'no';
+  hasMedicationHistory: string = 'no';
   constructor(
     // private router: Router,
     private route: ActivatedRoute,
@@ -324,7 +321,7 @@ export class DoctorNotesComponent implements OnInit {
     const note = {
       patientId: this.patientId,
       aho: this.aho,
-  allergy_history: this.hasAllergy === 'Yes' ? this.allergy_history : null,
+      allergy_history: this.hasAllergy === 'Yes' ? this.allergy_history : null,
       place_of_event: this.place_of_event,
       date_of_injury: this.date_of_injury,
       time_of_injury: this.time_of_injury,
@@ -342,7 +339,8 @@ export class DoctorNotesComponent implements OnInit {
       vomiting: this.vomiting,
       injury_identified: this.injury_identified,
       // allergy_history: this.allergy_history,
-  medication_history: this.hasMedicationHistory === 'Yes' ? this.medication_history : null,
+      medication_history:
+        this.hasMedicationHistory === 'Yes' ? this.medication_history : null,
       past_history: this.past_history,
       lmp: this.lmp,
       upt: this.upt,
@@ -352,7 +350,7 @@ export class DoctorNotesComponent implements OnInit {
       treatment_plan: this.treatment_plan,
       showDetails: false,
     };
- console.log('Note Data:', note);
+    console.log('Note Data:', note);
 
     const hasAnyValue = Object.keys(note).some(
       (key) =>
@@ -459,9 +457,6 @@ export class DoctorNotesComponent implements OnInit {
     this.upt = '';
     this.last_meal = '';
     this.prior_treatment = '';
-    // this.xray_advised = false;
-    // this.ct_advised = false;
-    // this.mri_advised = false;
     this.treatment_plan = '';
   }
 

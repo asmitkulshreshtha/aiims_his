@@ -64,9 +64,9 @@ export class TemplateService {
     return this.http?.get(`${this.baseUrldisposition}/lama/${patientId}`);
   }
 
-saveAdmission(formData: FormData) {
-  return this.http.post(`${this.baseUrldisposition}/admission`, formData);
-}
+  saveAdmission(formData: FormData) {
+    return this.http.post(`${this.baseUrldisposition}/admission`, formData);
+  }
 
   getAdmission(patientId: number) {
     return this.http?.get(`${this.baseUrldisposition}/admission/${patientId}`);

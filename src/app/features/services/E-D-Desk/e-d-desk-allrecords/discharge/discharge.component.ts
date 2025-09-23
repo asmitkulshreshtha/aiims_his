@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MaterialModule } from '../../../../../shared/material/material.module';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TemplateService } from '../../../../../api/template.service';
 import { AuthService } from '../../../../../api/auth.service';
 import { PatientService } from '../../../../../api/patient.service';
-import { Console } from 'console';
 import { FileService } from '../../../../../api/file.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
@@ -20,6 +19,7 @@ export class DischargeComponent {
   patientId!: number;
   patient: any;
   isLoading = true;
+  admissions: any[] = [];
   modalImage: string | null = null;
   // Transfer Out Slip
   transfer = {
@@ -74,22 +74,22 @@ export class DischargeComponent {
   lamaConsents: any[] = [];
 
   Admission = {
-  name: '',
-  age: '',
-  sex: '',
-  guardian_name: '',
-  address: '',
-  ward: '',
-  image_blobUrl: '',
-  showImage: false,
-wardConsentDocument: '',
-  showDetails: false,
-  createdAt: '',
-  updatedAt: '',
-  submittedBy: '',
-  designation: '',
-  wardConsentDocument_url: '',
-};
+    name: '',
+    age: '',
+    sex: '',
+    guardian_name: '',
+    address: '',
+    ward: '',
+    image_blobUrl: '',
+    showImage: false,
+    wardConsentDocument: '',
+    showDetails: false,
+    createdAt: '',
+    updatedAt: '',
+    submittedBy: '',
+    designation: '',
+    wardConsentDocument_url: '',
+  };
   AdmissionFile: File | null = null;
   constructor(
     private router: Router,
@@ -183,17 +183,26 @@ wardConsentDocument: '',
       patientId: this.patientId,
       ...this.transfer,
     };
-
-    console.log('Transfer slip data:', data);
-
     this.templateService.transferOutSlipData(data).subscribe({
       next: (res: any) => {
-        console.log('✅ Transfer slip saved:', res);
         this.getTransferSlips();
-        // Optionally reset: this.transfer = { ...initial values }
+
+        // ✅ Success snackbar
+        this.snackBar.open('Transfer Slip saved successfully!', 'Close', {
+          duration: 3000,
+        });
       },
       error: (err: any) => {
         console.error('❌ Transfer slip save error:', err);
+
+        // ❌ Error snackbar
+        this.snackBar.open(
+          'Failed to save Transfer Slip. Try again!',
+          'Close',
+          {
+            duration: 3000,
+          }
+        );
       },
     });
   }
@@ -204,19 +213,30 @@ wardConsentDocument: '',
       patientId: this.patientId,
       ...this.discharge,
     };
-
-    console.log('Discharge Summary data:', data);
-
     this.templateService.dischargeSummary(data).subscribe({
       next: (res: any) => {
-        console.log('Discharge Summary saved:', res);
         this.getDischargeSummaries();
+
+        // ✅ Success message
+        this.snackBar.open('Discharge Summary saved successfully!', 'Close', {
+          duration: 3000,
+        });
       },
       error: (err: any) => {
-        console.error('Error saving Discharge Summary:', err);
+        console.error('❌ Error saving Discharge Summary:', err);
+
+        // ❌ Error message
+        this.snackBar.open(
+          'Failed to save Discharge Summary. Try again!',
+          'Close',
+          {
+            duration: 3000,
+          }
+        );
       },
     });
   }
+
   // Save LAMA
   onLamaFileSelected(event: any) {
     const file = event.target.files[0];
@@ -226,9 +246,7 @@ wardConsentDocument: '',
   }
 
   onSaveLamaConsent() {
-    console.log('Saving LAMA Consent for patient ID:', this.patientId);
     const formData = new FormData();
-
     formData.append('patientId', this.patientId.toString());
     formData.append('name', this.lama.name);
     formData.append('age', this.lama.age);
@@ -237,30 +255,35 @@ wardConsentDocument: '',
     formData.append('address', this.lama.address);
 
     if (this.lamaFile) {
-      //  Change field name here
+      // Change field name here
       formData.append('lamaConsentDocument', this.lamaFile);
     }
 
     this.templateService.saveLamaConsent(formData).subscribe({
       next: (res: any) => {
-        console.log('✅ LAMA Consent saved:', res);
         this.getLamaConsent(this.patientId);
+
+        // ✅ Success message
+        this.snackBar.open('LAMA Consent saved successfully!', 'Close', {
+          duration: 3000,
+        });
       },
       error: (err: any) => {
         console.error('❌ Error saving LAMA Consent:', err);
+
+        // ❌ Error message
+        this.snackBar.open('Failed to save LAMA Consent. Try again!', 'Close', {
+          duration: 3000,
+        });
       },
     });
   }
 
   getLamaConsent(patientId: number = this.patientId) {
-    console.log('Fetching LAMA Consent for patient ID:', patientId);
     this.templateService.getLamaConsent(this.patientId).subscribe({
       next: (res: any) => {
-        console.log('📦 LAMA API response:', res);
-
         const latestConsent = res.data?.[res.data.length - 1];
         if (latestConsent) {
-          console.log('Latest LAMA Consent:', latestConsent);
           this.lama = {
             ...latestConsent,
             showDetails: false,
@@ -303,8 +326,6 @@ wardConsentDocument: '',
       return;
     }
 
-    console.log('Fetching image for:', item);
-
     const fileName = item[imageKey];
     if (!fileName) {
       console.error('❌ Invalid file URL');
@@ -336,70 +357,58 @@ wardConsentDocument: '',
   get spo2Num(): number {
     return Number(this.discharge?.spo2);
   }
-onSaveAdmission() {
-  console.log('Saving Admission Consent for patient ID:', this.patientId);
+  onSaveAdmission() {
+    const formData = new FormData();
+    formData.append('patientId', this.patientId.toString());
+    formData.append('name', this.Admission.name);
+    formData.append('age', this.Admission.age);
+    formData.append('sex', this.Admission.sex);
+    formData.append('guardian_name', this.Admission.guardian_name);
+    formData.append('address', this.Admission.address);
+    formData.append('ward', this.Admission.ward);
 
-  const formData = new FormData();
-  formData.append('patientId', this.patientId.toString());
-  formData.append('name', this.Admission.name);
-  formData.append('age', this.Admission.age);
-  formData.append('sex', this.Admission.sex);
-  formData.append('guardian_name', this.Admission.guardian_name);
-  formData.append('address', this.Admission.address);
-  formData.append('ward', this.Admission.ward);
+    if (this.AdmissionFile) {
+      formData.append('AdmissionConsentDocument', this.AdmissionFile);
+    }
 
-  if (this.AdmissionFile) {
-    formData.append('AdmissionConsentDocument', this.AdmissionFile);
+    this.templateService.saveAdmission(formData).subscribe({
+      next: (res: any) => {
+        console.log('✅ Admission Consent saved:', res);
+
+        this.snackBar.open('Admission Consent saved successfully!', 'Close', {
+          duration: 3000,
+        });
+
+        this.getAdmission(this.patientId);
+      },
+      error: (err: any) => {
+        console.error('❌ Error saving Admission Consent:', err);
+
+        this.snackBar.open('Failed to save Admission Consent!', 'Close', {
+          duration: 3000,
+        });
+      },
+    });
   }
 
-  this.templateService.saveAdmission(formData).subscribe({
-    next: (res: any) => {
-      console.log('✅ Admission Consent saved:', res);
+  onAdmissionFileSelected(event: any) {
+    this.AdmissionFile = event.target.files[0];
+  }
 
-      this.snackBar.open('Admission Consent saved successfully!', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-      });
-
-      this.getAdmission(this.patientId);
-    },
-    error: (err: any) => {
-      console.error('❌ Error saving Admission Consent:', err);
-
-      this.snackBar.open('Failed to save Admission Consent!', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-      });
-    },
-  });
-}
-
-onAdmissionFileSelected(event: any) {
-  this.AdmissionFile = event.target.files[0];
-  console.log('Admission file selected:', this.AdmissionFile);
-}
-
-
-admissions: any[] = [];
-
-getAdmission(patientId: number = this.patientId) {
-  this.templateService.getAdmission(this.patientId).subscribe({
-    next: (res: any) => {
-      console.log('📦 admission API response:', res);
-      if (res.data && res.data.length > 0) {
-        this.admissions = res.data.map((item: any) => ({
-          ...item,
-          showDetails: false,
-          showImage: false
-        }));
-      }
-    },
-    error: (err: any) => {
-      console.error('❌ Error fetching Admission Consent:', err);
-    },
-  });
-}
-
+  getAdmission(patientId: number = this.patientId) {
+    this.templateService.getAdmission(this.patientId).subscribe({
+      next: (res: any) => {
+        if (res.data && res.data.length > 0) {
+          this.admissions = res.data.map((item: any) => ({
+            ...item,
+            showDetails: false,
+            showImage: false,
+          }));
+        }
+      },
+      error: (err: any) => {
+        console.error('❌ Error fetching Admission Consent:', err);
+      },
+    });
+  }
 }

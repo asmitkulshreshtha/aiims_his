@@ -34,21 +34,6 @@ export class PointOfCareTestComponent {
   ecgImageFile: File | null = null;
   ecgData: any[] = [];
   // Blood Gas
-  // bloodGasDate: Date | null = null;
-  // bloodGasTime: string = '';
-  // bloodGasType: string = '';
-  // ph: string = '';
-  // pco2: string = '';
-  // po2: string = '';
-  // hco3: string = '';
-  // na: string = '';
-  // k: string = '';
-  // cl: string = '';
-  // bloodGasOther: string = '';
-  // bloodGasInterpretation: string = '';
-  // bloodGasImagePreview: string | null = null;
-
-  // Blood Gas
   bloodGasDate: Date | null = null;
   bloodGasTime: string = '';
   bloodGasType: string = '';
@@ -309,13 +294,6 @@ export class PointOfCareTestComponent {
   }
   // Function to handle image upload for ECG
   saveBloodGas(patientId: number) {
-    // if (!this.bloodGasImageFile) {
-    //   this.snackBar.open('Please upload a Blood Gas image', 'Close', {
-    //     duration: 3000,
-    //     panelClass: ['snackbar-error'],
-    //   });
-    // }
-
     const formData = new FormData();
     formData.append('patientId', this.patientId.toString());
     formData.append('bloodGasType', this.bloodGasType || '');
@@ -339,9 +317,6 @@ export class PointOfCareTestComponent {
       'bloodGasInterpretation',
       this.bloodGasInterpretation || ''
     );
-    // formData.append('submittedBy');
-    // formData.append('designation', 'Doctor');
-
     if (this.bloodGasImageFile) {
       formData.append('bloodGasImage', this.bloodGasImageFile);
     }
